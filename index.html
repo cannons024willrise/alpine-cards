@@ -1,4 +1,4 @@
-
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,14 +19,19 @@
 
 body {
     margin: 0;
+
     background: #171717;
+
     color: #eee;
+
     font-family: Arial, sans-serif;
+
     text-align: center;
 }
 
 main {
     width: min(1100px, 96%);
+
     margin: 30px auto;
 }
 
@@ -47,12 +52,15 @@ small {
 
 button {
     margin: 5px;
+
     padding: 10px 15px;
 
     background: #2b251b;
+
     color: white;
 
     border: 1px solid #806735;
+
     border-radius: 7px;
 
     cursor: pointer;
@@ -119,6 +127,7 @@ button:hover {
 
 #message {
     min-height: 50px;
+
     margin: 20px auto;
 }
 
@@ -126,6 +135,7 @@ button:hover {
     display: block;
 
     width: 220px;
+
     max-width: 100%;
 
     height: auto;
@@ -233,7 +243,10 @@ button:hover {
 .territory {
     background: #222;
 
-    border: 1px solid #444;
+    border:
+        1px solid
+        #444;
+
     border-radius: 10px;
 
     padding: 20px;
@@ -256,6 +269,7 @@ button:hover {
     flex-direction: column;
 
     align-items: center;
+
     justify-content: center;
 }
 
@@ -354,7 +368,10 @@ button:hover {
     align-items: center;
     justify-content: center;
 
-    border: 1px dashed #555;
+    border:
+        1px dashed
+        #555;
+
     border-radius: 8px;
 
     color: #888;
@@ -402,6 +419,7 @@ button:hover {
     display: none;
 
     align-items: center;
+
     justify-content: center;
 
     background:
@@ -416,6 +434,7 @@ button:hover {
     display: flex;
 }
 
+
 .territory-modal {
     position: relative;
 
@@ -429,7 +448,9 @@ button:hover {
 
     background: #222;
 
-    border: 1px solid #806735;
+    border:
+        1px solid
+        #806735;
 
     border-radius: 12px;
 
@@ -456,15 +477,21 @@ button:hover {
     height: 38px;
 
     margin: 0;
+
     padding: 0;
 
     background: #2b251b;
+
     color: white;
 
-    border: 1px solid #806735;
+    border:
+        1px solid
+        #806735;
+
     border-radius: 7px;
 
     font-size: 24px;
+
     line-height: 1;
 }
 
@@ -497,6 +524,7 @@ button:hover {
     flex-direction: row;
 
     align-items: center;
+
     justify-content: center;
 
     gap: 12px;
@@ -504,6 +532,7 @@ button:hover {
     width: 100%;
 
     overflow-x: auto;
+
     overflow-y: hidden;
 
     padding:
@@ -512,16 +541,19 @@ button:hover {
     margin-top: 15px;
 }
 
+
 .modal-card-slot {
     flex:
         0 0 95px;
 
     width: 95px;
+
     height: 135px;
 
     display: flex;
 
     align-items: center;
+
     justify-content: center;
 
     background: #191919;
@@ -541,6 +573,7 @@ button:hover {
     overflow: hidden;
 }
 
+
 .modal-card-slot.empty {
     background: #191919;
 
@@ -549,8 +582,10 @@ button:hover {
         #555;
 }
 
+
 .internal-territory-card {
     width: 100%;
+
     height: 100%;
 
     object-fit: contain;
@@ -621,6 +656,7 @@ button:hover {
     overflow-y: auto;
 }
 
+
 .build-sidebar-overlay.open
 .build-sidebar {
     transform:
@@ -636,6 +672,7 @@ button:hover {
     display: flex;
 
     align-items: center;
+
     justify-content: space-between;
 
     gap: 15px;
@@ -643,15 +680,18 @@ button:hover {
     margin-bottom: 25px;
 }
 
+
 .build-sidebar-header h2 {
     margin: 0;
 }
+
 
 .build-sidebar-close {
     width: 38px;
     height: 38px;
 
     margin: 0;
+
     padding: 0;
 
     font-size: 24px;
@@ -670,8 +710,10 @@ button:hover {
     padding-top: 20px;
 
     border-top:
-        1px solid #444;
+        1px solid
+        #444;
 }
+
 
 .resources-section h3 {
     margin:
@@ -709,12 +751,14 @@ button:hover {
     flex-direction: column;
 
     align-items: center;
+
     justify-content: center;
 
     background: #191919;
 
     border:
-        1px solid #555;
+        1px solid
+        #555;
 
     border-radius: 10px;
 
@@ -727,6 +771,7 @@ button:hover {
         border-color 0.20s ease;
 }
 
+
 .resource-card:hover {
     transform:
         translateY(-4px);
@@ -738,6 +783,7 @@ button:hover {
 
 .resource-card img {
     width: 100%;
+
     height: 100%;
 
     object-fit: contain;
@@ -756,12 +802,14 @@ button:hover {
     grid-column:
         1 / -1;
 
-    padding: 25px 15px;
+    padding:
+        25px 15px;
 
     background: #191919;
 
     border:
-        1px dashed #555;
+        1px dashed
+        #555;
 
     border-radius: 8px;
 
@@ -770,15 +818,6 @@ button:hover {
     text-align: center;
 
     font-size: 14px;
-}
-
-
-/* =========================================================
-   BUILD SIDEBAR CONTENT
-========================================================= */
-
-.build-sidebar-content {
-    min-height: 50px;
 }
 
 
@@ -806,24 +845,28 @@ button:hover {
 
     .territory-deck.expanded {
         width: 100%;
+
         height: 300px;
     }
 
 
     .territory-card {
         width: 135px;
+
         height: 175px;
     }
 
 
     .world-card {
         width: 160px;
+
         height: 205px;
     }
 
 
     .world-deck {
         width: 160px;
+
         height: 205px;
     }
 
@@ -852,6 +895,7 @@ button:hover {
             0 0 80px;
 
         width: 80px;
+
         height: 115px;
     }
 
@@ -936,7 +980,7 @@ button:hover {
 
 
     <!-- =================================================
-         PLAYER 1 RESOURCES
+         PLAYER 1
     ================================================== -->
 
     <div class="resource-panel">
@@ -1033,7 +1077,7 @@ button:hover {
 
 
     <!-- =================================================
-         PLAYER 2 RESOURCES
+         PLAYER 2
     ================================================== -->
 
     <div class="resource-panel">
@@ -1148,7 +1192,7 @@ button:hover {
 
 
     <!-- =================================================
-         PLAYER 1
+         PLAYER 1 TERRITORY DECK
     ================================================== -->
 
     <div class="territory">
@@ -1167,7 +1211,7 @@ button:hover {
 
 
     <!-- =================================================
-         PLAYER 2
+         PLAYER 2 TERRITORY DECK
     ================================================== -->
 
     <div class="territory">
@@ -1250,7 +1294,7 @@ button:hover {
 
         <!-- =============================================
              SIDEBAR HEADER
-        ============================================== -->
+        ============================================= -->
 
         <div class="build-sidebar-header">
 
@@ -1428,11 +1472,6 @@ const territoryBuildRules = {
    PLAYER RESOURCE STORAGE
 ========================================================= */
 
-/*
-   Player 1's completely separate
-   resource storage.
-*/
-
 let player1Resources = {
 
     Wood: 0,
@@ -1448,11 +1487,6 @@ let player1Resources = {
 };
 
 
-/*
-   Player 2's completely separate
-   resource storage.
-*/
-
 let player2Resources = {
 
     Wood: 0,
@@ -1466,6 +1500,35 @@ let player2Resources = {
     Crop: 0
 
 };
+
+
+/* =========================================================
+   RESOURCE GENERATION
+========================================================= */
+
+/*
+   Production interval.
+
+   Every five seconds:
+
+   Mountain Territory:
+   +1 Stone
+
+   Forest Territory:
+   +5 Wood
+   +1 Crop
+
+   Each Territory Card produces
+   independently.
+
+   Example:
+
+   2 Mountains = +2 Stone
+   3 Forests = +15 Wood, +3 Crop
+   per tick.
+*/
+
+const RESOURCE_TICK_MS = 5000;
 
 
 /* =========================================================
@@ -1794,6 +1857,117 @@ function renderResources() {
         player2Resources.Crop;
 
 }
+
+
+/* =========================================================
+   RESOURCE GENERATION HELPERS
+========================================================= */
+
+function countTerritoryCards(
+    deck,
+    type
+) {
+
+    return deck.filter(
+        card =>
+            card === type
+    ).length;
+
+}
+
+
+/* =========================================================
+   AUTOMATIC RESOURCE GENERATION
+========================================================= */
+
+function generateResources() {
+
+    /*
+       Count Player 1 territories.
+    */
+
+    const player1Mountains =
+        countTerritoryCards(
+            player1TerritoryDeck,
+            "Mountain"
+        );
+
+
+    const player1Forests =
+        countTerritoryCards(
+            player1TerritoryDeck,
+            "Forest"
+        );
+
+
+    /*
+       Count Player 2 territories.
+    */
+
+    const player2Mountains =
+        countTerritoryCards(
+            player2TerritoryDeck,
+            "Mountain"
+        );
+
+
+    const player2Forests =
+        countTerritoryCards(
+            player2TerritoryDeck,
+            "Forest"
+        );
+
+
+    /*
+       PLAYER 1
+    */
+
+    player1Resources.Stone +=
+        player1Mountains * 1;
+
+
+    player1Resources.Wood +=
+        player1Forests * 5;
+
+
+    player1Resources.Crop +=
+        player1Forests * 1;
+
+
+    /*
+       PLAYER 2
+    */
+
+    player2Resources.Stone +=
+        player2Mountains * 1;
+
+
+    player2Resources.Wood +=
+        player2Forests * 5;
+
+
+    player2Resources.Crop +=
+        player2Forests * 1;
+
+
+    /*
+       Update visible resource counters.
+    */
+
+    renderResources();
+
+}
+
+
+/* =========================================================
+   START RESOURCE PRODUCTION
+========================================================= */
+
+let resourceProductionTimer =
+    setInterval(
+        generateResources,
+        RESOURCE_TICK_MS
+    );
 
 
 /* =========================================================
@@ -2324,6 +2498,7 @@ function openTerritoryModal(
     selectedTerritoryPlayer =
         player;
 
+
     selectedTerritoryType =
         card;
 
@@ -2426,6 +2601,7 @@ function closeTerritoryModal() {
 
     selectedTerritoryPlayer =
         null;
+
 
     selectedTerritoryType =
         null;
@@ -2604,12 +2780,17 @@ function renderBuildOptions() {
             );
 
 
+            /*
+               Construction is still not
+               enabled yet.
+            */
+
             card.onclick =
                 () => {
 
                     /*
-                       Construction will be
-                       added later.
+                       Reserved for future
+                       construction logic.
                     */
 
                 };
@@ -2702,6 +2883,15 @@ function showMessage(text) {
 function newGame() {
 
     /*
+       Stop the old timer.
+    */
+
+    clearInterval(
+        resourceProductionTimer
+    );
+
+
+    /*
        Reset World Deck.
     */
 
@@ -2718,7 +2908,7 @@ function newGame() {
 
 
     /*
-       Reset Territory UI.
+       Reset UI state.
     */
 
     openTerritory = null;
@@ -2766,12 +2956,32 @@ function newGame() {
     };
 
 
+    /*
+       Close panels.
+    */
+
     closeTerritoryModal();
 
     closeBuildSidebar();
 
 
+    /*
+       Create new World Deck.
+    */
+
     createWorldDeck();
+
+
+    /*
+       Restart automatic resource
+       production.
+    */
+
+    resourceProductionTimer =
+        setInterval(
+            generateResources,
+            RESOURCE_TICK_MS
+        );
 
 
     showMessage(
@@ -2794,4 +3004,4 @@ newGame();
 
 </body>
 </html>
-
+```
