@@ -581,7 +581,7 @@ button:hover {
 
 
 /* =========================================================
-   RESOURCES / BUILD CARDS SECTION
+   BUILDABLE CARDS SECTION
 ========================================================= */
 
 .resources-section {
@@ -590,8 +590,7 @@ button:hover {
     padding-top: 20px;
 
     border-top:
-        1px solid
-        #444;
+        1px solid #444;
 }
 
 .resources-section h3 {
@@ -605,7 +604,9 @@ button:hover {
 
 
 /*
-   Only legal/buildable cards are rendered here.
+   Buildable cards use a grid.
+   Only cards legal for the selected
+   territory are inserted here.
 */
 
 .resources-list {
@@ -639,8 +640,7 @@ button:hover {
     background: #191919;
 
     border:
-        1px solid
-        #555;
+        1px solid #555;
 
     border-radius: 10px;
 
@@ -663,7 +663,7 @@ button:hover {
 
 
 /*
-   Image fills most of the card.
+   Resource building image.
 */
 
 .resource-card img {
@@ -677,9 +677,7 @@ button:hover {
 
 
 /*
-   Text-only buildable cards such as
-   Residence and Tavern for which no
-   image asset has been supplied yet.
+   Buildings without image assets yet.
 */
 
 .resource-card.text-only {
@@ -702,13 +700,15 @@ button:hover {
 .no-buildables {
     width: 100%;
 
+    grid-column:
+        1 / -1;
+
     padding: 25px 15px;
 
     background: #191919;
 
     border:
-        1px dashed
-        #555;
+        1px dashed #555;
 
     border-radius: 8px;
 
@@ -770,8 +770,8 @@ button:hover {
 
 
     /*
-       Seven internal territory slots
-       remain on one horizontal line.
+       Keep all seven territory
+       slots on one horizontal line.
     */
 
     .modal-card-slots {
@@ -798,8 +798,8 @@ button:hover {
 
 
     /*
-       Buildable cards become one per row
-       on narrow screens.
+       Build cards become one large
+       card per row on mobile.
     */
 
     .resources-list {
@@ -983,9 +983,7 @@ button:hover {
     class="build-sidebar-overlay"
 >
 
-    <aside
-        class="build-sidebar"
-    >
+    <aside class="build-sidebar">
 
 
         <!-- =============================================
@@ -1011,13 +1009,13 @@ button:hover {
 
 
         <!-- =============================================
-             BUILDABLE CARDS SECTION
+             BUILDABLE CARDS
         ============================================== -->
 
         <section class="resources-section">
 
             <h3>
-                Resources
+                Buildable
             </h3>
 
 
@@ -1028,10 +1026,6 @@ button:hover {
 
         </section>
 
-
-        <!-- =============================================
-             BUILD SIDEBAR CONTENT
-        ============================================== -->
 
         <div
             id="buildSidebarContent"
@@ -1135,10 +1129,29 @@ const buildingImages = {
 ========================================================= */
 
 /*
-   These are the ONLY buildings which may
-   be built on each Territory Card.
+   Resource buildings:
+   Farm
+   Mine
+   Oilfield
+   Quarry
 
-   There are no construction costs here yet.
+   Non-resource buildings:
+   Residence
+   Tavern
+
+   IMPORTANT:
+
+   MEADOW CONTAINS ONLY NON-RESOURCE
+   BUILDINGS IN THIS BUILD SYSTEM.
+
+   Therefore NO:
+   farm.png
+   mine.png
+   oilfield.png
+   quarry.png
+
+   can ever appear when a Meadow Card
+   is selected.
 */
 
 const territoryBuildRules = {
@@ -1161,10 +1174,6 @@ const territoryBuildRules = {
 
 
     Meadow: [
-        "Farm",
-        "Mine",
-        "Oilfield",
-        "Quarry",
         "Residence",
         "Tavern"
     ]
@@ -1183,20 +1192,11 @@ let player1TerritoryDeck = [];
 let player2TerritoryDeck = [];
 
 
-/*
-   Which Territory Deck is currently expanded?
-
-   null = both closed
-   1    = Player 1 open
-   2    = Player 2 open
-*/
+/* =========================================================
+   TERRITORY STATE
+========================================================= */
 
 let openTerritory = null;
-
-
-/*
-   Currently selected Territory Card.
-*/
 
 let selectedTerritoryPlayer = null;
 
@@ -1278,7 +1278,9 @@ function createWorldDeck() {
 
 function drawWorld(player) {
 
-    if (worldDeck.length === 0) {
+    if (
+        worldDeck.length === 0
+    ) {
 
         showMessage(
             "The World Deck is empty."
@@ -1292,7 +1294,9 @@ function drawWorld(player) {
     let card;
 
 
-    if (player === 1) {
+    if (
+        player === 1
+    ) {
 
         card =
             worldDeck.shift();
@@ -1366,7 +1370,9 @@ function renderWorldDeck() {
     container.innerHTML = "";
 
 
-    if (worldDeck.length === 0) {
+    if (
+        worldDeck.length === 0
+    ) {
 
         container.innerHTML =
             "<small>WORLD DECK EMPTY</small>";
@@ -1438,7 +1444,9 @@ function renderTerritoryDeck(
     container.innerHTML = "";
 
 
-    if (deck.length === 0) {
+    if (
+        deck.length === 0
+    ) {
 
         container.innerHTML = `
 
@@ -1467,7 +1475,9 @@ function renderTerritoryDeck(
         "territory-deck";
 
 
-    if (openTerritory !== player) {
+    if (
+        openTerritory !== player
+    ) {
 
         renderClosedTerritoryDeck(
             deckElement,
@@ -1516,7 +1526,9 @@ function renderTerritoryDeck(
     );
 
 
-    if (openTerritory === player) {
+    if (
+        openTerritory === player
+    ) {
 
         const closeButton =
             document.createElement(
@@ -1842,7 +1854,9 @@ function closeTerritoryDeck(player) {
    TERRITORY INTERNAL SLOT SYSTEM
 ========================================================= */
 
-function getTerritorySlotCards(cardType) {
+function getTerritorySlotCards(
+    cardType
+) {
 
     const slots =
         [
@@ -1936,7 +1950,8 @@ function openTerritoryModal(
 
 
     /*
-       Remember selected territory.
+       Remember exactly which
+       Territory Card is selected.
     */
 
     selectedTerritoryPlayer =
@@ -1947,7 +1962,7 @@ function openTerritoryModal(
 
 
     /*
-       Build seven internal slots.
+       Build the seven internal slots.
     */
 
     const slotCards =
@@ -2135,7 +2150,7 @@ function closeBuildSidebar() {
 
 
 /* =========================================================
-   RENDER ONLY BUILDABLE CARDS
+   RENDER ONLY LEGAL BUILDINGS
 ========================================================= */
 
 function renderBuildOptions() {
@@ -2150,7 +2165,7 @@ function renderBuildOptions() {
 
 
     /*
-       No selected Territory Card.
+       No territory selected.
     */
 
     if (
@@ -2162,6 +2177,11 @@ function renderBuildOptions() {
     }
 
 
+    /*
+       Get the exact buildings allowed
+       for the selected territory.
+    */
+
     const allowedBuildings =
         territoryBuildRules[
             selectedTerritoryType
@@ -2169,7 +2189,7 @@ function renderBuildOptions() {
 
 
     /*
-       No buildable cards.
+       Nothing can be built.
     */
 
     if (
@@ -2201,8 +2221,7 @@ function renderBuildOptions() {
 
 
     /*
-       Only the legal buildings are
-       created visually.
+       Only legal buildings are rendered.
     */
 
     allowedBuildings.forEach(
@@ -2219,7 +2238,22 @@ function renderBuildOptions() {
 
 
             /*
-               Resource building has an image.
+               Resource building.
+
+               Only these territories are
+               allowed to receive the four
+               resource images:
+
+               River:
+               Farm
+
+               Mountain:
+               Mine
+               Oilfield
+               Quarry
+
+               Meadow:
+               NONE
             */
 
             if (
@@ -2250,9 +2284,9 @@ function renderBuildOptions() {
 
 
             /*
-               Residence and Tavern have
-               no image asset yet, so show
-               the buildable card by name.
+               Non-resource building.
+               Residence and Tavern do not
+               have image assets yet.
             */
 
             else {
@@ -2269,7 +2303,8 @@ function renderBuildOptions() {
 
 
             /*
-               No construction logic yet.
+               Construction logic is still
+               intentionally disabled.
             */
 
             card.onclick =
@@ -2277,7 +2312,7 @@ function renderBuildOptions() {
 
                     /*
                        Reserved for future
-                       building placement logic.
+                       building construction.
                     */
 
                 };
@@ -2373,6 +2408,10 @@ function newGame() {
     player2TerritoryDeck = [];
 
     openTerritory = null;
+
+    selectedTerritoryPlayer = null;
+
+    selectedTerritoryType = null;
 
 
     closeTerritoryModal();
