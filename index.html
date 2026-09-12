@@ -57,64 +57,13 @@ body {
     text-align: center;
 
     background:
-        radial-gradient(
-            circle at 20% 10%,
-            rgba(255,255,255,0.85),
-            transparent 24%
-        ),
-        radial-gradient(
-            circle at 80% 15%,
-            rgba(255,255,255,0.75),
-            transparent 22%
-        ),
-        linear-gradient(
-            180deg,
-            #dbe4e8 0%,
-            #edf0ea 34%,
-            #e7dfcc 100%
-        );
+        url("bg.png")
+        center center /
+        cover
+        fixed
+        no-repeat;
 
     overflow-x: hidden;
-}
-
-
-/*
-   Subtle winter specks.
-*/
-
-body::before {
-    content: "";
-
-    position: fixed;
-
-    inset: 0;
-
-    pointer-events: none;
-
-    opacity: 0.35;
-
-    background-image:
-        radial-gradient(
-            circle,
-            rgba(255,255,255,0.95) 0 2px,
-            transparent 2.5px
-        );
-
-    background-size:
-        90px 90px;
-
-    background-position:
-        12px 20px;
-
-    z-index: -1;
-}
-
-
-main {
-    width: min(1160px, 94%);
-
-    margin:
-        28px auto 60px;
 }
 
 
@@ -403,10 +352,10 @@ button:active {
 
 
 .resource-panel {
-    padding:
-        6px;
+    margin: 0;
 
-    text-align: center;
+    padding:
+        7px;
 }
 
 
@@ -650,6 +599,7 @@ button:active {
     display: flex;
 
     align-items: center;
+
     justify-content: center;
 
     border:
@@ -1870,26 +1820,6 @@ let player2Resources = {
    RESOURCE GENERATION
 ========================================================= */
 
-/*
-   Every five seconds:
-
-   Mountain Territory:
-       +1 Stone
-
-   Forest Territory:
-       +5 Wood
-       +1 Crop
-
-   River:
-       no automatic production
-
-   Meadow:
-       no automatic production
-
-   Idle People:
-       no automatic production yet.
-*/
-
 const RESOURCE_TICK_MS =
     5000;
 
@@ -2156,10 +2086,6 @@ function renderWorldDeck() {
 
 function renderResources() {
 
-    /*
-       PLAYER 1
-    */
-
     document.getElementById(
         "player1Wood"
     ).textContent =
@@ -2195,10 +2121,6 @@ function renderResources() {
     ).textContent =
         player1Resources.IdlePeople;
 
-
-    /*
-       PLAYER 2
-    */
 
     document.getElementById(
         "player2Wood"
@@ -2261,10 +2183,6 @@ function countTerritoryCards(
 
 function generateResources() {
 
-    /*
-       PLAYER 1
-    */
-
     const player1Mountains =
         countTerritoryCards(
             player1TerritoryDeck,
@@ -2278,10 +2196,6 @@ function generateResources() {
             "Forest"
         );
 
-
-    /*
-       PLAYER 2
-    */
 
     const player2Mountains =
         countTerritoryCards(
@@ -2297,12 +2211,8 @@ function generateResources() {
         );
 
 
-    /*
-       PLAYER 1 PRODUCTION
-    */
-
     player1Resources.Stone +=
-        player1Mountains * 1;
+        player1Mountains;
 
 
     player1Resources.Wood +=
@@ -2310,15 +2220,11 @@ function generateResources() {
 
 
     player1Resources.Crop +=
-        player1Forests * 1;
+        player1Forests;
 
-
-    /*
-       PLAYER 2 PRODUCTION
-    */
 
     player2Resources.Stone +=
-        player2Mountains * 1;
+        player2Mountains;
 
 
     player2Resources.Wood +=
@@ -2326,13 +2232,8 @@ function generateResources() {
 
 
     player2Resources.Crop +=
-        player2Forests * 1;
+        player2Forests;
 
-
-    /*
-       Idle People are deliberately
-       unchanged for now.
-    */
 
     renderResources();
 
@@ -2688,11 +2589,6 @@ function renderExpandedTerritoryDeck(
             );
 
 
-            /*
-               Selecting a territory card
-               opens its modal.
-            */
-
             img.onclick =
                 (event) => {
 
@@ -2800,26 +2696,15 @@ function getTerritorySlotCards(
     const slots = [
 
         null,
-
         null,
-
         null,
-
         null,
-
         null,
-
         null,
-
         null
 
     ];
 
-
-    /*
-       MOUNTAIN
-       Center three slots.
-    */
 
     if (
         cardType === "Mountain"
@@ -2837,11 +2722,6 @@ function getTerritorySlotCards(
     }
 
 
-    /*
-       RIVER
-       Center slot.
-    */
-
     else if (
         cardType === "River"
     ) {
@@ -2851,11 +2731,6 @@ function getTerritorySlotCards(
 
     }
 
-
-    /*
-       FOREST
-       Center five slots.
-    */
 
     else if (
         cardType === "Forest"
@@ -2878,11 +2753,6 @@ function getTerritorySlotCards(
 
     }
 
-
-    /*
-       MEADOW
-       All seven remain empty.
-    */
 
     return slots;
 
@@ -2910,10 +2780,6 @@ function openTerritoryModal(
         );
 
 
-    /*
-       Remember selection.
-    */
-
     selectedTerritoryPlayer =
         player;
 
@@ -2921,10 +2787,6 @@ function openTerritoryModal(
     selectedTerritoryType =
         card;
 
-
-    /*
-       Get internal slots.
-    */
 
     const slotCards =
         getTerritorySlotCards(
@@ -3143,10 +3005,6 @@ function renderBuildOptions() {
         ] || [];
 
 
-    /*
-       No buildings are allowed.
-    */
-
     if (
         allowedBuildings.length === 0
     ) {
@@ -3175,10 +3033,6 @@ function renderBuildOptions() {
     }
 
 
-    /*
-       ONLY legal buildings are rendered.
-    */
-
     allowedBuildings.forEach(
         (building) => {
 
@@ -3191,11 +3045,6 @@ function renderBuildOptions() {
             card.className =
                 "resource-card";
 
-
-            /*
-               Every current buildable
-               building has an image.
-            */
 
             const image =
                 document.createElement(
@@ -3217,10 +3066,6 @@ function renderBuildOptions() {
                 image
             );
 
-
-            /*
-               Construction is not enabled yet.
-            */
 
             card.onclick =
                 () => {
@@ -3323,18 +3168,10 @@ function showMessage(
 
 function newGame() {
 
-    /*
-       Stop current production timer.
-    */
-
     clearInterval(
         resourceProductionTimer
     );
 
-
-    /*
-       Reset decks.
-    */
 
     worldDeck = [];
 
@@ -3342,10 +3179,6 @@ function newGame() {
 
     player2TerritoryDeck = [];
 
-
-    /*
-       Reset territory UI.
-    */
 
     openTerritory = null;
 
@@ -3355,10 +3188,6 @@ function newGame() {
     selectedTerritoryType =
         null;
 
-
-    /*
-       Reset Player 1 storage.
-    */
 
     player1Resources = {
 
@@ -3383,10 +3212,6 @@ function newGame() {
     };
 
 
-    /*
-       Reset Player 2 storage.
-    */
-
     player2Resources = {
 
         Wood:
@@ -3410,25 +3235,13 @@ function newGame() {
     };
 
 
-    /*
-       Close open interfaces.
-    */
-
     closeTerritoryModal();
 
     closeBuildSidebar();
 
 
-    /*
-       Create the new World Deck.
-    */
-
     createWorldDeck();
 
-
-    /*
-       Restart automatic generation.
-    */
 
     resourceProductionTimer =
         setInterval(
