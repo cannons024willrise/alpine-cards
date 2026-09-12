@@ -1,4 +1,4 @@
-```html
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -604,9 +604,7 @@ button:hover {
 
 
 /*
-   Buildable cards use a grid.
-   Only cards legal for the selected
-   territory are inserted here.
+   Only legal building cards are displayed.
 */
 
 .resources-list {
@@ -662,9 +660,9 @@ button:hover {
 }
 
 
-/*
-   Resource building image.
-*/
+/* =========================================================
+   BUILD CARD IMAGES
+========================================================= */
 
 .resource-card img {
     width: 100%;
@@ -673,23 +671,6 @@ button:hover {
     object-fit: contain;
 
     display: block;
-}
-
-
-/*
-   Buildings without image assets yet.
-*/
-
-.resource-card.text-only {
-    padding: 15px;
-
-    font-size: 18px;
-
-    font-weight: bold;
-
-    text-align: center;
-
-    color: #eee;
 }
 
 
@@ -739,25 +720,30 @@ button:hover {
         grid-template-columns: 1fr;
     }
 
+
     .territory-deck.expanded {
         width: 100%;
         height: 300px;
     }
+
 
     .territory-card {
         width: 135px;
         height: 175px;
     }
 
+
     .world-card {
         width: 160px;
         height: 205px;
     }
 
+
     .world-deck {
         width: 160px;
         height: 205px;
     }
+
 
     .territory-modal {
         width: 95vw;
@@ -770,8 +756,8 @@ button:hover {
 
 
     /*
-       Keep all seven territory
-       slots on one horizontal line.
+       Keep all seven territory slots
+       on one horizontal line.
     */
 
     .modal-card-slots {
@@ -796,11 +782,6 @@ button:hover {
         width: 88vw;
     }
 
-
-    /*
-       Build cards become one large
-       card per row on mobile.
-    */
 
     .resources-list {
         grid-template-columns: 1fr;
@@ -1095,7 +1076,8 @@ const worldTypes = {
         capacity: 7,
 
         buildings: [
-            "All other buildings"
+            "Residence",
+            "Tavern"
         ]
 
     }
@@ -1119,7 +1101,13 @@ const buildingImages = {
         "oilfield.png",
 
     Quarry:
-        "quarry.png"
+        "quarry.png",
+
+    Residence:
+        "residence.png",
+
+    Tavern:
+        "tavern.png"
 
 };
 
@@ -1129,32 +1117,18 @@ const buildingImages = {
 ========================================================= */
 
 /*
-   Resource buildings:
-   Farm
-   Mine
-   Oilfield
-   Quarry
-
-   Non-resource buildings:
-   Residence
-   Tavern
-
-   IMPORTANT:
-
-   MEADOW CONTAINS ONLY NON-RESOURCE
-   BUILDINGS IN THIS BUILD SYSTEM.
-
-   Therefore NO:
-   farm.png
-   mine.png
-   oilfield.png
-   quarry.png
-
-   can ever appear when a Meadow Card
-   is selected.
+   These rules determine exactly which
+   building cards appear in the Build sidebar.
 */
 
 const territoryBuildRules = {
+
+    /*
+       River allows:
+       Farm
+       Residence
+       Tavern
+    */
 
     River: [
         "Farm",
@@ -1163,6 +1137,14 @@ const territoryBuildRules = {
     ],
 
 
+    /*
+       Mountain allows ONLY resource
+       buildings:
+       Mine
+       Oilfield
+       Quarry
+    */
+
     Mountain: [
         "Mine",
         "Oilfield",
@@ -1170,8 +1152,26 @@ const territoryBuildRules = {
     ],
 
 
+    /*
+       Forest has no buildable cards.
+    */
+
     Forest: [],
 
+
+    /*
+       Meadow allows ONLY:
+       Residence
+       Tavern
+
+       IMPORTANT:
+       Farm
+       Mine
+       Oilfield
+       Quarry
+
+       are deliberately NOT included.
+    */
 
     Meadow: [
         "Residence",
@@ -1243,6 +1243,11 @@ function createWorldDeck() {
     worldDeck = [];
 
 
+    /*
+       Randomly choose 3–6 copies
+       of each World Card type.
+    */
+
     for (
         const type of Object.keys(worldTypes)
     ) {
@@ -1294,6 +1299,10 @@ function drawWorld(player) {
     let card;
 
 
+    /*
+       Player 1 draws from top.
+    */
+
     if (
         player === 1
     ) {
@@ -1307,6 +1316,11 @@ function drawWorld(player) {
         );
 
     }
+
+
+    /*
+       Player 2 draws from bottom.
+    */
 
     else {
 
@@ -1758,6 +1772,10 @@ function renderExpandedTerritoryDeck(
             );
 
 
+            /*
+               Select this Territory Card.
+            */
+
             img.onclick =
                 (event) => {
 
@@ -1950,8 +1968,7 @@ function openTerritoryModal(
 
 
     /*
-       Remember exactly which
-       Territory Card is selected.
+       Remember selected Territory Card.
     */
 
     selectedTerritoryPlayer =
@@ -1962,7 +1979,7 @@ function openTerritoryModal(
 
 
     /*
-       Build the seven internal slots.
+       Get the internal slot arrangement.
     */
 
     const slotCards =
@@ -1987,6 +2004,10 @@ function openTerritoryModal(
                 "modal-card-slot";
 
 
+            /*
+               Empty slot.
+            */
+
             if (
                 slotCard === null
             ) {
@@ -1996,6 +2017,11 @@ function openTerritoryModal(
                 );
 
             }
+
+
+            /*
+               Occupied slot.
+            */
 
             else {
 
@@ -2150,7 +2176,7 @@ function closeBuildSidebar() {
 
 
 /* =========================================================
-   RENDER ONLY LEGAL BUILDINGS
+   RENDER BUILDABLE CARDS
 ========================================================= */
 
 function renderBuildOptions() {
@@ -2165,7 +2191,7 @@ function renderBuildOptions() {
 
 
     /*
-       No territory selected.
+       No Territory Card selected.
     */
 
     if (
@@ -2178,8 +2204,8 @@ function renderBuildOptions() {
 
 
     /*
-       Get the exact buildings allowed
-       for the selected territory.
+       Get ONLY the buildings that are
+       legal for this Territory Card.
     */
 
     const allowedBuildings =
@@ -2189,7 +2215,7 @@ function renderBuildOptions() {
 
 
     /*
-       Nothing can be built.
+       No legal buildings.
     */
 
     if (
@@ -2221,7 +2247,7 @@ function renderBuildOptions() {
 
 
     /*
-       Only legal buildings are rendered.
+       Create ONLY the legal building cards.
     */
 
     allowedBuildings.forEach(
@@ -2238,72 +2264,34 @@ function renderBuildOptions() {
 
 
             /*
-               Resource building.
-
-               Only these territories are
-               allowed to receive the four
-               resource images:
-
-               River:
-               Farm
-
-               Mountain:
-               Mine
-               Oilfield
-               Quarry
-
-               Meadow:
-               NONE
+               All currently supported
+               building types now have
+               image assets.
             */
 
-            if (
-                buildingImages[building]
-            ) {
-
-                const image =
-                    document.createElement(
-                        "img"
-                    );
-
-
-                image.src =
-                    buildingImages[
-                        building
-                    ];
-
-
-                image.alt =
-                    building;
-
-
-                card.appendChild(
-                    image
-                );
-
-            }
-
-
-            /*
-               Non-resource building.
-               Residence and Tavern do not
-               have image assets yet.
-            */
-
-            else {
-
-                card.classList.add(
-                    "text-only"
+            const image =
+                document.createElement(
+                    "img"
                 );
 
 
-                card.textContent =
-                    building;
+            image.src =
+                buildingImages[
+                    building
+                ];
 
-            }
+
+            image.alt =
+                building;
+
+
+            card.appendChild(
+                image
+            );
 
 
             /*
-               Construction logic is still
+               Construction is still
                intentionally disabled.
             */
 
@@ -2312,7 +2300,7 @@ function renderBuildOptions() {
 
                     /*
                        Reserved for future
-                       building construction.
+                       construction logic.
                     */
 
                 };
@@ -2442,4 +2430,4 @@ newGame();
 
 </body>
 </html>
-```
+
