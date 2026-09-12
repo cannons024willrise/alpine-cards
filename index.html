@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -331,6 +332,100 @@ button:hover {
 
 
 /* =========================================================
+   TERRITORY CARD MODAL
+========================================================= */
+
+.modal-overlay {
+    position: fixed;
+
+    inset: 0;
+
+    display: none;
+
+    align-items: center;
+    justify-content: center;
+
+    background:
+        rgba(0, 0, 0, 0.72);
+
+    padding: 20px;
+
+    z-index: 10000;
+}
+
+
+.modal-overlay.open {
+    display: flex;
+}
+
+
+.territory-modal {
+    position: relative;
+
+    width: min(600px, 95vw);
+
+    min-height: 300px;
+
+    background: #222;
+
+    border: 1px solid #806735;
+
+    border-radius: 12px;
+
+    box-shadow:
+        0 20px 60px
+        rgba(0, 0, 0, 0.65);
+
+    padding: 30px;
+}
+
+
+/*
+   Close button inside modal.
+*/
+
+.modal-close {
+    position: absolute;
+
+    top: 10px;
+    right: 10px;
+
+    width: 38px;
+    height: 38px;
+
+    margin: 0;
+
+    padding: 0;
+
+    background: #2b251b;
+
+    color: white;
+
+    border: 1px solid #806735;
+
+    border-radius: 7px;
+
+    font-size: 24px;
+
+    line-height: 1;
+}
+
+
+.modal-close:hover {
+    background: #493b25;
+}
+
+
+/*
+   Modal content is intentionally empty.
+*/
+
+#territoryModalContent {
+    min-height: 240px;
+}
+
+
+/* =========================================================
    MOBILE
 ========================================================= */
 
@@ -359,6 +454,12 @@ button:hover {
         width: 160px;
         height: 205px;
     }
+
+    .territory-modal {
+        width: 95vw;
+        min-height: 260px;
+    }
+
 }
 
 </style>
@@ -475,6 +576,43 @@ button:hover {
 </main>
 
 
+<!-- =====================================================
+     TERRITORY CARD MODAL
+===================================================== -->
+
+<div
+    id="territoryModal"
+    class="modal-overlay"
+>
+
+    <div class="territory-modal">
+
+        <button
+            class="modal-close"
+            onclick="closeTerritoryModal()"
+            aria-label="Close"
+        >
+            ×
+        </button>
+
+
+        <!--
+            Intentionally empty.
+
+            Future territory information,
+            buildings, population, resources,
+            or other controls can be inserted here.
+        -->
+
+        <div
+            id="territoryModalContent"
+        ></div>
+
+    </div>
+
+</div>
+
+
 <script>
 
 /* =========================================================
@@ -549,18 +687,21 @@ const worldTypes = {
 /*
    Shared source.
 */
+
 let worldDeck = [];
 
 
 /*
    Player 1's completely separate deck.
 */
+
 let player1TerritoryDeck = [];
 
 
 /*
    Player 2's completely separate deck.
 */
+
 let player2TerritoryDeck = [];
 
 
@@ -571,6 +712,7 @@ let player2TerritoryDeck = [];
    1    = Player 1 open
    2    = Player 2 open
 */
+
 let openTerritory = null;
 
 
@@ -1212,7 +1354,8 @@ function renderExpandedTerritoryDeck(
 
             /*
                Clicking an expanded card
-               selects it visually.
+               selects it and opens the
+               empty territory modal.
             */
 
             img.onclick =
@@ -1221,8 +1364,42 @@ function renderExpandedTerritoryDeck(
                     event.stopPropagation();
 
 
-                    img.classList.toggle(
+                    /*
+                       Remove selection from
+                       every other territory card.
+                    */
+
+                    deckElement
+                        .querySelectorAll(
+                            ".territory-card.selected"
+                        )
+                        .forEach(
+                            selectedCard => {
+
+                                selectedCard.classList.remove(
+                                    "selected"
+                                );
+
+                            }
+                        );
+
+
+                    /*
+                       Select this card.
+                    */
+
+                    img.classList.add(
                         "selected"
+                    );
+
+
+                    /*
+                       Open the empty modal.
+                    */
+
+                    openTerritoryModal(
+                        player,
+                        card
                     );
 
                 };
@@ -1256,16 +1433,13 @@ function renderExpandedTerritoryDeck(
 
 
 /* =========================================================
-   OPEN
+   OPEN TERRITORY DECK
 ========================================================= */
 
 function openTerritoryDeck(player) {
 
     /*
        Only this player's deck opens.
-
-       The other player's deck remains
-       exactly as it was.
     */
 
     openTerritory =
@@ -1278,7 +1452,7 @@ function openTerritoryDeck(player) {
 
 
 /* =========================================================
-   CLOSE
+   CLOSE TERRITORY DECK
 ========================================================= */
 
 function closeTerritoryDeck(player) {
@@ -1300,6 +1474,106 @@ function closeTerritoryDeck(player) {
     }
 
 }
+
+
+/* =========================================================
+   OPEN TERRITORY CARD MODAL
+========================================================= */
+
+function openTerritoryModal(
+    player,
+    card
+) {
+
+    const modal =
+        document.getElementById(
+            "territoryModal"
+        );
+
+
+    const content =
+        document.getElementById(
+            "territoryModalContent"
+        );
+
+
+    /*
+       The modal is intentionally empty
+       for now.
+
+       The player/card arguments are kept
+       available for future functionality.
+    */
+
+    content.innerHTML = "";
+
+
+    modal.classList.add(
+        "open"
+    );
+
+}
+
+
+/* =========================================================
+   CLOSE TERRITORY CARD MODAL
+========================================================= */
+
+function closeTerritoryModal() {
+
+    const modal =
+        document.getElementById(
+            "territoryModal"
+        );
+
+
+    modal.classList.remove(
+        "open"
+    );
+
+
+    /*
+       Remove visual card selection.
+    */
+
+    document
+        .querySelectorAll(
+            ".territory-card.selected"
+        )
+        .forEach(
+            card => {
+
+                card.classList.remove(
+                    "selected"
+                );
+
+            }
+        );
+
+}
+
+
+/* =========================================================
+   CLOSE MODAL WHEN CLICKING OUTSIDE
+========================================================= */
+
+document
+    .getElementById("territoryModal")
+    .addEventListener(
+        "click",
+        (event) => {
+
+            if (
+                event.target.id ===
+                "territoryModal"
+            ) {
+
+                closeTerritoryModal();
+
+            }
+
+        }
+    );
 
 
 /* =========================================================
@@ -1374,6 +1648,14 @@ function newGame() {
     openTerritory = null;
 
 
+    /*
+       Also make absolutely sure
+       the modal is closed.
+    */
+
+    closeTerritoryModal();
+
+
     createWorldDeck();
 
 
@@ -1397,3 +1679,4 @@ newGame();
 
 </body>
 </html>
+```
