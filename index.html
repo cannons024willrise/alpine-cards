@@ -425,7 +425,20 @@ button:hover {
 
 
 /* =========================================================
-   SEVEN CARD SLOTS
+   MODAL BUILD BUTTON
+========================================================= */
+
+.modal-build-button {
+    display: block;
+
+    margin: 15px auto 5px;
+
+    min-width: 120px;
+}
+
+
+/* =========================================================
+   SEVEN INTERNAL CARD SLOTS
 ========================================================= */
 
 .modal-card-slots {
@@ -455,7 +468,8 @@ button:hover {
 /*
    Individual slot.
 
-   Every slot has the same fixed size.
+   flex-shrink is disabled so all
+   seven remain on one line.
 */
 
 .modal-card-slot {
@@ -518,6 +532,121 @@ button:hover {
 
 
 /* =========================================================
+   BUILD SIDEBAR OVERLAY
+========================================================= */
+
+.build-sidebar-overlay {
+    position: fixed;
+
+    inset: 0;
+
+    display: none;
+
+    background:
+        rgba(0, 0, 0, 0.35);
+
+    z-index: 11000;
+}
+
+
+.build-sidebar-overlay.open {
+    display: block;
+}
+
+
+/* =========================================================
+   BUILD SIDEBAR
+========================================================= */
+
+.build-sidebar {
+    position: absolute;
+
+    top: 0;
+    right: 0;
+
+    width: min(380px, 88vw);
+
+    height: 100%;
+
+    background: #222;
+
+    border-left:
+        1px solid
+        #806735;
+
+    box-shadow:
+        -15px 0 45px
+        rgba(0, 0, 0, 0.55);
+
+    padding: 25px;
+
+    transform:
+        translateX(100%);
+
+    transition:
+        transform 0.30s
+        cubic-bezier(.2,.8,.2,1);
+
+    text-align: left;
+}
+
+
+.build-sidebar-overlay.open
+.build-sidebar {
+    transform:
+        translateX(0);
+}
+
+
+/* =========================================================
+   BUILD SIDEBAR HEADER
+========================================================= */
+
+.build-sidebar-header {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 15px;
+
+    margin-bottom: 20px;
+}
+
+
+.build-sidebar-header h2 {
+    margin: 0;
+}
+
+
+/*
+   Sidebar close button.
+*/
+
+.build-sidebar-close {
+    width: 38px;
+    height: 38px;
+
+    margin: 0;
+
+    padding: 0;
+
+    font-size: 24px;
+
+    line-height: 1;
+}
+
+
+/*
+   Empty Build sidebar content.
+*/
+
+.build-sidebar-content {
+    min-height: 200px;
+}
+
+
+/* =========================================================
    MOBILE
 ========================================================= */
 
@@ -558,7 +687,8 @@ button:hover {
 
 
     /*
-       The seven slots remain ONE line.
+       Keep all seven internal slots
+       on ONE horizontal line.
     */
 
     .modal-card-slots {
@@ -576,6 +706,11 @@ button:hover {
 
         width: 80px;
         height: 115px;
+    }
+
+
+    .build-sidebar {
+        width: 88vw;
     }
 
 }
@@ -724,7 +859,69 @@ button:hover {
             class="modal-card-slots"
         ></div>
 
+
+        <!-- =============================================
+             BUILD BUTTON
+        ============================================== -->
+
+        <button
+            class="modal-build-button"
+            onclick="openBuildSidebar()"
+        >
+            Build
+        </button>
+
     </div>
+
+</div>
+
+
+<!-- =====================================================
+     BUILD SIDEBAR
+===================================================== -->
+
+<div
+    id="buildSidebarOverlay"
+    class="build-sidebar-overlay"
+>
+
+    <aside
+        class="build-sidebar"
+    >
+
+
+        <!-- =============================================
+             SIDEBAR HEADER
+        ============================================== -->
+
+        <div class="build-sidebar-header">
+
+            <h2>
+                BUILD
+            </h2>
+
+
+            <button
+                class="build-sidebar-close"
+                onclick="closeBuildSidebar()"
+                aria-label="Close Build Sidebar"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <!-- =============================================
+             EMPTY SIDEBAR CONTENT
+        ============================================== -->
+
+        <div
+            id="buildSidebarContent"
+            class="build-sidebar-content"
+        ></div>
+
+    </aside>
 
 </div>
 
@@ -799,24 +996,9 @@ const worldTypes = {
    THREE SEPARATE DECKS
 ========================================================= */
 
-
-/*
-   Shared source.
-*/
-
 let worldDeck = [];
 
-
-/*
-   Player 1's completely separate deck.
-*/
-
 let player1TerritoryDeck = [];
-
-
-/*
-   Player 2's completely separate deck.
-*/
 
 let player2TerritoryDeck = [];
 
@@ -937,10 +1119,6 @@ function drawWorld(player) {
             worldDeck.shift();
 
 
-        /*
-           Goes ONLY into Player 1's deck.
-        */
-
         player1TerritoryDeck.push(
             card
         );
@@ -958,10 +1136,6 @@ function drawWorld(player) {
         card =
             worldDeck.pop();
 
-
-        /*
-           Goes ONLY into Player 2's deck.
-        */
 
         player2TerritoryDeck.push(
             card
@@ -1406,8 +1580,6 @@ function renderExpandedTerritoryDeck(
 
             /*
                Start cards as stacked.
-               Browser animation will then
-               transition them to their spread.
             */
 
             img.style.transform =
@@ -1428,8 +1600,7 @@ function renderExpandedTerritoryDeck(
 
 
             /*
-               Trigger the spread animation
-               on the next frame.
+               Trigger spread animation.
             */
 
             requestAnimationFrame(
@@ -1470,8 +1641,7 @@ function renderExpandedTerritoryDeck(
 
             /*
                Clicking an expanded card
-               selects it visually and opens
-               its territory modal.
+               selects it and opens its modal.
             */
 
             img.onclick =
@@ -1510,8 +1680,7 @@ function renderExpandedTerritoryDeck(
 
 
                     /*
-                       Open the modal for
-                       this territory type.
+                       Open the modal.
                     */
 
                     openTerritoryModal(
@@ -1570,10 +1739,6 @@ function openTerritoryDeck(player) {
 
 function closeTerritoryDeck(player) {
 
-    /*
-       Only close the deck that is open.
-    */
-
     if (
         openTerritory === player
     ) {
@@ -1592,27 +1757,6 @@ function closeTerritoryDeck(player) {
 /* =========================================================
    BUILD INTERNAL TERRITORY SLOTS
 ========================================================= */
-
-/*
-   Every Territory Card has seven internal
-   slots.
-
-   Slot numbering:
-
-   1  2  3  4  5  6  7
-
-   Mountain:
-   3 Mountain Cards occupy slots 3, 4, 5.
-
-   River:
-   1 River Card occupies slot 4.
-
-   Forest:
-   5 Forest Cards occupy slots 2, 3, 4, 5, 6.
-
-   Meadow:
-   All slots remain empty.
-*/
 
 function getTerritorySlotCards(cardType) {
 
@@ -1681,7 +1825,6 @@ function getTerritorySlotCards(cardType) {
        All seven remain empty.
     */
 
-
     return slots;
 
 }
@@ -1709,8 +1852,8 @@ function openTerritoryModal(
 
 
     /*
-       Get the internal seven-slot arrangement
-       for this specific Territory Card.
+       Get the seven internal slots
+       for this Territory Card.
     */
 
     const slotCards =
@@ -1727,7 +1870,7 @@ function openTerritoryModal(
 
 
     slotCards.forEach(
-        (slotCard, index) => {
+        (slotCard) => {
 
             const slot =
                 document.createElement(
@@ -1740,7 +1883,7 @@ function openTerritoryModal(
 
 
             /*
-               EMPTY SLOT
+               Empty slot.
             */
 
             if (
@@ -1755,7 +1898,7 @@ function openTerritoryModal(
 
 
             /*
-               OCCUPIED SLOT
+               Occupied slot.
             */
 
             else {
@@ -1787,11 +1930,6 @@ function openTerritoryModal(
             }
 
 
-            /*
-               Seven slots always exist,
-               regardless of territory type.
-            */
-
             content.appendChild(
                 slot
             );
@@ -1801,7 +1939,7 @@ function openTerritoryModal(
 
 
     /*
-       Open the modal.
+       Open modal.
     */
 
     modal.classList.add(
@@ -1829,8 +1967,14 @@ function closeTerritoryModal() {
 
 
     /*
-       Remove visual selection from
-       the selected territory card.
+       Also close the Build sidebar.
+    */
+
+    closeBuildSidebar();
+
+
+    /*
+       Remove visual selection.
     */
 
     document
@@ -1866,6 +2010,67 @@ document
             ) {
 
                 closeTerritoryModal();
+
+            }
+
+        }
+    );
+
+
+/* =========================================================
+   OPEN BUILD SIDEBAR
+========================================================= */
+
+function openBuildSidebar() {
+
+    const sidebarOverlay =
+        document.getElementById(
+            "buildSidebarOverlay"
+        );
+
+
+    sidebarOverlay.classList.add(
+        "open"
+    );
+
+}
+
+
+/* =========================================================
+   CLOSE BUILD SIDEBAR
+========================================================= */
+
+function closeBuildSidebar() {
+
+    const sidebarOverlay =
+        document.getElementById(
+            "buildSidebarOverlay"
+        );
+
+
+    sidebarOverlay.classList.remove(
+        "open"
+    );
+
+}
+
+
+/* =========================================================
+   CLOSE BUILD SIDEBAR BY CLICKING OUTSIDE
+========================================================= */
+
+document
+    .getElementById("buildSidebarOverlay")
+    .addEventListener(
+        "click",
+        (event) => {
+
+            if (
+                event.target.id ===
+                "buildSidebarOverlay"
+            ) {
+
+                closeBuildSidebar();
 
             }
 
@@ -1941,15 +2146,16 @@ function newGame() {
 
     player2TerritoryDeck = [];
 
-
     openTerritory = null;
 
 
     /*
-       Make sure the modal is closed.
+       Close both UI panels.
     */
 
     closeTerritoryModal();
+
+    closeBuildSidebar();
 
 
     createWorldDeck();
