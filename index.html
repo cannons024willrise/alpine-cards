@@ -1,4 +1,4 @@
-```html
+```html id="q7y6sm"
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -31,7 +31,8 @@ main {
 }
 
 h1,
-h2 {
+h2,
+h3 {
     font-family: Georgia, serif;
 }
 
@@ -132,6 +133,85 @@ button:hover {
     object-fit: contain;
 
     margin: 12px auto;
+}
+
+
+/* =========================================================
+   PLAYER RESOURCES
+========================================================= */
+
+.player-resources {
+    margin-top: 30px;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 25px;
+}
+
+
+.resource-panel {
+    background: #222;
+
+    border:
+        1px solid
+        #444;
+
+    border-radius: 10px;
+
+    padding: 18px;
+}
+
+
+.resource-panel h3 {
+    margin:
+        0 0 15px 0;
+}
+
+
+.resource-values {
+    display: grid;
+
+    grid-template-columns:
+        repeat(5, minmax(0, 1fr));
+
+    gap: 10px;
+}
+
+
+.resource-value {
+    background: #191919;
+
+    border:
+        1px solid
+        #555;
+
+    border-radius: 8px;
+
+    padding:
+        12px 6px;
+}
+
+
+.resource-name {
+    display: block;
+
+    color: #aaa;
+
+    font-size: 12px;
+
+    margin-bottom: 5px;
+}
+
+
+.resource-amount {
+    display: block;
+
+    font-size: 20px;
+
+    font-weight: bold;
 }
 
 
@@ -656,10 +736,6 @@ button:hover {
 }
 
 
-/* =========================================================
-   BUILD CARD IMAGES
-========================================================= */
-
 .resource-card img {
     width: 100%;
     height: 100%;
@@ -716,25 +792,41 @@ button:hover {
         grid-template-columns: 1fr;
     }
 
+
+    .player-resources {
+        grid-template-columns: 1fr;
+    }
+
+
+    .resource-values {
+        grid-template-columns:
+            repeat(5, minmax(0, 1fr));
+    }
+
+
     .territory-deck.expanded {
         width: 100%;
         height: 300px;
     }
+
 
     .territory-card {
         width: 135px;
         height: 175px;
     }
 
+
     .world-card {
         width: 160px;
         height: 205px;
     }
 
+
     .world-deck {
         width: 160px;
         height: 205px;
     }
+
 
     .territory-modal {
         width: 95vw;
@@ -745,11 +837,6 @@ button:hover {
             40px 12px 20px;
     }
 
-
-    /*
-       Keep seven territory slots
-       on one horizontal line.
-    */
 
     .modal-card-slots {
         justify-content: flex-start;
@@ -773,11 +860,6 @@ button:hover {
         width: 88vw;
     }
 
-
-    /*
-       Build cards become one large
-       card per row on mobile.
-    */
 
     .resources-list {
         grid-template-columns: 1fr;
@@ -842,6 +924,209 @@ button:hover {
     <button onclick="newGame()">
         New Game
     </button>
+
+</section>
+
+
+<!-- =====================================================
+     PLAYER RESOURCES
+===================================================== -->
+
+<section class="player-resources">
+
+
+    <!-- =================================================
+         PLAYER 1 RESOURCES
+    ================================================== -->
+
+    <div class="resource-panel">
+
+        <h3>
+            PLAYER 1 RESOURCES
+        </h3>
+
+
+        <div class="resource-values">
+
+            <div class="resource-value">
+
+                <span class="resource-name">
+                    Wood
+                </span>
+
+                <span
+                    id="player1Wood"
+                    class="resource-amount"
+                >
+                    0
+                </span>
+
+            </div>
+
+
+            <div class="resource-value">
+
+                <span class="resource-name">
+                    Oil
+                </span>
+
+                <span
+                    id="player1Oil"
+                    class="resource-amount"
+                >
+                    0
+                </span>
+
+            </div>
+
+
+            <div class="resource-value">
+
+                <span class="resource-name">
+                    Stone
+                </span>
+
+                <span
+                    id="player1Stone"
+                    class="resource-amount"
+                >
+                    0
+                </span>
+
+            </div>
+
+
+            <div class="resource-value">
+
+                <span class="resource-name">
+                    Iron
+                </span>
+
+                <span
+                    id="player1Iron"
+                    class="resource-amount"
+                >
+                    0
+                </span>
+
+            </div>
+
+
+            <div class="resource-value">
+
+                <span class="resource-name">
+                    Crop
+                </span>
+
+                <span
+                    id="player1Crop"
+                    class="resource-amount"
+                >
+                    0
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =================================================
+         PLAYER 2 RESOURCES
+    ================================================== -->
+
+    <div class="resource-panel">
+
+        <h3>
+            PLAYER 2 RESOURCES
+        </h3>
+
+
+        <div class="resource-values">
+
+            <div class="resource-value">
+
+                <span class="resource-name">
+                    Wood
+                </span>
+
+                <span
+                    id="player2Wood"
+                    class="resource-amount"
+                >
+                    0
+                </span>
+
+            </div>
+
+
+            <div class="resource-value">
+
+                <span class="resource-name">
+                    Oil
+                </span>
+
+                <span
+                    id="player2Oil"
+                    class="resource-amount"
+                >
+                    0
+                </span>
+
+            </div>
+
+
+            <div class="resource-value">
+
+                <span class="resource-name">
+                    Stone
+                </span>
+
+                <span
+                    id="player2Stone"
+                    class="resource-amount"
+                >
+                    0
+                </span>
+
+            </div>
+
+
+            <div class="resource-value">
+
+                <span class="resource-name">
+                    Iron
+                </span>
+
+                <span
+                    id="player2Iron"
+                    class="resource-amount"
+                >
+                    0
+                </span>
+
+            </div>
+
+
+            <div class="resource-value">
+
+                <span class="resource-name">
+                    Crop
+                </span>
+
+                <span
+                    id="player2Crop"
+                    class="resource-amount"
+                >
+                    0
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
 
 </section>
 
@@ -1144,9 +1429,8 @@ const territoryBuildRules = {
 ========================================================= */
 
 /*
-   Player 1 resource storage.
-
-   Every resource starts at 0.
+   Player 1's completely separate
+   resource storage.
 */
 
 let player1Resources = {
@@ -1165,9 +1449,8 @@ let player1Resources = {
 
 
 /*
-   Player 2 resource storage.
-
-   Completely separate from Player 1.
+   Player 2's completely separate
+   resource storage.
 */
 
 let player2Resources = {
@@ -1246,11 +1529,6 @@ function createWorldDeck() {
 
     worldDeck = [];
 
-
-    /*
-       Randomly choose 3–6 copies
-       of each World Card type.
-    */
 
     for (
         const type of Object.keys(worldTypes)
@@ -1438,6 +1716,82 @@ function renderWorldDeck() {
         );
 
     }
+
+}
+
+
+/* =========================================================
+   RESOURCE DISPLAY
+========================================================= */
+
+function renderResources() {
+
+    /*
+       PLAYER 1
+    */
+
+    document.getElementById(
+        "player1Wood"
+    ).textContent =
+        player1Resources.Wood;
+
+
+    document.getElementById(
+        "player1Oil"
+    ).textContent =
+        player1Resources.Oil;
+
+
+    document.getElementById(
+        "player1Stone"
+    ).textContent =
+        player1Resources.Stone;
+
+
+    document.getElementById(
+        "player1Iron"
+    ).textContent =
+        player1Resources.Iron;
+
+
+    document.getElementById(
+        "player1Crop"
+    ).textContent =
+        player1Resources.Crop;
+
+
+    /*
+       PLAYER 2
+    */
+
+    document.getElementById(
+        "player2Wood"
+    ).textContent =
+        player2Resources.Wood;
+
+
+    document.getElementById(
+        "player2Oil"
+    ).textContent =
+        player2Resources.Oil;
+
+
+    document.getElementById(
+        "player2Stone"
+    ).textContent =
+        player2Resources.Stone;
+
+
+    document.getElementById(
+        "player2Iron"
+    ).textContent =
+        player2Resources.Iron;
+
+
+    document.getElementById(
+        "player2Crop"
+    ).textContent =
+        player2Resources.Crop;
 
 }
 
@@ -1776,11 +2130,6 @@ function renderExpandedTerritoryDeck(
             );
 
 
-            /*
-               Select this Territory Card
-               and open its modal.
-            */
-
             img.onclick =
                 (event) => {
 
@@ -1972,20 +2321,12 @@ function openTerritoryModal(
         );
 
 
-    /*
-       Remember selected Territory Card.
-    */
-
     selectedTerritoryPlayer =
         player;
 
     selectedTerritoryType =
         card;
 
-
-    /*
-       Get internal slot arrangement.
-    */
 
     const slotCards =
         getTerritorySlotCards(
@@ -2186,10 +2527,6 @@ function renderBuildOptions() {
     list.innerHTML = "";
 
 
-    /*
-       No Territory Card selected.
-    */
-
     if (
         !selectedTerritoryType
     ) {
@@ -2199,20 +2536,11 @@ function renderBuildOptions() {
     }
 
 
-    /*
-       Get ONLY the legal buildings
-       for the selected Territory Card.
-    */
-
     const allowedBuildings =
         territoryBuildRules[
             selectedTerritoryType
         ] || [];
 
-
-    /*
-       No legal buildings.
-    */
 
     if (
         allowedBuildings.length === 0
@@ -2241,10 +2569,6 @@ function renderBuildOptions() {
 
     }
 
-
-    /*
-       Render ONLY those legal cards.
-    */
 
     allowedBuildings.forEach(
         (building) => {
@@ -2280,17 +2604,12 @@ function renderBuildOptions() {
             );
 
 
-            /*
-               Actual construction is not
-               enabled yet.
-            */
-
             card.onclick =
                 () => {
 
                     /*
-                       Reserved for future
-                       construction logic.
+                       Construction will be
+                       added later.
                     */
 
                 };
@@ -2345,6 +2664,9 @@ function renderAll() {
          World Cards remaining`;
 
 
+    renderResources();
+
+
     renderTerritoryDeck(
         1,
         player1TerritoryDeck
@@ -2387,7 +2709,7 @@ function newGame() {
 
 
     /*
-       Reset both Territory Decks.
+       Reset Territory Decks.
     */
 
     player1TerritoryDeck = [];
@@ -2396,7 +2718,7 @@ function newGame() {
 
 
     /*
-       Reset territory UI state.
+       Reset Territory UI.
     */
 
     openTerritory = null;
@@ -2407,7 +2729,7 @@ function newGame() {
 
 
     /*
-       Reset Player 1 resource storage.
+       Reset Player 1 resources.
     */
 
     player1Resources = {
@@ -2426,7 +2748,7 @@ function newGame() {
 
 
     /*
-       Reset Player 2 resource storage.
+       Reset Player 2 resources.
     */
 
     player2Resources = {
@@ -2443,10 +2765,6 @@ function newGame() {
 
     };
 
-
-    /*
-       Close UI panels.
-    */
 
     closeTerritoryModal();
 
