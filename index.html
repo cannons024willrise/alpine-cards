@@ -3,9 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>World Deck Prototype</title>
 
 <style>
+
+/* =========================================================
+   BASE
+========================================================= */
+
 * {
     box-sizing: border-box;
 }
@@ -19,22 +25,34 @@ body {
 }
 
 main {
-    max-width: 1000px;
+    width: min(1100px, 96%);
     margin: 30px auto;
-    padding: 0 15px;
 }
 
-h1, h2 {
+h1,
+h2 {
     font-family: Georgia, serif;
 }
+
+small {
+    color: #aaa;
+}
+
+
+/* =========================================================
+   BUTTONS
+========================================================= */
 
 button {
     margin: 5px;
     padding: 10px 15px;
+
     background: #2b251b;
     color: white;
+
     border: 1px solid #806735;
     border-radius: 7px;
+
     cursor: pointer;
 }
 
@@ -42,184 +60,355 @@ button:hover {
     background: #493b25;
 }
 
-/* =========================
+
+/* =========================================================
    WORLD DECK
-========================= */
+========================================================= */
+
+.world-section {
+    margin-top: 25px;
+}
 
 .world-deck {
     position: relative;
+
     width: 180px;
     height: 230px;
-    margin: 20px auto;
+
+    margin: 25px auto;
 }
 
 .world-card {
     position: absolute;
-    inset: 0;
+
+    left: 0;
+    top: 0;
+
     width: 180px;
     height: 230px;
+
     object-fit: contain;
+
+    transition:
+        transform 0.25s ease;
 }
 
 .world-card:nth-child(1) {
-    transform: translate(-8px, 5px) rotate(-3deg);
+    transform:
+        translate(-8px, 5px)
+        rotate(-3deg);
 }
 
 .world-card:nth-child(2) {
-    transform: translate(-4px, 2px) rotate(-1.5deg);
+    transform:
+        translate(-4px, 2px)
+        rotate(-1.5deg);
 }
 
 .world-card:nth-child(3) {
-    transform: translate(0, 0);
+    transform:
+        translate(0, 0);
 }
 
-/* =========================
+
+/* =========================================================
    DRAWN CARD
-========================= */
+========================================================= */
 
 #message {
+    min-height: 50px;
     margin: 20px auto;
-    min-height: 40px;
 }
 
 .drawn-card {
+    display: block;
+
     width: 220px;
     max-width: 100%;
+
     height: auto;
+
     object-fit: contain;
-    display: block;
-    margin: 10px auto;
+
+    margin: 12px auto;
 }
 
-/* =========================
-   TWO SEPARATE TERRITORY DECKS
-========================= */
+
+/* =========================================================
+   TERRITORIES
+========================================================= */
 
 .territories {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
     gap: 35px;
-    margin-top: 40px;
+
+    margin-top: 45px;
 }
 
 .territory {
     background: #222;
+
     border: 1px solid #444;
     border-radius: 10px;
+
     padding: 20px;
+
+    min-width: 0;
 }
 
-/* Each player owns ONE independent deck */
+
+/* =========================================================
+   TERRITORY DECK AREA
+========================================================= */
 
 .territory-deck-area {
-    min-height: 280px;
+    position: relative;
+
+    min-height: 330px;
+
     display: flex;
+
     flex-direction: column;
+
     align-items: center;
     justify-content: center;
 }
 
-/* The deck itself */
+
+/* =========================================================
+   CLOSED TERRITORY DECK
+========================================================= */
 
 .territory-deck {
     position: relative;
+
     width: 180px;
     height: 230px;
+
     margin: 15px auto;
+
     cursor: pointer;
 }
 
-/* Only the TOP card is actually visible.
-   The other layers are just the visual stack. */
 
-.territory-card-layer {
+/*
+   Every visible layer is the same physical
+   deck, not a separate card grid.
+*/
+
+.territory-card {
     position: absolute;
-    inset: 0;
+
+    left: 0;
+    top: 0;
+
     width: 180px;
     height: 230px;
+
     object-fit: contain;
-    transition: transform 0.15s;
+
+    transform-origin: center bottom;
+
+    transition:
+        transform 0.50s cubic-bezier(.2,.8,.2,1),
+        opacity 0.30s ease;
 }
 
-.territory-deck:hover .territory-card-layer.top {
-    transform: translateY(-7px);
+
+/*
+   Closed deck hover.
+*/
+
+.territory-deck:not(.expanded):hover
+.territory-card:last-child {
+    transform:
+        translateY(-8px);
 }
+
+
+/* =========================================================
+   EXPANDED TERRITORY DECK
+========================================================= */
+
+.territory-deck.expanded {
+    width: min(90vw, 820px);
+
+    height: 340px;
+
+    cursor: default;
+}
+
+
+/*
+   Individual cards spread horizontally.
+*/
+
+.territory-deck.expanded
+.territory-card {
+    cursor: pointer;
+}
+
+
+/*
+   Selected card rises above the spread.
+*/
+
+.territory-card.selected {
+    transform:
+        translateY(-25px)
+        scale(1.05) !important;
+
+    z-index: 9999 !important;
+}
+
+
+/* =========================================================
+   DECK COUNT
+========================================================= */
+
+.deck-count {
+    margin-top: 6px;
+
+    color: #aaa;
+
+    font-size: 14px;
+}
+
+
+/* =========================================================
+   EMPTY DECK
+========================================================= */
 
 .empty-deck {
     width: 180px;
     height: 230px;
+
     margin: 15px auto;
+
     display: flex;
+
     align-items: center;
     justify-content: center;
+
     border: 1px dashed #555;
     border-radius: 8px;
+
     color: #888;
 }
 
-.deck-count {
-    color: #aaa;
+
+/* =========================================================
+   CLOSE BUTTON
+========================================================= */
+
+.close-deck {
+    margin-top: 10px;
+
+    opacity: 0;
+
+    transform:
+        translateY(-10px);
+
+    pointer-events: none;
+
+    transition:
+        opacity 0.25s ease,
+        transform 0.25s ease;
 }
 
-.deck-info {
-    margin-top: 15px;
-    padding: 12px;
-    background: #181818;
-    border-radius: 8px;
+.close-deck.visible {
+    opacity: 1;
+
+    transform:
+        translateY(0);
+
+    pointer-events: auto;
 }
 
-.deck-info img {
-    width: 220px;
-    max-width: 100%;
-    height: auto;
-    object-fit: contain;
-    display: block;
-    margin: 0 auto 10px;
-}
 
-small {
-    color: #aaa;
-}
+/* =========================================================
+   MOBILE
+========================================================= */
 
-@media (max-width: 700px) {
+@media (max-width: 750px) {
+
     .territories {
         grid-template-columns: 1fr;
     }
+
+    .territory-deck.expanded {
+        width: 100%;
+        height: 300px;
+    }
+
+    .territory-card {
+        width: 135px;
+        height: 175px;
+    }
+
+    .world-card {
+        width: 160px;
+        height: 205px;
+    }
+
+    .world-deck {
+        width: 160px;
+        height: 205px;
+    }
 }
+
 </style>
 </head>
+
 
 <body>
 
 <main>
 
+
+<!-- =====================================================
+     TITLE
+===================================================== -->
+
 <h1>WORLD DECK</h1>
 
 <small>
-Randomized World Deck · Player 1 draws TOP · Player 2 draws BOTTOM
+    Randomized World Deck ·
+    Player 1 draws TOP ·
+    Player 2 draws BOTTOM
 </small>
 
 
-<!-- =========================
+<!-- =====================================================
      SHARED WORLD DECK
-========================= -->
+===================================================== -->
 
-<section>
+<section class="world-section">
 
     <div
         id="worldDeckVisual"
         class="world-deck"
     ></div>
 
-    <div id="remaining"></div>
+
+    <div id="remaining">
+        0 World Cards remaining
+    </div>
+
 
     <button onclick="drawWorld(1)">
         Player 1 — Draw Top
     </button>
 
+
     <button onclick="drawWorld(2)">
         Player 2 — Draw Bottom
     </button>
+
 
     <button onclick="newGame()">
         New Game
@@ -228,21 +417,32 @@ Randomized World Deck · Player 1 draws TOP · Player 2 draws BOTTOM
 </section>
 
 
+<!-- =====================================================
+     LAST DRAWN CARD
+===================================================== -->
+
 <div id="message">
     No World Card drawn yet.
 </div>
 
 
-<!-- =========================
-     TWO INDEPENDENT TERRITORY DECKS
-========================= -->
+<!-- =====================================================
+     PLAYER TERRITORY DECKS
+===================================================== -->
 
 <section class="territories">
 
-    <!-- PLAYER 1 -->
+
+    <!-- =================================================
+         PLAYER 1
+    ================================================== -->
+
     <div class="territory">
 
-        <h2>PLAYER 1 TERRITORY DECK</h2>
+        <h2>
+            PLAYER 1 TERRITORY DECK
+        </h2>
+
 
         <div
             id="player1Deck"
@@ -252,10 +452,16 @@ Randomized World Deck · Player 1 draws TOP · Player 2 draws BOTTOM
     </div>
 
 
-    <!-- PLAYER 2 -->
+    <!-- =================================================
+         PLAYER 2
+    ================================================== -->
+
     <div class="territory">
 
-        <h2>PLAYER 2 TERRITORY DECK</h2>
+        <h2>
+            PLAYER 2 TERRITORY DECK
+        </h2>
+
 
         <div
             id="player2Deck"
@@ -271,78 +477,106 @@ Randomized World Deck · Player 1 draws TOP · Player 2 draws BOTTOM
 
 <script>
 
-/* =========================
-   WORLD CARD TYPES
-========================= */
+/* =========================================================
+   WORLD CARD DEFINITIONS
+========================================================= */
 
 const worldTypes = {
 
     River: {
+
         image: "river.png",
+
         capacity: 6,
+
         buildings: [
             "Farm",
             "Residence",
             "Tavern"
         ]
+
     },
 
+
     Mountain: {
+
         image: "mountain.png",
+
         capacity: 4,
+
         buildings: [
             "Quarry",
             "Mine",
             "Oilfield"
         ]
+
     },
 
+
     Forest: {
+
         image: "forest.png",
+
         capacity: 2,
+
         buildings: [
             "Forest (automatic)"
         ]
+
     },
 
+
     Meadow: {
+
         image: "meadow.png",
+
         capacity: 7,
+
         buildings: [
             "All other buildings"
         ]
+
     }
 
 };
 
 
-/* =========================
+/* =========================================================
    THREE SEPARATE DECKS
-========================= */
+========================================================= */
+
 
 /*
-    Shared source deck
+   Shared source.
 */
 let worldDeck = [];
 
 
 /*
-    Completely independent
-    Player 1 Territory Deck
+   Player 1's completely separate deck.
 */
 let player1TerritoryDeck = [];
 
 
 /*
-    Completely independent
-    Player 2 Territory Deck
+   Player 2's completely separate deck.
 */
 let player2TerritoryDeck = [];
 
 
-/* =========================
+/*
+   Which Territory Deck is currently expanded?
+
+   null = both closed
+   1    = Player 1 open
+   2    = Player 2 open
+*/
+let openTerritory = null;
+
+
+/* =========================================================
    SHUFFLE
-========================= */
+========================================================= */
 
 function shuffle(deck) {
 
@@ -357,6 +591,7 @@ function shuffle(deck) {
                 Math.random() * (i + 1)
             );
 
+
         [
             deck[i],
             deck[j]
@@ -364,22 +599,24 @@ function shuffle(deck) {
             deck[j],
             deck[i]
         ];
+
     }
+
 }
 
 
-/* =========================
-   CREATE WORLD DECK
-========================= */
+/* =========================================================
+   CREATE RANDOMIZED WORLD DECK
+========================================================= */
 
 function createWorldDeck() {
 
     worldDeck = [];
 
+
     /*
-        Random composition:
-        3–6 copies of every
-        World Card type.
+       Randomly choose 3–6 copies
+       of each World Card type.
     */
 
     for (
@@ -392,6 +629,7 @@ function createWorldDeck() {
                 Math.random() * 4
             );
 
+
         for (
             let i = 0;
             i < copies;
@@ -399,16 +637,20 @@ function createWorldDeck() {
         ) {
 
             worldDeck.push(type);
+
         }
+
     }
 
+
     shuffle(worldDeck);
+
 }
 
 
-/* =========================
+/* =========================================================
    DRAW WORLD CARD
-========================= */
+========================================================= */
 
 function drawWorld(player) {
 
@@ -419,6 +661,7 @@ function drawWorld(player) {
         );
 
         return;
+
     }
 
 
@@ -426,8 +669,8 @@ function drawWorld(player) {
 
 
     /*
-        PLAYER 1:
-        removes from TOP
+       Player 1:
+       remove from TOP.
     */
 
     if (player === 1) {
@@ -437,19 +680,19 @@ function drawWorld(player) {
 
 
         /*
-            Add ONLY to Player 1's
-            Territory Deck.
+           Goes ONLY into Player 1's deck.
         */
 
         player1TerritoryDeck.push(
             card
         );
+
     }
 
 
     /*
-        PLAYER 2:
-        removes from BOTTOM
+       Player 2:
+       remove from BOTTOM.
     */
 
     else {
@@ -459,13 +702,13 @@ function drawWorld(player) {
 
 
         /*
-            Add ONLY to Player 2's
-            Territory Deck.
+           Goes ONLY into Player 2's deck.
         */
 
         player2TerritoryDeck.push(
             card
         );
+
     }
 
 
@@ -478,7 +721,7 @@ function drawWorld(player) {
         <img
             class="drawn-card"
             src="${data.image}"
-            alt="${card}"
+            alt="${card} Card"
         >
 
         <b>
@@ -499,12 +742,13 @@ function drawWorld(player) {
 
 
     renderAll();
+
 }
 
 
-/* =========================
-   WORLD DECK DISPLAY
-========================= */
+/* =========================================================
+   WORLD DECK RENDERING
+========================================================= */
 
 function renderWorldDeck() {
 
@@ -523,15 +767,16 @@ function renderWorldDeck() {
             "<small>WORLD DECK EMPTY</small>";
 
         return;
+
     }
 
 
     /*
-        Only a few layers are shown
-        because this is one deck.
+       The World Deck is also one actual deck.
+       Only a few layers are shown visually.
     */
 
-    const layers =
+    const visible =
         Math.min(
             3,
             worldDeck.length
@@ -540,40 +785,42 @@ function renderWorldDeck() {
 
     for (
         let i = 0;
-        i < layers;
+        i < visible;
         i++
     ) {
 
-        const image =
+        const img =
             document.createElement(
                 "img"
             );
 
 
-        image.src =
+        img.src =
             worldTypes[
                 worldDeck[i]
             ].image;
 
 
-        image.className =
-            "world-card";
-
-
-        image.alt =
+        img.alt =
             "World Deck";
 
 
+        img.className =
+            "world-card";
+
+
         container.appendChild(
-            image
+            img
         );
+
     }
+
 }
 
 
-/* =========================
-   RENDER ONE TERRITORY DECK
-========================= */
+/* =========================================================
+   TERRITORY DECK RENDERING
+========================================================= */
 
 function renderTerritoryDeck(
     player,
@@ -591,9 +838,9 @@ function renderTerritoryDeck(
     container.innerHTML = "";
 
 
-    /*
-        EMPTY DECK
-    */
+    /* ================================================
+       EMPTY
+    ================================================ */
 
     if (deck.length === 0) {
 
@@ -610,30 +857,13 @@ function renderTerritoryDeck(
         `;
 
         return;
+
     }
 
 
-    /*
-        Top card = final card
-        in THIS player's deck.
-
-        This is completely independent
-        from the other player's deck.
-    */
-
-    const topCard =
-        deck[
-            deck.length - 1
-        ];
-
-
-    const topData =
-        worldTypes[topCard];
-
-
-    /*
-        Build visual stack.
-    */
+    /* ================================================
+       CREATE THE ACTUAL DECK CONTAINER
+    ================================================ */
 
     const deckElement =
         document.createElement(
@@ -646,82 +876,43 @@ function renderTerritoryDeck(
 
 
     /*
-        Only the top card artwork
-        matters visually.
+       CLOSED
     */
 
-    const layers =
-        Math.min(
-            4,
-            deck.length
+    if (openTerritory !== player) {
+
+        renderClosedTerritoryDeck(
+            deckElement,
+            deck,
+            player
         );
 
-
-    for (
-        let i = 0;
-        i < layers;
-        i++
-    ) {
-
-        const image =
-            document.createElement(
-                "img"
-            );
-
-
-        image.src =
-            topData.image;
-
-
-        image.className =
-            "territory-card-layer";
-
-
-        if (
-            i === layers - 1
-        ) {
-
-            image.classList.add(
-                "top"
-            );
-        }
-
-
-        image.style.transform =
-            `
-                translate(
-                    ${i * 3}px,
-                    ${i * -2}px
-                )
-            `;
-
-
-        image.alt =
-            "";
-
-
-        deckElement.appendChild(
-            image
-        );
     }
 
 
     /*
-        Clicking this deck only opens
-        THIS player's deck.
+       OPEN
     */
 
-    deckElement.onclick =
-        () => openTerritoryDeck(
-            player,
-            deck
+    else {
+
+        renderExpandedTerritoryDeck(
+            deckElement,
+            deck,
+            player
         );
+
+    }
 
 
     container.appendChild(
         deckElement
     );
 
+
+    /*
+       Card count.
+    */
 
     const count =
         document.createElement(
@@ -747,156 +938,375 @@ function renderTerritoryDeck(
 
 
     /*
-        Separate information box
-        belonging only to this deck.
+       Close button.
     */
 
-    const info =
-        document.createElement(
-            "div"
-        );
+    if (openTerritory === player) {
+
+        const closeButton =
+            document.createElement(
+                "button"
+            );
 
 
-    info.id =
-        `territoryInfo${player}`;
+        closeButton.className =
+            "close-deck visible";
 
 
-    info.className =
-        "deck-info";
+        closeButton.textContent =
+            "Close Deck";
 
 
-    info.style.display =
-        "none";
+        closeButton.onclick =
+            () => {
 
-
-    container.appendChild(
-        info
-    );
-}
-
-
-/* =========================
-   OPEN A TERRITORY DECK
-========================= */
-
-function openTerritoryDeck(
-    player,
-    deck
-) {
-
-    if (deck.length === 0) {
-        return;
-    }
-
-
-    const info =
-        document.getElementById(
-            `territoryInfo${player}`
-        );
-
-
-    if (
-        info.style.display !==
-        "none"
-    ) {
-
-        info.style.display =
-            "none";
-
-        return;
-    }
-
-
-    /*
-        Top card belongs to
-        THIS deck only.
-    */
-
-    const topCard =
-        deck[
-            deck.length - 1
-        ];
-
-
-    const data =
-        worldTypes[topCard];
-
-
-    info.innerHTML = `
-
-        <img
-            src="${data.image}"
-            alt="${topCard}"
-        >
-
-        <b>
-            Player ${player}
-            Territory Deck
-        </b>
-
-        <br>
-
-        Top Card:
-        <b>${topCard}</b>
-
-        <br>
-
-        <small>
-            ${data.capacity}
-            building slots
-        </small>
-
-        <br><br>
-
-        <button
-            onclick="
                 closeTerritoryDeck(
-                    ${player}
-                )
-            "
-        >
-            Close Deck
-        </button>
+                    player
+                );
 
-    `;
+            };
 
 
-    info.style.display =
-        "block";
+        container.appendChild(
+            closeButton
+        );
+
+    }
+
 }
 
 
-/* =========================
-   CLOSE A TERRITORY DECK
-========================= */
+/* =========================================================
+   CLOSED TERRITORY DECK
+========================================================= */
 
-function closeTerritoryDeck(
+function renderClosedTerritoryDeck(
+    deckElement,
+    deck,
     player
 ) {
 
-    const info =
-        document.getElementById(
-            `territoryInfo${player}`
+    /*
+       Show a few physical-looking
+       layers of ONE deck.
+    */
+
+    const visible =
+        Math.min(
+            4,
+            deck.length
         );
 
 
-    if (info) {
+    for (
+        let i = 0;
+        i < visible;
+        i++
+    ) {
 
-        info.style.display =
-            "none";
+        const card =
+            deck[i];
+
+
+        const img =
+            document.createElement(
+                "img"
+            );
+
+
+        img.src =
+            worldTypes[card].image;
+
+
+        img.alt =
+            "";
+
+
+        img.className =
+            "territory-card";
+
+
+        img.style.zIndex =
+            i;
+
+
+        img.style.transform =
+            `
+                translate(
+                    ${i * 3}px,
+                    ${i * -2}px
+                )
+            `;
+
+
+        deckElement.appendChild(
+            img
+        );
+
     }
+
+
+    /*
+       Clicking the compact deck opens
+       THIS player's deck.
+    */
+
+    deckElement.onclick =
+        () => {
+
+            openTerritoryDeck(
+                player
+            );
+
+        };
+
 }
 
 
-/* =========================
-   RENDER EVERYTHING
-========================= */
+/* =========================================================
+   EXPANDED TERRITORY DECK
+========================================================= */
 
-function renderAll() {
+function renderExpandedTerritoryDeck(
+    deckElement,
+    deck,
+    player
+) {
+
+    deckElement.classList.add(
+        "expanded"
+    );
+
+
+    const total =
+        deck.length;
+
 
     /*
-        WORLD DECK
+       Width used by the fan.
     */
+
+    const availableWidth =
+        Math.min(
+            740,
+            Math.max(
+                300,
+                window.innerWidth - 100
+            )
+        );
+
+
+    /*
+       Distance between cards.
+
+       More cards = tighter spread.
+    */
+
+    const spacing =
+        Math.min(
+            145,
+            availableWidth /
+            Math.max(
+                total,
+                1
+            )
+        );
+
+
+    /*
+       Center point of the deck.
+    */
+
+    const centre =
+        (total - 1) / 2;
+
+
+    /*
+       Display EVERY card.
+    */
+
+    deck.forEach(
+        (card, index) => {
+
+            const img =
+                document.createElement(
+                    "img"
+                );
+
+
+            img.src =
+                worldTypes[card].image;
+
+
+            img.alt =
+                `${card} Card`;
+
+
+            img.className =
+                "territory-card";
+
+
+            /*
+               Start cards as stacked.
+               Browser animation will then
+               transition them to their spread.
+            */
+
+            img.style.transform =
+                `
+                    translateX(0)
+                    translateY(0)
+                    rotate(0deg)
+                `;
+
+
+            img.style.zIndex =
+                100 + index;
+
+
+            deckElement.appendChild(
+                img
+            );
+
+
+            /*
+               Trigger the spread animation
+               on the next frame.
+            */
+
+            requestAnimationFrame(
+                () => {
+
+                    const x =
+                        (
+                            index -
+                            centre
+                        ) * spacing;
+
+
+                    const rotation =
+                        (
+                            index -
+                            centre
+                        ) *
+                        Math.min(
+                            5,
+                            35 /
+                            Math.max(
+                                total,
+                                1
+                            )
+                        );
+
+
+                    img.style.transform =
+                        `
+                            translateX(${x}px)
+                            translateY(0)
+                            rotate(${rotation}deg)
+                        `;
+
+                }
+            );
+
+
+            /*
+               Clicking an expanded card
+               selects it visually.
+            */
+
+            img.onclick =
+                (event) => {
+
+                    event.stopPropagation();
+
+
+                    img.classList.toggle(
+                        "selected"
+                    );
+
+                };
+
+        }
+    );
+
+
+    /*
+       Clicking the empty area of the expanded
+       deck closes it.
+    */
+
+    deckElement.onclick =
+        (event) => {
+
+            if (
+                event.target ===
+                deckElement
+            ) {
+
+                closeTerritoryDeck(
+                    player
+                );
+
+            }
+
+        };
+
+}
+
+
+/* =========================================================
+   OPEN
+========================================================= */
+
+function openTerritoryDeck(player) {
+
+    /*
+       Only this player's deck opens.
+
+       The other player's deck remains
+       exactly as it was.
+    */
+
+    openTerritory =
+        player;
+
+
+    renderAll();
+
+}
+
+
+/* =========================================================
+   CLOSE
+========================================================= */
+
+function closeTerritoryDeck(player) {
+
+    /*
+       Only close the deck that is open.
+    */
+
+    if (
+        openTerritory === player
+    ) {
+
+        openTerritory =
+            null;
+
+
+        renderAll();
+
+    }
+
+}
+
+
+/* =========================================================
+   RENDER EVERYTHING
+========================================================= */
+
+function renderAll() {
 
     renderWorldDeck();
 
@@ -909,7 +1319,7 @@ function renderAll() {
 
 
     /*
-        PLAYER 1 DECK
+       PLAYER 1 ONLY
     */
 
     renderTerritoryDeck(
@@ -919,19 +1329,20 @@ function renderAll() {
 
 
     /*
-        PLAYER 2 DECK
+       PLAYER 2 ONLY
     */
 
     renderTerritoryDeck(
         2,
         player2TerritoryDeck
     );
+
 }
 
 
-/* =========================
+/* =========================================================
    MESSAGE
-========================= */
+========================================================= */
 
 function showMessage(text) {
 
@@ -939,17 +1350,18 @@ function showMessage(text) {
         "message"
     ).innerHTML =
         text;
+
 }
 
 
-/* =========================
+/* =========================================================
    NEW GAME
-========================= */
+========================================================= */
 
 function newGame() {
 
     /*
-        Reset all three independently.
+       Reset all three decks separately.
     */
 
     worldDeck = [];
@@ -957,6 +1369,9 @@ function newGame() {
     player1TerritoryDeck = [];
 
     player2TerritoryDeck = [];
+
+
+    openTerritory = null;
 
 
     createWorldDeck();
@@ -968,12 +1383,13 @@ function newGame() {
 
 
     renderAll();
+
 }
 
 
-/* =========================
-   START
-========================= */
+/* =========================================================
+   START GAME
+========================================================= */
 
 newGame();
 
