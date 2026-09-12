@@ -508,20 +508,36 @@ button:active {
 
 /* =========================================================
    TERRITORIES
+   PLAYER 1 ABOVE PLAYER 2
 ========================================================= */
 
 .territories {
     display:
-        grid;
+        flex;
 
-    grid-template-columns:
-        repeat(2, minmax(0,1fr));
+    flex-direction:
+        column;
 
     gap:
-        28px;
+        40px;
 
     margin-top:
         40px;
+
+    width:
+        100%;
+}
+
+
+.territory {
+    width:
+        100%;
+
+    min-width:
+        0;
+
+    background:
+        transparent;
 }
 
 
@@ -570,6 +586,30 @@ button:active {
 /* =========================================================
    TERRITORY DECK
 ========================================================= */
+
+.territory-deck-area {
+    position:
+        relative;
+
+    min-height:
+        330px;
+
+    display:
+        flex;
+
+    flex-direction:
+        column;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    background:
+        transparent;
+}
+
 
 .territory-deck {
     position:
@@ -746,10 +786,6 @@ button:active {
 }
 
 
-/* =========================================================
-   TERRITORY MODAL
-========================================================= */
-
 .territory-modal {
     position:
         relative;
@@ -768,9 +804,6 @@ button:active {
 
     padding:
         8px;
-
-    background:
-        transparent;
 }
 
 
@@ -780,9 +813,6 @@ button:active {
 
     padding:
         42px 20px 24px;
-
-    background:
-        transparent;
 }
 
 
@@ -824,8 +854,7 @@ button:active {
 
 
 /* =========================================================
-   SEVEN TERRITORY SLOTS
-   EMPTY SLOTS REMAIN VISIBLE
+   SEVEN TERRITORY BUILD SLOTS
 ========================================================= */
 
 .modal-card-slots {
@@ -1004,7 +1033,7 @@ button:active {
 
 
 /* =========================================================
-   BUILD SIDEBAR HEADER
+   BUILD HEADER
 ========================================================= */
 
 .build-sidebar-header {
@@ -1083,10 +1112,6 @@ button:active {
 }
 
 
-/* =========================================================
-   BUILDABLE CARDS
-========================================================= */
-
 .resources-list {
     display:
         grid;
@@ -1098,6 +1123,10 @@ button:active {
         18px;
 }
 
+
+/* =========================================================
+   BUILDABLE CARDS
+========================================================= */
 
 .resource-card {
     width:
@@ -1199,10 +1228,6 @@ button:active {
     }
 
 
-    /*
-       Player data remains stacked.
-    */
-
     .player-resources {
         flex-direction:
             column;
@@ -1210,8 +1235,11 @@ button:active {
 
 
     .territories {
-        grid-template-columns:
-            1fr;
+        flex-direction:
+            column;
+
+        gap:
+            32px;
     }
 
 
@@ -1376,14 +1404,15 @@ button:active {
 
 
 <!-- =====================================================
-     PLAYER RESOURCES
+     PLAYER DATA
+     STACKED VERTICALLY
 ===================================================== -->
 
 <section class="player-resources">
 
 
     <!-- =================================================
-         PLAYER 1
+         PLAYER 1 DATA
     ================================================== -->
 
     <div class="wood-frame resource-panel">
@@ -1500,7 +1529,7 @@ button:active {
 
 
     <!-- =================================================
-         PLAYER 2
+         PLAYER 2 DATA
     ================================================== -->
 
     <div class="wood-frame resource-panel">
@@ -1619,7 +1648,8 @@ button:active {
 
 
 <!-- =====================================================
-     TERRITORY DECKS
+     TERRITORIES
+     STACKED VERTICALLY
 ===================================================== -->
 
 <section class="territories">
@@ -1704,6 +1734,11 @@ button:active {
                 ×
             </button>
 
+
+            <!--
+                Exactly seven slots are always rendered.
+                Empty slots remain visible.
+            -->
 
             <div
                 id="territoryModalContent"
@@ -1910,7 +1945,7 @@ const territoryBuildRules = {
 
 
 /* =========================================================
-   PLAYER RESOURCE STORAGE
+   PLAYER RESOURCES
 ========================================================= */
 
 let player1Resources = {
@@ -2875,7 +2910,7 @@ function getTerritorySlotCards(
 
     /*
        Meadow:
-       all seven are empty.
+       all seven slots remain empty.
     */
 
     return slots;
@@ -2922,7 +2957,7 @@ function openTerritoryModal(
 
 
     /*
-       ALWAYS CREATE ALL SEVEN SLOTS.
+       Always render exactly seven slots.
     */
 
     slotCards.forEach(
@@ -2941,10 +2976,6 @@ function openTerritoryModal(
             if (
                 slotCard === null
             ) {
-
-                /*
-                   Empty slot stays visible.
-                */
 
                 slot.classList.add(
                     "empty"
@@ -3129,10 +3160,6 @@ function renderBuildOptions() {
         ] || [];
 
 
-    /*
-       Forest has no buildable cards.
-    */
-
     if (
         allowedBuildings.length === 0
     ) {
@@ -3163,6 +3190,11 @@ function renderBuildOptions() {
 
     /*
        Only legal buildings are shown.
+       Meadow:
+           Residence
+           Tavern
+
+       No resource cards.
     */
 
     allowedBuildings.forEach(
