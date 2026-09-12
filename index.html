@@ -359,12 +359,20 @@ button:hover {
 }
 
 
+/* =========================================================
+   MODAL
+========================================================= */
+
 .territory-modal {
     position: relative;
 
-    width: min(600px, 95vw);
+    width: min(850px, 95vw);
 
-    min-height: 300px;
+    min-height: 400px;
+
+    max-height: 90vh;
+
+    overflow-y: auto;
 
     background: #222;
 
@@ -376,7 +384,7 @@ button:hover {
         0 20px 60px
         rgba(0, 0, 0, 0.65);
 
-    padding: 30px;
+    padding: 40px 30px 30px;
 }
 
 
@@ -416,12 +424,70 @@ button:hover {
 }
 
 
+/* =========================================================
+   SEVEN CARD SLOTS
+========================================================= */
+
+.modal-card-slots {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, minmax(0, 1fr));
+
+    gap: 15px;
+
+    width: 100%;
+
+    margin-top: 15px;
+}
+
+
 /*
-   Modal content is intentionally empty.
+   Individual empty slot.
 */
 
-#territoryModalContent {
-    min-height: 240px;
+.modal-card-slot {
+    aspect-ratio: 3 / 4;
+
+    min-height: 120px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    background: #191919;
+
+    border:
+        1px dashed
+        #555;
+
+    border-radius: 8px;
+
+    color: #777;
+
+    font-size: 14px;
+
+    user-select: none;
+}
+
+
+/*
+   Give the seventh slot a sensible
+   position rather than leaving it
+   looking accidentally incomplete.
+*/
+
+.modal-card-slot:nth-child(5) {
+    grid-column: 1;
+}
+
+.modal-card-slot:nth-child(6) {
+    grid-column: 2;
+}
+
+.modal-card-slot:nth-child(7) {
+    grid-column: 3;
 }
 
 
@@ -457,7 +523,25 @@ button:hover {
 
     .territory-modal {
         width: 95vw;
-        min-height: 260px;
+        min-height: 300px;
+        padding: 40px 15px 20px;
+    }
+
+    .modal-card-slots {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+
+        gap: 12px;
+    }
+
+    .modal-card-slot:nth-child(5),
+    .modal-card-slot:nth-child(6),
+    .modal-card-slot:nth-child(7) {
+        grid-column: auto;
+    }
+
+    .modal-card-slot {
+        min-height: 140px;
     }
 
 }
@@ -596,17 +680,44 @@ button:hover {
         </button>
 
 
-        <!--
-            Intentionally empty.
-
-            Future territory information,
-            buildings, population, resources,
-            or other controls can be inserted here.
-        -->
+        <!-- =============================================
+             SEVEN CARD SLOTS
+        ============================================== -->
 
         <div
             id="territoryModalContent"
-        ></div>
+            class="modal-card-slots"
+        >
+
+            <div class="modal-card-slot">
+                SLOT 1
+            </div>
+
+            <div class="modal-card-slot">
+                SLOT 2
+            </div>
+
+            <div class="modal-card-slot">
+                SLOT 3
+            </div>
+
+            <div class="modal-card-slot">
+                SLOT 4
+            </div>
+
+            <div class="modal-card-slot">
+                SLOT 5
+            </div>
+
+            <div class="modal-card-slot">
+                SLOT 6
+            </div>
+
+            <div class="modal-card-slot">
+                SLOT 7
+            </div>
+
+        </div>
 
     </div>
 
@@ -683,24 +794,9 @@ const worldTypes = {
    THREE SEPARATE DECKS
 ========================================================= */
 
-
-/*
-   Shared source.
-*/
-
 let worldDeck = [];
 
-
-/*
-   Player 1's completely separate deck.
-*/
-
 let player1TerritoryDeck = [];
-
-
-/*
-   Player 2's completely separate deck.
-*/
 
 let player2TerritoryDeck = [];
 
@@ -821,10 +917,6 @@ function drawWorld(player) {
             worldDeck.shift();
 
 
-        /*
-           Goes ONLY into Player 1's deck.
-        */
-
         player1TerritoryDeck.push(
             card
         );
@@ -842,10 +934,6 @@ function drawWorld(player) {
         card =
             worldDeck.pop();
 
-
-        /*
-           Goes ONLY into Player 2's deck.
-        */
 
         player2TerritoryDeck.push(
             card
@@ -914,7 +1002,7 @@ function renderWorldDeck() {
 
 
     /*
-       The World Deck is also one actual deck.
+       The World Deck is one actual deck.
        Only a few layers are shown visually.
     */
 
@@ -1240,8 +1328,6 @@ function renderExpandedTerritoryDeck(
 
     /*
        Distance between cards.
-
-       More cards = tighter spread.
     */
 
     const spacing =
@@ -1290,8 +1376,6 @@ function renderExpandedTerritoryDeck(
 
             /*
                Start cards as stacked.
-               Browser animation will then
-               transition them to their spread.
             */
 
             img.style.transform =
@@ -1312,8 +1396,7 @@ function renderExpandedTerritoryDeck(
 
 
             /*
-               Trigger the spread animation
-               on the next frame.
+               Trigger spread animation.
             */
 
             requestAnimationFrame(
@@ -1354,8 +1437,7 @@ function renderExpandedTerritoryDeck(
 
             /*
                Clicking an expanded card
-               selects it and opens the
-               empty territory modal.
+               selects it and opens its modal.
             */
 
             img.onclick =
@@ -1366,7 +1448,7 @@ function renderExpandedTerritoryDeck(
 
                     /*
                        Remove selection from
-                       every other territory card.
+                       every other card.
                     */
 
                     deckElement
@@ -1394,7 +1476,7 @@ function renderExpandedTerritoryDeck(
 
 
                     /*
-                       Open the empty modal.
+                       Open the seven-slot modal.
                     */
 
                     openTerritoryModal(
@@ -1409,8 +1491,8 @@ function renderExpandedTerritoryDeck(
 
 
     /*
-       Clicking the empty area of the expanded
-       deck closes it.
+       Clicking the empty area closes
+       the expanded deck.
     */
 
     deckElement.onclick =
@@ -1438,10 +1520,6 @@ function renderExpandedTerritoryDeck(
 
 function openTerritoryDeck(player) {
 
-    /*
-       Only this player's deck opens.
-    */
-
     openTerritory =
         player;
 
@@ -1456,10 +1534,6 @@ function openTerritoryDeck(player) {
 ========================================================= */
 
 function closeTerritoryDeck(player) {
-
-    /*
-       Only close the deck that is open.
-    */
 
     if (
         openTerritory === player
@@ -1491,21 +1565,45 @@ function openTerritoryModal(
         );
 
 
+    /*
+       The seven slots are recreated
+       every time a territory card opens.
+    */
+
     const content =
         document.getElementById(
             "territoryModalContent"
         );
 
 
-    /*
-       The modal is intentionally empty
-       for now.
-
-       The player/card arguments are kept
-       available for future functionality.
-    */
-
     content.innerHTML = "";
+
+
+    for (
+        let i = 1;
+        i <= 7;
+        i++
+    ) {
+
+        const slot =
+            document.createElement(
+                "div"
+            );
+
+
+        slot.className =
+            "modal-card-slot";
+
+
+        slot.textContent =
+            `SLOT ${i}`;
+
+
+        content.appendChild(
+            slot
+        );
+
+    }
 
 
     modal.classList.add(
@@ -1533,7 +1631,7 @@ function closeTerritoryModal() {
 
 
     /*
-       Remove visual card selection.
+       Remove visual selection.
     */
 
     document
@@ -1592,19 +1690,11 @@ function renderAll() {
          World Cards remaining`;
 
 
-    /*
-       PLAYER 1 ONLY
-    */
-
     renderTerritoryDeck(
         1,
         player1TerritoryDeck
     );
 
-
-    /*
-       PLAYER 2 ONLY
-    */
 
     renderTerritoryDeck(
         2,
@@ -1634,23 +1724,17 @@ function showMessage(text) {
 
 function newGame() {
 
-    /*
-       Reset all three decks separately.
-    */
-
     worldDeck = [];
 
     player1TerritoryDeck = [];
 
     player2TerritoryDeck = [];
 
-
     openTerritory = null;
 
 
     /*
-       Also make absolutely sure
-       the modal is closed.
+       Close any currently open modal.
     */
 
     closeTerritoryModal();
