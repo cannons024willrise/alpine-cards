@@ -1,4 +1,4 @@
-
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -384,7 +384,8 @@ button:hover {
         0 20px 60px
         rgba(0, 0, 0, 0.65);
 
-    padding: 40px 20px 25px;
+    padding:
+        40px 20px 25px;
 }
 
 
@@ -454,9 +455,7 @@ button:hover {
 /*
    Individual slot.
 
-   flex-shrink: 0 is important:
-   it prevents the seven slots from
-   collapsing or wrapping.
+   Every slot has the same fixed size.
 */
 
 .modal-card-slot {
@@ -484,6 +483,37 @@ button:hover {
     font-size: 13px;
 
     user-select: none;
+
+    overflow: hidden;
+}
+
+
+/* =========================================================
+   INTERNAL TERRITORY CARDS
+========================================================= */
+
+.internal-territory-card {
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+
+    display: block;
+
+    pointer-events: none;
+}
+
+
+/*
+   Empty slots remain visually empty.
+*/
+
+.modal-card-slot.empty {
+    background: #191919;
+
+    border:
+        1px dashed
+        #555;
 }
 
 
@@ -528,9 +558,7 @@ button:hover {
 
 
     /*
-       Still ONE horizontal line.
-       The row scrolls horizontally if
-       seven slots cannot fit.
+       The seven slots remain ONE line.
     */
 
     .modal-card-slots {
@@ -688,43 +716,13 @@ button:hover {
 
 
         <!-- =============================================
-             SEVEN HORIZONTAL CARD SLOTS
+             SEVEN INTERNAL CARD SLOTS
         ============================================== -->
 
         <div
             id="territoryModalContent"
             class="modal-card-slots"
-        >
-
-            <div class="modal-card-slot">
-                SLOT 1
-            </div>
-
-            <div class="modal-card-slot">
-                SLOT 2
-            </div>
-
-            <div class="modal-card-slot">
-                SLOT 3
-            </div>
-
-            <div class="modal-card-slot">
-                SLOT 4
-            </div>
-
-            <div class="modal-card-slot">
-                SLOT 5
-            </div>
-
-            <div class="modal-card-slot">
-                SLOT 6
-            </div>
-
-            <div class="modal-card-slot">
-                SLOT 7
-            </div>
-
-        </div>
+        ></div>
 
     </div>
 
@@ -1473,7 +1471,7 @@ function renderExpandedTerritoryDeck(
             /*
                Clicking an expanded card
                selects it visually and opens
-               the seven-slot modal.
+               its territory modal.
             */
 
             img.onclick =
@@ -1512,7 +1510,8 @@ function renderExpandedTerritoryDeck(
 
 
                     /*
-                       Open this card's modal.
+                       Open the modal for
+                       this territory type.
                     */
 
                     openTerritoryModal(
@@ -1591,6 +1590,104 @@ function closeTerritoryDeck(player) {
 
 
 /* =========================================================
+   BUILD INTERNAL TERRITORY SLOTS
+========================================================= */
+
+/*
+   Every Territory Card has seven internal
+   slots.
+
+   Slot numbering:
+
+   1  2  3  4  5  6  7
+
+   Mountain:
+   3 Mountain Cards occupy slots 3, 4, 5.
+
+   River:
+   1 River Card occupies slot 4.
+
+   Forest:
+   5 Forest Cards occupy slots 2, 3, 4, 5, 6.
+
+   Meadow:
+   All slots remain empty.
+*/
+
+function getTerritorySlotCards(cardType) {
+
+    const slots =
+        [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+        ];
+
+
+    /*
+       MOUNTAIN
+       Center three slots.
+    */
+
+    if (
+        cardType === "Mountain"
+    ) {
+
+        slots[2] = "Mountain";
+        slots[3] = "Mountain";
+        slots[4] = "Mountain";
+
+    }
+
+
+    /*
+       RIVER
+       Exact center slot.
+    */
+
+    else if (
+        cardType === "River"
+    ) {
+
+        slots[3] = "River";
+
+    }
+
+
+    /*
+       FOREST
+       Center five slots.
+    */
+
+    else if (
+        cardType === "Forest"
+    ) {
+
+        slots[1] = "Forest";
+        slots[2] = "Forest";
+        slots[3] = "Forest";
+        slots[4] = "Forest";
+        slots[5] = "Forest";
+
+    }
+
+
+    /*
+       MEADOW
+       All seven remain empty.
+    */
+
+
+    return slots;
+
+}
+
+
+/* =========================================================
    OPEN TERRITORY CARD MODAL
 ========================================================= */
 
@@ -1612,38 +1709,95 @@ function openTerritoryModal(
 
 
     /*
-       Recreate exactly seven slots
-       whenever a territory card is selected.
+       Get the internal seven-slot arrangement
+       for this specific Territory Card.
+    */
+
+    const slotCards =
+        getTerritorySlotCards(
+            card
+        );
+
+
+    /*
+       Recreate all seven slots.
     */
 
     content.innerHTML = "";
 
 
-    for (
-        let i = 1;
-        i <= 7;
-        i++
-    ) {
+    slotCards.forEach(
+        (slotCard, index) => {
 
-        const slot =
-            document.createElement(
-                "div"
+            const slot =
+                document.createElement(
+                    "div"
+                );
+
+
+            slot.className =
+                "modal-card-slot";
+
+
+            /*
+               EMPTY SLOT
+            */
+
+            if (
+                slotCard === null
+            ) {
+
+                slot.classList.add(
+                    "empty"
+                );
+
+            }
+
+
+            /*
+               OCCUPIED SLOT
+            */
+
+            else {
+
+                const internalCard =
+                    document.createElement(
+                        "img"
+                    );
+
+
+                internalCard.className =
+                    "internal-territory-card";
+
+
+                internalCard.src =
+                    worldTypes[
+                        slotCard
+                    ].image;
+
+
+                internalCard.alt =
+                    `${slotCard} Card`;
+
+
+                slot.appendChild(
+                    internalCard
+                );
+
+            }
+
+
+            /*
+               Seven slots always exist,
+               regardless of territory type.
+            */
+
+            content.appendChild(
+                slot
             );
 
-
-        slot.className =
-            "modal-card-slot";
-
-
-        slot.textContent =
-            `SLOT ${i}`;
-
-
-        content.appendChild(
-            slot
-        );
-
-    }
+        }
+    );
 
 
     /*
@@ -1821,3 +1975,4 @@ newGame();
 
 </body>
 </html>
+```
