@@ -185,7 +185,7 @@ button:hover {
     display: grid;
 
     grid-template-columns:
-        repeat(5, minmax(0, 1fr));
+        repeat(3, minmax(0, 1fr));
 
     gap: 10px;
 }
@@ -366,6 +366,7 @@ button:hover {
     display: flex;
 
     align-items: center;
+
     justify-content: center;
 
     border:
@@ -541,7 +542,6 @@ button:hover {
     margin-top: 15px;
 }
 
-
 .modal-card-slot {
     flex:
         0 0 95px;
@@ -573,7 +573,6 @@ button:hover {
     overflow: hidden;
 }
 
-
 .modal-card-slot.empty {
     background: #191919;
 
@@ -581,7 +580,6 @@ button:hover {
         1px dashed
         #555;
 }
-
 
 .internal-territory-card {
     width: 100%;
@@ -656,7 +654,6 @@ button:hover {
     overflow-y: auto;
 }
 
-
 .build-sidebar-overlay.open
 .build-sidebar {
     transform:
@@ -680,18 +677,15 @@ button:hover {
     margin-bottom: 25px;
 }
 
-
 .build-sidebar-header h2 {
     margin: 0;
 }
-
 
 .build-sidebar-close {
     width: 38px;
     height: 38px;
 
     margin: 0;
-
     padding: 0;
 
     font-size: 24px;
@@ -710,10 +704,8 @@ button:hover {
     padding-top: 20px;
 
     border-top:
-        1px solid
-        #444;
+        1px solid #444;
 }
-
 
 .resources-section h3 {
     margin:
@@ -757,8 +749,7 @@ button:hover {
     background: #191919;
 
     border:
-        1px solid
-        #555;
+        1px solid #555;
 
     border-radius: 10px;
 
@@ -839,7 +830,7 @@ button:hover {
 
     .resource-values {
         grid-template-columns:
-            repeat(5, minmax(0, 1fr));
+            repeat(3, minmax(0, 1fr));
     }
 
 
@@ -1071,6 +1062,22 @@ button:hover {
 
             </div>
 
+
+            <div class="resource-value">
+
+                <span class="resource-name">
+                    Idle People
+                </span>
+
+                <span
+                    id="player1IdlePeople"
+                    class="resource-amount"
+                >
+                    0
+                </span>
+
+            </div>
+
         </div>
 
     </div>
@@ -1168,6 +1175,22 @@ button:hover {
 
             </div>
 
+
+            <div class="resource-value">
+
+                <span class="resource-name">
+                    Idle People
+                </span>
+
+                <span
+                    id="player2IdlePeople"
+                    class="resource-amount"
+                >
+                    0
+                </span>
+
+            </div>
+
         </div>
 
     </div>
@@ -1192,7 +1215,7 @@ button:hover {
 
 
     <!-- =================================================
-         PLAYER 1 TERRITORY DECK
+         PLAYER 1
     ================================================== -->
 
     <div class="territory">
@@ -1211,7 +1234,7 @@ button:hover {
 
 
     <!-- =================================================
-         PLAYER 2 TERRITORY DECK
+         PLAYER 2
     ================================================== -->
 
     <div class="territory">
@@ -1482,7 +1505,9 @@ let player1Resources = {
 
     Iron: 0,
 
-    Crop: 0
+    Crop: 0,
+
+    IdlePeople: 0
 
 };
 
@@ -1497,7 +1522,9 @@ let player2Resources = {
 
     Iron: 0,
 
-    Crop: 0
+    Crop: 0,
+
+    IdlePeople: 0
 
 };
 
@@ -1506,29 +1533,8 @@ let player2Resources = {
    RESOURCE GENERATION
 ========================================================= */
 
-/*
-   Production interval.
-
-   Every five seconds:
-
-   Mountain Territory:
-   +1 Stone
-
-   Forest Territory:
-   +5 Wood
-   +1 Crop
-
-   Each Territory Card produces
-   independently.
-
-   Example:
-
-   2 Mountains = +2 Stone
-   3 Forests = +15 Wood, +3 Crop
-   per tick.
-*/
-
-const RESOURCE_TICK_MS = 5000;
+const RESOURCE_TICK_MS =
+    5000;
 
 
 /* =========================================================
@@ -1644,10 +1650,6 @@ function drawWorld(player) {
     let card;
 
 
-    /*
-       Player 1 draws from TOP.
-    */
-
     if (
         player === 1
     ) {
@@ -1661,11 +1663,6 @@ function drawWorld(player) {
         );
 
     }
-
-
-    /*
-       Player 2 draws from BOTTOM.
-    */
 
     else {
 
@@ -1823,6 +1820,12 @@ function renderResources() {
         player1Resources.Crop;
 
 
+    document.getElementById(
+        "player1IdlePeople"
+    ).textContent =
+        player1Resources.IdlePeople;
+
+
     /*
        PLAYER 2
     */
@@ -1856,11 +1859,17 @@ function renderResources() {
     ).textContent =
         player2Resources.Crop;
 
+
+    document.getElementById(
+        "player2IdlePeople"
+    ).textContent =
+        player2Resources.IdlePeople;
+
 }
 
 
 /* =========================================================
-   RESOURCE GENERATION HELPERS
+   COUNT TERRITORY CARDS
 ========================================================= */
 
 function countTerritoryCards(
@@ -1951,7 +1960,8 @@ function generateResources() {
 
 
     /*
-       Update visible resource counters.
+       Idle People are NOT generated
+       automatically yet.
     */
 
     renderResources();
@@ -1960,7 +1970,7 @@ function generateResources() {
 
 
 /* =========================================================
-   START RESOURCE PRODUCTION
+   RESOURCE PRODUCTION TIMER
 ========================================================= */
 
 let resourceProductionTimer =
@@ -2143,7 +2153,9 @@ function renderClosedTerritoryDeck(
 
 
         img.src =
-            worldTypes[card].image;
+            worldTypes[
+                card
+            ].image;
 
 
         img.alt =
@@ -2240,7 +2252,9 @@ function renderExpandedTerritoryDeck(
 
 
             img.src =
-                worldTypes[card].image;
+                worldTypes[
+                    card
+                ].image;
 
 
             img.alt =
@@ -2364,7 +2378,9 @@ function renderExpandedTerritoryDeck(
    OPEN TERRITORY DECK
 ========================================================= */
 
-function openTerritoryDeck(player) {
+function openTerritoryDeck(
+    player
+) {
 
     openTerritory =
         player;
@@ -2379,7 +2395,9 @@ function openTerritoryDeck(player) {
    CLOSE TERRITORY DECK
 ========================================================= */
 
-function closeTerritoryDeck(player) {
+function closeTerritoryDeck(
+    player
+) {
 
     if (
         openTerritory === player
@@ -2434,7 +2452,7 @@ function getTerritorySlotCards(
 
     /*
        RIVER
-       Exact center slot.
+       Center slot.
     */
 
     else if (
@@ -2781,8 +2799,7 @@ function renderBuildOptions() {
 
 
             /*
-               Construction is still not
-               enabled yet.
+               Construction is not enabled yet.
             */
 
             card.onclick =
@@ -2882,10 +2899,6 @@ function showMessage(text) {
 
 function newGame() {
 
-    /*
-       Stop the old timer.
-    */
-
     clearInterval(
         resourceProductionTimer
     );
@@ -2932,7 +2945,9 @@ function newGame() {
 
         Iron: 0,
 
-        Crop: 0
+        Crop: 0,
+
+        IdlePeople: 0
 
     };
 
@@ -2951,7 +2966,9 @@ function newGame() {
 
         Iron: 0,
 
-        Crop: 0
+        Crop: 0,
+
+        IdlePeople: 0
 
     };
 
