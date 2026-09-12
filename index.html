@@ -196,11 +196,6 @@ button:hover {
 }
 
 
-/*
-   Every visible layer is the same physical
-   deck, not a separate card grid.
-*/
-
 .territory-card {
     position: absolute;
 
@@ -219,10 +214,6 @@ button:hover {
         opacity 0.30s ease;
 }
 
-
-/*
-   Closed deck hover.
-*/
 
 .territory-deck:not(.expanded):hover
 .territory-card:last-child {
@@ -244,19 +235,11 @@ button:hover {
 }
 
 
-/*
-   Individual cards spread horizontally.
-*/
-
 .territory-deck.expanded
 .territory-card {
     cursor: pointer;
 }
 
-
-/*
-   Selected card rises above the spread.
-*/
 
 .territory-card.selected {
     transform:
@@ -359,14 +342,10 @@ button:hover {
 }
 
 
-/* =========================================================
-   MODAL WINDOW
-========================================================= */
-
 .territory-modal {
     position: relative;
 
-    width: min(850px, 95vw);
+    width: min(900px, 95vw);
 
     min-height: 300px;
 
@@ -389,9 +368,9 @@ button:hover {
 }
 
 
-/*
-   Close button inside modal.
-*/
+/* =========================================================
+   MODAL CLOSE BUTTON
+========================================================= */
 
 .modal-close {
     position: absolute;
@@ -403,19 +382,15 @@ button:hover {
     height: 38px;
 
     margin: 0;
-
     padding: 0;
 
     background: #2b251b;
-
     color: white;
 
     border: 1px solid #806735;
-
     border-radius: 7px;
 
     font-size: 24px;
-
     line-height: 1;
 }
 
@@ -425,15 +400,16 @@ button:hover {
 
 
 /* =========================================================
-   MODAL BUILD BUTTON
+   BUILD BUTTON
 ========================================================= */
 
 .modal-build-button {
     display: block;
 
-    margin: 15px auto 5px;
-
     min-width: 120px;
+
+    margin:
+        15px auto 5px;
 }
 
 
@@ -447,7 +423,6 @@ button:hover {
     flex-direction: row;
 
     align-items: center;
-
     justify-content: center;
 
     gap: 12px;
@@ -455,7 +430,6 @@ button:hover {
     width: 100%;
 
     overflow-x: auto;
-
     overflow-y: hidden;
 
     padding:
@@ -464,10 +438,6 @@ button:hover {
     margin-top: 15px;
 }
 
-
-/*
-   Individual slot.
-*/
 
 .modal-card-slot {
     flex:
@@ -499,9 +469,14 @@ button:hover {
 }
 
 
-/* =========================================================
-   INTERNAL TERRITORY CARDS
-========================================================= */
+.modal-card-slot.empty {
+    background: #191919;
+
+    border:
+        1px dashed
+        #555;
+}
+
 
 .internal-territory-card {
     width: 100%;
@@ -512,19 +487,6 @@ button:hover {
     display: block;
 
     pointer-events: none;
-}
-
-
-/*
-   Empty slots remain visually empty.
-*/
-
-.modal-card-slot.empty {
-    background: #191919;
-
-    border:
-        1px dashed
-        #555;
 }
 
 
@@ -561,7 +523,7 @@ button:hover {
     top: 0;
     right: 0;
 
-    width: min(420px, 88vw);
+    width: min(480px, 90vw);
 
     height: 100%;
 
@@ -618,16 +580,11 @@ button:hover {
 }
 
 
-/*
-   Sidebar close button.
-*/
-
 .build-sidebar-close {
     width: 38px;
     height: 38px;
 
     margin: 0;
-
     padding: 0;
 
     font-size: 24px;
@@ -653,44 +610,41 @@ button:hover {
 
 .resources-section h3 {
     margin:
-        0 0 15px 0;
+        0 0 20px 0;
 
     font-family: Georgia, serif;
 
-    font-size: 20px;
+    font-size: 22px;
 }
 
 
 /*
-   Resource cards are displayed
-   in one horizontal row.
+   Resource cards use a GRID.
+
+   They are intentionally large and are
+   NOT forced into one horizontal line.
 */
 
 .resources-list {
-    display: flex;
+    display: grid;
 
-    flex-direction: row;
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
 
-    gap: 12px;
+    gap: 18px;
 
     width: 100%;
-
-    overflow-x: auto;
-
-    padding-bottom: 10px;
 }
 
 
-/*
-   Individual resource card.
-*/
+/* =========================================================
+   LARGE RESOURCE CARD
+========================================================= */
 
 .resource-card {
-    flex:
-        0 0 82px;
+    width: 100%;
 
-    width: 82px;
-    height: 110px;
+    aspect-ratio: 3 / 4;
 
     display: flex;
 
@@ -703,14 +657,29 @@ button:hover {
         1px solid
         #555;
 
-    border-radius: 8px;
+    border-radius: 10px;
 
     overflow: hidden;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.20s ease,
+        border-color 0.20s ease;
+}
+
+
+.resource-card:hover {
+    transform:
+        translateY(-4px);
+
+    border-color:
+        #806735;
 }
 
 
 /*
-   Resource image.
+   Large resource image.
 */
 
 .resource-card img {
@@ -724,7 +693,7 @@ button:hover {
 
 
 /* =========================================================
-   EMPTY BUILD CONTENT
+   BUILD SIDEBAR CONTENT
 ========================================================= */
 
 .build-sidebar-content {
@@ -742,25 +711,30 @@ button:hover {
         grid-template-columns: 1fr;
     }
 
+
     .territory-deck.expanded {
         width: 100%;
         height: 300px;
     }
+
 
     .territory-card {
         width: 135px;
         height: 175px;
     }
 
+
     .world-card {
         width: 160px;
         height: 205px;
     }
 
+
     .world-deck {
         width: 160px;
         height: 205px;
     }
+
 
     .territory-modal {
         width: 95vw;
@@ -773,7 +747,7 @@ button:hover {
 
 
     /*
-       Keep all seven internal slots
+       The seven internal slots stay
        on ONE horizontal line.
     */
 
@@ -800,12 +774,19 @@ button:hover {
     }
 
 
-    .resource-card {
-        flex:
-            0 0 72px;
+    /*
+       On narrow screens the resource
+       cards remain large but use one
+       column so they do not become tiny.
+    */
 
-        width: 72px;
-        height: 100px;
+    .resources-list {
+        grid-template-columns: 1fr;
+    }
+
+
+    .resource-card {
+        aspect-ratio: 4 / 3;
     }
 
 }
@@ -1022,7 +1003,9 @@ button:hover {
                 class="resources-list"
             >
 
-                <div class="resource-card">
+                <div
+                    class="resource-card"
+                >
 
                     <img
                         src="farm.png"
@@ -1032,7 +1015,9 @@ button:hover {
                 </div>
 
 
-                <div class="resource-card">
+                <div
+                    class="resource-card"
+                >
 
                     <img
                         src="mine.png"
@@ -1042,7 +1027,9 @@ button:hover {
                 </div>
 
 
-                <div class="resource-card">
+                <div
+                    class="resource-card"
+                >
 
                     <img
                         src="oilfield.png"
@@ -1052,7 +1039,9 @@ button:hover {
                 </div>
 
 
-                <div class="resource-card">
+                <div
+                    class="resource-card"
+                >
 
                     <img
                         src="quarry.png"
@@ -1357,11 +1346,6 @@ function renderWorldDeck() {
     }
 
 
-    /*
-       The World Deck is one actual deck.
-       Only a few layers are shown visually.
-    */
-
     const visible =
         Math.min(
             3,
@@ -1572,11 +1556,6 @@ function renderClosedTerritoryDeck(
     player
 ) {
 
-    /*
-       Show a few physical-looking
-       layers of ONE deck.
-    */
-
     const visible =
         Math.min(
             4,
@@ -1632,11 +1611,6 @@ function renderClosedTerritoryDeck(
     }
 
 
-    /*
-       Clicking the compact deck opens
-       THIS player's deck.
-    */
-
     deckElement.onclick =
         () => {
 
@@ -1668,10 +1642,6 @@ function renderExpandedTerritoryDeck(
         deck.length;
 
 
-    /*
-       Width used by the fan.
-    */
-
     const availableWidth =
         Math.min(
             740,
@@ -1681,10 +1651,6 @@ function renderExpandedTerritoryDeck(
             )
         );
 
-
-    /*
-       Distance between cards.
-    */
 
     const spacing =
         Math.min(
@@ -1697,17 +1663,9 @@ function renderExpandedTerritoryDeck(
         );
 
 
-    /*
-       Center point of the deck.
-    */
-
     const centre =
         (total - 1) / 2;
 
-
-    /*
-       Display EVERY card.
-    */
 
     deck.forEach(
         (card, index) => {
@@ -1730,10 +1688,6 @@ function renderExpandedTerritoryDeck(
                 "territory-card";
 
 
-            /*
-               Start cards as stacked.
-            */
-
             img.style.transform =
                 `
                     translateX(0)
@@ -1750,10 +1704,6 @@ function renderExpandedTerritoryDeck(
                 img
             );
 
-
-            /*
-               Trigger spread animation.
-            */
 
             requestAnimationFrame(
                 () => {
@@ -1792,8 +1742,8 @@ function renderExpandedTerritoryDeck(
 
 
             /*
-               Clicking an expanded card
-               selects it and opens its modal.
+               Select territory card
+               and open its modal.
             */
 
             img.onclick =
@@ -1801,11 +1751,6 @@ function renderExpandedTerritoryDeck(
 
                     event.stopPropagation();
 
-
-                    /*
-                       Remove selection from
-                       every other card.
-                    */
 
                     deckElement
                         .querySelectorAll(
@@ -1822,18 +1767,10 @@ function renderExpandedTerritoryDeck(
                         );
 
 
-                    /*
-                       Select this card.
-                    */
-
                     img.classList.add(
                         "selected"
                     );
 
-
-                    /*
-                       Open the modal.
-                    */
 
                     openTerritoryModal(
                         player,
@@ -1845,11 +1782,6 @@ function renderExpandedTerritoryDeck(
         }
     );
 
-
-    /*
-       Clicking the empty area of the expanded
-       deck closes it.
-    */
 
     deckElement.onclick =
         (event) => {
@@ -1907,7 +1839,7 @@ function closeTerritoryDeck(player) {
 
 
 /* =========================================================
-   BUILD INTERNAL TERRITORY SLOTS
+   TERRITORY INTERNAL SLOT SYSTEM
 ========================================================= */
 
 function getTerritorySlotCards(cardType) {
@@ -1974,7 +1906,7 @@ function getTerritorySlotCards(cardType) {
 
     /*
        MEADOW
-       All seven remain empty.
+       All seven slots remain empty.
     */
 
     return slots;
@@ -2003,20 +1935,11 @@ function openTerritoryModal(
         );
 
 
-    /*
-       Get the seven internal slots
-       for this Territory Card.
-    */
-
     const slotCards =
         getTerritorySlotCards(
             card
         );
 
-
-    /*
-       Recreate all seven slots.
-    */
 
     content.innerHTML = "";
 
@@ -2034,10 +1957,6 @@ function openTerritoryModal(
                 "modal-card-slot";
 
 
-            /*
-               Empty slot.
-            */
-
             if (
                 slotCard === null
             ) {
@@ -2047,11 +1966,6 @@ function openTerritoryModal(
                 );
 
             }
-
-
-            /*
-               Occupied slot.
-            */
 
             else {
 
@@ -2090,10 +2004,6 @@ function openTerritoryModal(
     );
 
 
-    /*
-       Open modal.
-    */
-
     modal.classList.add(
         "open"
     );
@@ -2118,16 +2028,8 @@ function closeTerritoryModal() {
     );
 
 
-    /*
-       Also close the Build sidebar.
-    */
-
     closeBuildSidebar();
 
-
-    /*
-       Remove visual selection.
-    */
 
     document
         .querySelectorAll(
@@ -2147,7 +2049,7 @@ function closeTerritoryModal() {
 
 
 /* =========================================================
-   CLOSE MODAL WHEN CLICKING OUTSIDE
+   CLOSE MODAL OUTSIDE CLICK
 ========================================================= */
 
 document
@@ -2208,7 +2110,7 @@ function closeBuildSidebar() {
 
 
 /* =========================================================
-   CLOSE BUILD SIDEBAR BY CLICKING OUTSIDE
+   CLOSE BUILD SIDEBAR OUTSIDE CLICK
 ========================================================= */
 
 document
@@ -2246,19 +2148,11 @@ function renderAll() {
          World Cards remaining`;
 
 
-    /*
-       PLAYER 1 ONLY
-    */
-
     renderTerritoryDeck(
         1,
         player1TerritoryDeck
     );
 
-
-    /*
-       PLAYER 2 ONLY
-    */
 
     renderTerritoryDeck(
         2,
@@ -2288,10 +2182,6 @@ function showMessage(text) {
 
 function newGame() {
 
-    /*
-       Reset all three decks separately.
-    */
-
     worldDeck = [];
 
     player1TerritoryDeck = [];
@@ -2300,10 +2190,6 @@ function newGame() {
 
     openTerritory = null;
 
-
-    /*
-       Make sure both panels are closed.
-    */
 
     closeTerritoryModal();
 
