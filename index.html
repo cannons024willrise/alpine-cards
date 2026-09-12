@@ -1,4 +1,4 @@
-
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -603,10 +603,6 @@ button:hover {
 }
 
 
-/*
-   Only legal building cards are displayed.
-*/
-
 .resources-list {
     display: grid;
 
@@ -720,30 +716,25 @@ button:hover {
         grid-template-columns: 1fr;
     }
 
-
     .territory-deck.expanded {
         width: 100%;
         height: 300px;
     }
-
 
     .territory-card {
         width: 135px;
         height: 175px;
     }
 
-
     .world-card {
         width: 160px;
         height: 205px;
     }
 
-
     .world-deck {
         width: 160px;
         height: 205px;
     }
-
 
     .territory-modal {
         width: 95vw;
@@ -756,7 +747,7 @@ button:hover {
 
 
     /*
-       Keep all seven territory slots
+       Keep seven territory slots
        on one horizontal line.
     */
 
@@ -782,6 +773,11 @@ button:hover {
         width: 88vw;
     }
 
+
+    /*
+       Build cards become one large
+       card per row on mobile.
+    */
 
     .resources-list {
         grid-template-columns: 1fr;
@@ -1116,19 +1112,7 @@ const buildingImages = {
    TERRITORY BUILDING RULES
 ========================================================= */
 
-/*
-   These rules determine exactly which
-   building cards appear in the Build sidebar.
-*/
-
 const territoryBuildRules = {
-
-    /*
-       River allows:
-       Farm
-       Residence
-       Tavern
-    */
 
     River: [
         "Farm",
@@ -1137,14 +1121,6 @@ const territoryBuildRules = {
     ],
 
 
-    /*
-       Mountain allows ONLY resource
-       buildings:
-       Mine
-       Oilfield
-       Quarry
-    */
-
     Mountain: [
         "Mine",
         "Oilfield",
@@ -1152,31 +1128,59 @@ const territoryBuildRules = {
     ],
 
 
-    /*
-       Forest has no buildable cards.
-    */
-
     Forest: [],
 
-
-    /*
-       Meadow allows ONLY:
-       Residence
-       Tavern
-
-       IMPORTANT:
-       Farm
-       Mine
-       Oilfield
-       Quarry
-
-       are deliberately NOT included.
-    */
 
     Meadow: [
         "Residence",
         "Tavern"
     ]
+
+};
+
+
+/* =========================================================
+   PLAYER RESOURCE STORAGE
+========================================================= */
+
+/*
+   Player 1 resource storage.
+
+   Every resource starts at 0.
+*/
+
+let player1Resources = {
+
+    Wood: 0,
+
+    Oil: 0,
+
+    Stone: 0,
+
+    Iron: 0,
+
+    Crop: 0
+
+};
+
+
+/*
+   Player 2 resource storage.
+
+   Completely separate from Player 1.
+*/
+
+let player2Resources = {
+
+    Wood: 0,
+
+    Oil: 0,
+
+    Stone: 0,
+
+    Iron: 0,
+
+    Crop: 0
 
 };
 
@@ -1300,7 +1304,7 @@ function drawWorld(player) {
 
 
     /*
-       Player 1 draws from top.
+       Player 1 draws from TOP.
     */
 
     if (
@@ -1319,7 +1323,7 @@ function drawWorld(player) {
 
 
     /*
-       Player 2 draws from bottom.
+       Player 2 draws from BOTTOM.
     */
 
     else {
@@ -1773,7 +1777,8 @@ function renderExpandedTerritoryDeck(
 
 
             /*
-               Select this Territory Card.
+               Select this Territory Card
+               and open its modal.
             */
 
             img.onclick =
@@ -1979,7 +1984,7 @@ function openTerritoryModal(
 
 
     /*
-       Get the internal slot arrangement.
+       Get internal slot arrangement.
     */
 
     const slotCards =
@@ -2004,10 +2009,6 @@ function openTerritoryModal(
                 "modal-card-slot";
 
 
-            /*
-               Empty slot.
-            */
-
             if (
                 slotCard === null
             ) {
@@ -2017,11 +2018,6 @@ function openTerritoryModal(
                 );
 
             }
-
-
-            /*
-               Occupied slot.
-            */
 
             else {
 
@@ -2176,7 +2172,7 @@ function closeBuildSidebar() {
 
 
 /* =========================================================
-   RENDER BUILDABLE CARDS
+   RENDER ONLY LEGAL BUILDINGS
 ========================================================= */
 
 function renderBuildOptions() {
@@ -2204,8 +2200,8 @@ function renderBuildOptions() {
 
 
     /*
-       Get ONLY the buildings that are
-       legal for this Territory Card.
+       Get ONLY the legal buildings
+       for the selected Territory Card.
     */
 
     const allowedBuildings =
@@ -2247,7 +2243,7 @@ function renderBuildOptions() {
 
 
     /*
-       Create ONLY the legal building cards.
+       Render ONLY those legal cards.
     */
 
     allowedBuildings.forEach(
@@ -2262,12 +2258,6 @@ function renderBuildOptions() {
             card.className =
                 "resource-card";
 
-
-            /*
-               All currently supported
-               building types now have
-               image assets.
-            */
 
             const image =
                 document.createElement(
@@ -2291,8 +2281,8 @@ function renderBuildOptions() {
 
 
             /*
-               Construction is still
-               intentionally disabled.
+               Actual construction is not
+               enabled yet.
             */
 
             card.onclick =
@@ -2389,11 +2379,25 @@ function showMessage(text) {
 
 function newGame() {
 
+    /*
+       Reset World Deck.
+    */
+
     worldDeck = [];
+
+
+    /*
+       Reset both Territory Decks.
+    */
 
     player1TerritoryDeck = [];
 
     player2TerritoryDeck = [];
+
+
+    /*
+       Reset territory UI state.
+    */
 
     openTerritory = null;
 
@@ -2401,6 +2405,48 @@ function newGame() {
 
     selectedTerritoryType = null;
 
+
+    /*
+       Reset Player 1 resource storage.
+    */
+
+    player1Resources = {
+
+        Wood: 0,
+
+        Oil: 0,
+
+        Stone: 0,
+
+        Iron: 0,
+
+        Crop: 0
+
+    };
+
+
+    /*
+       Reset Player 2 resource storage.
+    */
+
+    player2Resources = {
+
+        Wood: 0,
+
+        Oil: 0,
+
+        Stone: 0,
+
+        Iron: 0,
+
+        Crop: 0
+
+    };
+
+
+    /*
+       Close UI panels.
+    */
 
     closeTerritoryModal();
 
@@ -2430,4 +2476,4 @@ newGame();
 
 </body>
 </html>
-
+```
