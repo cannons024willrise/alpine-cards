@@ -145,23 +145,111 @@ h3 {
 
 
 /* =========================================================
-   BUTTONS
-   Native browser colors are retained.
+   MEDIEVAL BUTTONS
 ========================================================= */
 
 button {
+    position:
+        relative;
+
     margin:
-        5px;
+        6px;
 
     padding:
-        10px 16px;
+        11px 18px;
+
+    color:
+        white;
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(92, 68, 43, 0.98) 0%,
+            rgba(62, 43, 27, 0.98) 100%
+        );
+
+    border:
+        1px solid
+        rgba(220, 200, 162, 0.75);
+
+    border-radius:
+        6px;
+
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.18),
+        inset 0 -2px 0 rgba(0,0,0,0.30),
+        0 3px 0 rgba(25,16,9,0.95),
+        0 6px 12px rgba(0,0,0,0.28);
 
     font-family:
         Georgia,
+        "Times New Roman",
         serif;
+
+    font-size:
+        15px;
+
+    font-weight:
+        bold;
+
+    letter-spacing:
+        0.02em;
+
+    text-shadow:
+        0 1px 2px rgba(0,0,0,0.65);
 
     cursor:
         pointer;
+
+    transition:
+        transform 0.12s ease,
+        filter 0.12s ease,
+        box-shadow 0.12s ease;
+}
+
+button::before {
+    content:
+        "";
+
+    position:
+        absolute;
+
+    inset:
+        3px;
+
+    border:
+        1px solid
+        rgba(255,255,255,0.08);
+
+    border-radius:
+        3px;
+
+    pointer-events:
+        none;
+}
+
+button:hover {
+    filter:
+        brightness(1.15);
+
+    transform:
+        translateY(-2px);
+
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.22),
+        inset 0 -2px 0 rgba(0,0,0,0.30),
+        0 5px 0 rgba(25,16,9,0.95),
+        0 9px 16px rgba(0,0,0,0.30);
+}
+
+button:active {
+    transform:
+        translateY(2px);
+
+    box-shadow:
+        inset 0 2px 2px rgba(0,0,0,0.22),
+        0 1px 0 rgba(25,16,9,0.95),
+        0 3px 7px rgba(0,0,0,0.25);
 }
 
 
@@ -218,7 +306,7 @@ button {
 
     filter:
         drop-shadow(
-            0 8px 8px rgba(0, 0, 0, 0.35)
+            0 8px 8px rgba(0,0,0,0.35)
         );
 
     transition:
@@ -258,7 +346,7 @@ button {
         white;
 
     text-shadow:
-        0 2px 4px rgba(0, 0, 0, 0.65);
+        0 2px 4px rgba(0,0,0,0.65);
 }
 
 
@@ -283,7 +371,7 @@ button {
         white;
 
     text-shadow:
-        0 2px 4px rgba(0, 0, 0, 0.65);
+        0 2px 4px rgba(0,0,0,0.65);
 }
 
 
@@ -312,7 +400,7 @@ button {
 
     filter:
         drop-shadow(
-            0 8px 8px rgba(0, 0, 0, 0.35)
+            0 8px 8px rgba(0,0,0,0.35)
         );
 }
 
@@ -329,7 +417,7 @@ button {
         grid;
 
     grid-template-columns:
-        repeat(2, minmax(0, 1fr));
+        repeat(2, minmax(0,1fr));
 
     gap:
         24px;
@@ -350,7 +438,7 @@ button {
         white;
 
     text-shadow:
-        0 2px 4px rgba(0, 0, 0, 0.65);
+        0 2px 4px rgba(0,0,0,0.65);
 }
 
 
@@ -359,7 +447,7 @@ button {
         grid;
 
     grid-template-columns:
-        repeat(3, minmax(0, 1fr));
+        repeat(3, minmax(0,1fr));
 
     gap:
         10px;
@@ -389,7 +477,7 @@ button {
         12px;
 
     text-shadow:
-        0 2px 4px rgba(0, 0, 0, 0.65);
+        0 2px 4px rgba(0,0,0,0.65);
 }
 
 
@@ -410,7 +498,7 @@ button {
         bold;
 
     text-shadow:
-        0 2px 4px rgba(0, 0, 0, 0.65);
+        0 2px 4px rgba(0,0,0,0.65);
 }
 
 
@@ -423,7 +511,7 @@ button {
         grid;
 
     grid-template-columns:
-        repeat(2, minmax(0, 1fr));
+        repeat(2, minmax(0,1fr));
 
     gap:
         28px;
@@ -447,10 +535,10 @@ button {
         white;
 
     font-size:
-        clamp(21px, 3vw, 27px);
+        clamp(21px,3vw,27px);
 
     text-shadow:
-        0 2px 4px rgba(0, 0, 0, 0.65);
+        0 2px 4px rgba(0,0,0,0.65);
 }
 
 
@@ -471,7 +559,7 @@ button {
         italic;
 
     text-shadow:
-        0 2px 4px rgba(0, 0, 0, 0.65);
+        0 2px 4px rgba(0,0,0,0.65);
 }
 
 
@@ -521,7 +609,7 @@ button {
 
     filter:
         drop-shadow(
-            0 7px 6px rgba(0, 0, 0, 0.35)
+            0 7px 6px rgba(0,0,0,0.35)
         );
 
     transition:
@@ -539,7 +627,7 @@ button {
 
 .territory-deck.expanded {
     width:
-        min(90vw, 820px);
+        min(90vw,820px);
 
     height:
         340px;
@@ -582,7 +670,7 @@ button {
         14px;
 
     text-shadow:
-        0 2px 4px rgba(0, 0, 0, 0.65);
+        0 2px 4px rgba(0,0,0,0.65);
 }
 
 
@@ -613,7 +701,7 @@ button {
         white;
 
     text-shadow:
-        0 2px 4px rgba(0, 0, 0, 0.65);
+        0 2px 4px rgba(0,0,0,0.65);
 }
 
 
@@ -638,7 +726,7 @@ button {
         center;
 
     background:
-        transparent;
+        rgba(0,0,0,0.55);
 
     padding:
         20px;
@@ -659,7 +747,7 @@ button {
         relative;
 
     width:
-        min(920px, 95vw);
+        min(920px,95vw);
 
     min-height:
         300px;
@@ -672,9 +760,6 @@ button {
 
     padding:
         8px;
-
-    background:
-        transparent;
 }
 
 
@@ -684,9 +769,6 @@ button {
 
     padding:
         42px 20px 24px;
-
-    background:
-        transparent;
 }
 
 
@@ -813,7 +895,7 @@ button {
 
 
 /* =========================================================
-   BUILD BUTTON / SIDEBAR
+   BUILD SIDEBAR
 ========================================================= */
 
 .build-sidebar-overlay {
@@ -827,7 +909,7 @@ button {
         none;
 
     background:
-        transparent;
+        rgba(0,0,0,0.35);
 
     z-index:
         11000;
@@ -851,7 +933,7 @@ button {
         0;
 
     width:
-        min(500px, 91vw);
+        min(500px,91vw);
 
     height:
         100%;
@@ -863,8 +945,7 @@ button {
         translateX(100%);
 
     transition:
-        transform 0.32s
-        cubic-bezier(.2,.8,.2,1);
+        transform 0.32s cubic-bezier(.2,.8,.2,1);
 }
 
 
@@ -920,10 +1001,10 @@ button {
         white;
 
     font-size:
-        clamp(25px, 4vw, 34px);
+        clamp(25px,4vw,34px);
 
     text-shadow:
-        0 2px 4px rgba(0, 0, 0, 0.65);
+        0 2px 4px rgba(0,0,0,0.65);
 }
 
 
@@ -966,7 +1047,7 @@ button {
         white;
 
     text-shadow:
-        0 2px 4px rgba(0, 0, 0, 0.65);
+        0 2px 4px rgba(0,0,0,0.65);
 }
 
 
@@ -979,7 +1060,7 @@ button {
         grid;
 
     grid-template-columns:
-        repeat(2, minmax(0, 1fr));
+        repeat(2,minmax(0,1fr));
 
     gap:
         18px;
@@ -1024,7 +1105,8 @@ button {
 
 .resource-card:hover {
     transform:
-        translateY(-4px);
+        translateY(-4px)
+        scale(1.02);
 }
 
 
@@ -1043,7 +1125,7 @@ button {
 
     filter:
         drop-shadow(
-            0 7px 6px rgba(0, 0, 0, 0.35)
+            0 7px 6px rgba(0,0,0,0.35)
         );
 }
 
@@ -1066,7 +1148,7 @@ button {
         italic;
 
     text-shadow:
-        0 2px 4px rgba(0, 0, 0, 0.65);
+        0 2px 4px rgba(0,0,0,0.65);
 }
 
 
@@ -1099,7 +1181,7 @@ button {
 
     .resource-values {
         grid-template-columns:
-            repeat(3, minmax(0, 1fr));
+            repeat(3,minmax(0,1fr));
     }
 
 
@@ -1784,7 +1866,7 @@ const territoryBuildRules = {
 
 
 /* =========================================================
-   PLAYER RESOURCE STORAGE
+   PLAYER RESOURCES
 ========================================================= */
 
 let player1Resources = {
@@ -1812,7 +1894,7 @@ let player2Resources = {
 
 
 /* =========================================================
-   RESOURCE GENERATION
+   RESOURCE TIMER
 ========================================================= */
 
 const RESOURCE_TICK_MS =
