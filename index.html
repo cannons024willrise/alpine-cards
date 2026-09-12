@@ -195,7 +195,6 @@ button:hover {
     cursor: pointer;
 }
 
-
 .territory-card {
     position: absolute;
 
@@ -213,7 +212,6 @@ button:hover {
         transform 0.50s cubic-bezier(.2,.8,.2,1),
         opacity 0.30s ease;
 }
-
 
 .territory-deck:not(.expanded):hover
 .territory-card:last-child {
@@ -234,12 +232,10 @@ button:hover {
     cursor: default;
 }
 
-
 .territory-deck.expanded
 .territory-card {
     cursor: pointer;
 }
-
 
 .territory-card.selected {
     transform:
@@ -336,11 +332,9 @@ button:hover {
     z-index: 10000;
 }
 
-
 .modal-overlay.open {
     display: flex;
 }
-
 
 .territory-modal {
     position: relative;
@@ -438,7 +432,6 @@ button:hover {
     margin-top: 15px;
 }
 
-
 .modal-card-slot {
     flex:
         0 0 95px;
@@ -468,7 +461,6 @@ button:hover {
     overflow: hidden;
 }
 
-
 .modal-card-slot.empty {
     background: #191919;
 
@@ -476,7 +468,6 @@ button:hover {
         1px dashed
         #555;
 }
-
 
 .internal-territory-card {
     width: 100%;
@@ -506,7 +497,6 @@ button:hover {
 
     z-index: 11000;
 }
-
 
 .build-sidebar-overlay.open {
     display: block;
@@ -551,7 +541,6 @@ button:hover {
     overflow-y: auto;
 }
 
-
 .build-sidebar-overlay.open
 .build-sidebar {
     transform:
@@ -574,11 +563,9 @@ button:hover {
     margin-bottom: 25px;
 }
 
-
 .build-sidebar-header h2 {
     margin: 0;
 }
-
 
 .build-sidebar-close {
     width: 38px;
@@ -607,7 +594,6 @@ button:hover {
         #444;
 }
 
-
 .resources-section h3 {
     margin:
         0 0 20px 0;
@@ -619,10 +605,7 @@ button:hover {
 
 
 /*
-   Resource cards use a GRID.
-
-   They are intentionally large and are
-   NOT forced into one horizontal line.
+   Resource cards use a grid.
 */
 
 .resources-list {
@@ -638,7 +621,7 @@ button:hover {
 
 
 /* =========================================================
-   LARGE RESOURCE CARD
+   LARGE RESOURCE CARDS
 ========================================================= */
 
 .resource-card {
@@ -668,7 +651,6 @@ button:hover {
         border-color 0.20s ease;
 }
 
-
 .resource-card:hover {
     transform:
         translateY(-4px);
@@ -676,11 +658,6 @@ button:hover {
     border-color:
         #806735;
 }
-
-
-/*
-   Large resource image.
-*/
 
 .resource-card img {
     width: 100%;
@@ -693,11 +670,98 @@ button:hover {
 
 
 /* =========================================================
-   BUILD SIDEBAR CONTENT
+   BUILDABLE BUILDINGS SECTION
 ========================================================= */
 
-.build-sidebar-content {
-    min-height: 50px;
+.buildings-section {
+    margin-top: 30px;
+
+    padding-top: 20px;
+
+    border-top:
+        1px solid
+        #444;
+}
+
+.buildings-section h3 {
+    margin:
+        0 0 15px 0;
+
+    font-family: Georgia, serif;
+
+    font-size: 22px;
+}
+
+
+/*
+   Building choices.
+*/
+
+.buildings-list {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 12px;
+}
+
+
+/*
+   Individual legal building.
+*/
+
+.building-option {
+    padding: 14px;
+
+    background: #191919;
+
+    border:
+        1px solid
+        #555;
+
+    border-radius: 8px;
+
+    text-align: center;
+
+    cursor: pointer;
+
+    transition:
+        background 0.20s ease,
+        border-color 0.20s ease,
+        transform 0.20s ease;
+}
+
+.building-option:hover {
+    background: #2b251b;
+
+    border-color:
+        #806735;
+
+    transform:
+        translateY(-2px);
+}
+
+
+/*
+   Message used when no buildings
+   are allowed on the territory.
+*/
+
+.no-buildings {
+    padding: 20px;
+
+    background: #191919;
+
+    border:
+        1px dashed
+        #555;
+
+    border-radius: 8px;
+
+    color: #888;
+
+    text-align: center;
 }
 
 
@@ -711,30 +775,25 @@ button:hover {
         grid-template-columns: 1fr;
     }
 
-
     .territory-deck.expanded {
         width: 100%;
         height: 300px;
     }
-
 
     .territory-card {
         width: 135px;
         height: 175px;
     }
 
-
     .world-card {
         width: 160px;
         height: 205px;
     }
 
-
     .world-deck {
         width: 160px;
         height: 205px;
     }
-
 
     .territory-modal {
         width: 95vw;
@@ -745,9 +804,8 @@ button:hover {
             40px 12px 20px;
     }
 
-
     /*
-       The seven internal slots stay
+       Keep all seven internal slots
        on ONE horizontal line.
     */
 
@@ -759,7 +817,6 @@ button:hover {
         overflow-x: auto;
     }
 
-
     .modal-card-slot {
         flex:
             0 0 80px;
@@ -768,25 +825,20 @@ button:hover {
         height: 115px;
     }
 
-
     .build-sidebar {
         width: 88vw;
     }
-
-
-    /*
-       On narrow screens the resource
-       cards remain large but use one
-       column so they do not become tiny.
-    */
 
     .resources-list {
         grid-template-columns: 1fr;
     }
 
-
     .resource-card {
         aspect-ratio: 4 / 3;
+    }
+
+    .buildings-list {
+        grid-template-columns: 1fr;
     }
 
 }
@@ -823,7 +875,6 @@ button:hover {
         id="worldDeckVisual"
         class="world-deck"
     ></div>
-
 
     <div id="remaining">
         0 World Cards remaining
@@ -1056,6 +1107,28 @@ button:hover {
 
 
         <!-- =============================================
+             LEGAL BUILDINGS SECTION
+        ============================================== -->
+
+        <section
+            id="buildingsSection"
+            class="buildings-section"
+        >
+
+            <h3>
+                Buildings
+            </h3>
+
+
+            <div
+                id="buildingsList"
+                class="buildings-list"
+            ></div>
+
+        </section>
+
+
+        <!-- =============================================
              BUILD SIDEBAR CONTENT
         ============================================== -->
 
@@ -1136,6 +1209,48 @@ const worldTypes = {
 
 
 /* =========================================================
+   TERRITORY BUILDING RULES
+========================================================= */
+
+/*
+   This defines which buildings may be
+   constructed on each Territory Card.
+
+   Costs are intentionally NOT included yet.
+*/
+
+const territoryBuildRules = {
+
+    River: [
+        "Farm",
+        "Residence",
+        "Tavern"
+    ],
+
+
+    Mountain: [
+        "Mine",
+        "Oilfield",
+        "Quarry"
+    ],
+
+
+    Forest: [],
+
+
+    Meadow: [
+        "Farm",
+        "Mine",
+        "Oilfield",
+        "Quarry",
+        "Residence",
+        "Tavern"
+    ]
+
+};
+
+
+/* =========================================================
    THREE SEPARATE DECKS
 ========================================================= */
 
@@ -1155,6 +1270,18 @@ let player2TerritoryDeck = [];
 */
 
 let openTerritory = null;
+
+
+/*
+   Currently selected Territory Card.
+
+   Used by the Build sidebar so it knows
+   which territory's rules to display.
+*/
+
+let selectedTerritoryPlayer = null;
+
+let selectedTerritoryType = null;
 
 
 /* =========================================================
@@ -1408,10 +1535,6 @@ function renderTerritoryDeck(
     container.innerHTML = "";
 
 
-    /* ================================================
-       EMPTY
-    ================================================ */
-
     if (deck.length === 0) {
 
         container.innerHTML = `
@@ -1431,10 +1554,6 @@ function renderTerritoryDeck(
     }
 
 
-    /* ================================================
-       CREATE THE ACTUAL DECK CONTAINER
-    ================================================ */
-
     const deckElement =
         document.createElement(
             "div"
@@ -1445,10 +1564,6 @@ function renderTerritoryDeck(
         "territory-deck";
 
 
-    /*
-       CLOSED
-    */
-
     if (openTerritory !== player) {
 
         renderClosedTerritoryDeck(
@@ -1458,11 +1573,6 @@ function renderTerritoryDeck(
         );
 
     }
-
-
-    /*
-       OPEN
-    */
 
     else {
 
@@ -1479,10 +1589,6 @@ function renderTerritoryDeck(
         deckElement
     );
 
-
-    /*
-       Card count.
-    */
 
     const count =
         document.createElement(
@@ -1506,10 +1612,6 @@ function renderTerritoryDeck(
         count
     );
 
-
-    /*
-       Close button.
-    */
 
     if (openTerritory === player) {
 
@@ -1742,8 +1844,7 @@ function renderExpandedTerritoryDeck(
 
 
             /*
-               Select territory card
-               and open its modal.
+               Select card and open modal.
             */
 
             img.onclick =
@@ -1906,7 +2007,7 @@ function getTerritorySlotCards(cardType) {
 
     /*
        MEADOW
-       All seven slots remain empty.
+       All seven remain empty.
     */
 
     return slots;
@@ -1934,6 +2035,22 @@ function openTerritoryModal(
             "territoryModalContent"
         );
 
+
+    /*
+       Remember exactly which Territory
+       Card was selected.
+    */
+
+    selectedTerritoryPlayer =
+        player;
+
+    selectedTerritoryType =
+        card;
+
+
+    /*
+       Build the seven internal slots.
+    */
 
     const slotCards =
         getTerritorySlotCards(
@@ -2031,6 +2148,13 @@ function closeTerritoryModal() {
     closeBuildSidebar();
 
 
+    selectedTerritoryPlayer =
+        null;
+
+    selectedTerritoryType =
+        null;
+
+
     document
         .querySelectorAll(
             ".territory-card.selected"
@@ -2083,6 +2207,14 @@ function openBuildSidebar() {
         );
 
 
+    /*
+       Render legal building choices
+       for the selected territory.
+    */
+
+    renderBuildOptions();
+
+
     sidebarOverlay.classList.add(
         "open"
     );
@@ -2104,6 +2236,121 @@ function closeBuildSidebar() {
 
     sidebarOverlay.classList.remove(
         "open"
+    );
+
+}
+
+
+/* =========================================================
+   RENDER BUILD OPTIONS
+========================================================= */
+
+function renderBuildOptions() {
+
+    const buildingsList =
+        document.getElementById(
+            "buildingsList"
+        );
+
+
+    buildingsList.innerHTML = "";
+
+
+    /*
+       No territory selected.
+    */
+
+    if (
+        !selectedTerritoryType
+    ) {
+
+        return;
+
+    }
+
+
+    const allowedBuildings =
+        territoryBuildRules[
+            selectedTerritoryType
+        ] || [];
+
+
+    /*
+       Forest or any other territory
+       with no legal buildings.
+    */
+
+    if (
+        allowedBuildings.length === 0
+    ) {
+
+        const message =
+            document.createElement(
+                "div"
+            );
+
+
+        message.className =
+            "no-buildings";
+
+
+        message.textContent =
+            "No buildings can be built here.";
+
+
+        buildingsList.appendChild(
+            message
+        );
+
+
+        return;
+
+    }
+
+
+    /*
+       Create one option for every
+       legal building.
+    */
+
+    allowedBuildings.forEach(
+        (building) => {
+
+            const option =
+                document.createElement(
+                    "div"
+                );
+
+
+            option.className =
+                "building-option";
+
+
+            option.textContent =
+                building;
+
+
+            /*
+               Costs are NOT checked yet.
+               Clicking currently does nothing.
+            */
+
+            option.onclick =
+                () => {
+
+                    /*
+                       Reserved for future
+                       construction logic.
+                    */
+
+                };
+
+
+            buildingsList.appendChild(
+                option
+            );
+
+        }
     );
 
 }
