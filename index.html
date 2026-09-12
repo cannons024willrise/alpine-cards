@@ -1,4 +1,4 @@
-```html
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,9 +18,8 @@
 }
 
 :root {
-    --snow: #f4efe3;
     --paper: #e8dcc1;
-    --paper-dark: #d4c39f;
+    --paper-light: #f0e7d1;
 
     --wood-dark: #392719;
     --wood: #5b4027;
@@ -29,13 +28,8 @@
     --ink: #33281e;
     --muted: #766b5b;
 
-    --green: #43543c;
-    --green-dark: #2f3b2b;
-
-    --burgundy: #633b3b;
-
     --shadow:
-        0 12px 30px rgba(52, 37, 23, 0.20);
+        0 8px 22px rgba(30, 20, 10, 0.20);
 }
 
 html {
@@ -75,7 +69,7 @@ h1 {
     margin:
         0 0 8px;
 
-    color: var(--wood-dark);
+    color: #2f2419;
 
     font-size:
         clamp(34px, 5vw, 52px);
@@ -126,25 +120,25 @@ button {
         10px 16px;
 
     color:
-        var(--paper);
+        #f0e7d1;
 
     background:
         linear-gradient(
             180deg,
-            var(--wood-light),
-            var(--wood)
+            rgba(128,96,59,0.96),
+            rgba(91,64,39,0.96)
         );
 
     border:
         1px solid
-        var(--wood-dark);
+        #392719;
 
     border-radius:
         8px;
 
     box-shadow:
-        0 3px 0 var(--wood-dark),
-        0 6px 12px rgba(0,0,0,0.12);
+        0 3px 0 #392719,
+        0 5px 10px rgba(0,0,0,0.14);
 
     font-family:
         Georgia,
@@ -169,63 +163,59 @@ button:active {
         translateY(2px);
 
     box-shadow:
-        0 1px 0 var(--wood-dark);
+        0 1px 0 #392719;
 }
 
 
 /* =========================================================
-   WOODEN FRAME
+   TRANSPARENT CONTAINERS
 ========================================================= */
 
 .wood-frame {
     position: relative;
 
-    background:
-        linear-gradient(
-            135deg,
-            #5f4329,
-            #432d1c
-        );
+    background: transparent;
 
-    border:
-        2px solid
-        #2d1d12;
+    border: none;
 
-    border-radius:
-        14px;
+    border-radius: 0;
 
-    box-shadow:
-        var(--shadow),
-        inset 0 1px 0 rgba(255,255,255,0.14),
-        inset 0 0 0 4px rgba(255,255,255,0.04);
+    box-shadow: none;
 
-    padding:
-        7px;
+    padding: 0;
 }
 
 
-/* =========================================================
-   PARCHMENT SURFACE
-========================================================= */
-
 .parchment {
     background:
-        linear-gradient(
-            180deg,
-            #f0e7d1,
-            #e6d8ba
-        );
+        rgba(240, 231, 209, 0.78);
 
     border:
         1px solid
-        #bca986;
+        rgba(188, 169, 134, 0.65);
 
     border-radius:
         9px;
 
     box-shadow:
-        inset 0 1px 0 rgba(255,255,255,0.7),
-        inset 0 0 24px rgba(112,82,43,0.06);
+        0 5px 16px rgba(52, 37, 23, 0.12),
+        inset 0 1px 0 rgba(255,255,255,0.42);
+
+    backdrop-filter:
+        blur(1.5px);
+}
+
+
+/* =========================================================
+   MAIN
+========================================================= */
+
+main {
+    width:
+        min(1160px, 94%);
+
+    margin:
+        28px auto 60px;
 }
 
 
@@ -238,6 +228,9 @@ button:active {
 
     padding:
         24px 20px 28px;
+
+    background:
+        rgba(240, 231, 209, 0.72);
 }
 
 
@@ -265,7 +258,7 @@ button:active {
 
     filter:
         drop-shadow(
-            0 8px 8px rgba(55, 39, 22, 0.18)
+            0 8px 8px rgba(55,39,22,0.20)
         );
 
     transition:
@@ -295,26 +288,54 @@ button:active {
 ========================================================= */
 
 #remaining {
-    color: var(--muted);
+    color:
+        var(--muted);
 
-    margin-bottom: 10px;
+    margin-bottom:
+        10px;
 
-    font-size: 15px;
+    font-size:
+        15px;
 }
 
 
 /* =========================================================
-   MESSAGE
+   MESSAGE / INFO
 ========================================================= */
 
 #message {
-    min-height: 50px;
+    min-height:
+        50px;
 
     margin:
         22px auto;
 
-    color: var(--wood-dark);
+    width:
+        fit-content;
+
+    max-width:
+        92%;
+
+    padding:
+        10px 18px;
+
+    color:
+        var(--wood-dark);
+
+    background:
+        rgba(240,231,209,0.76);
+
+    border:
+        1px solid
+        rgba(188,169,134,0.55);
+
+    border-radius:
+        8px;
+
+    box-shadow:
+        0 5px 14px rgba(52,37,23,0.10);
 }
+
 
 .drawn-card {
     display: block;
@@ -330,7 +351,7 @@ button:active {
 
     filter:
         drop-shadow(
-            0 8px 8px rgba(55, 39, 22, 0.18)
+            0 8px 8px rgba(55,39,22,0.22)
         );
 }
 
@@ -340,28 +361,39 @@ button:active {
 ========================================================= */
 
 .player-resources {
-    margin-top: 25px;
+    margin-top:
+        25px;
 
-    display: grid;
+    display:
+        grid;
 
     grid-template-columns:
         repeat(2, minmax(0, 1fr));
 
-    gap: 24px;
+    gap:
+        24px;
 }
 
 
 .resource-panel {
-    margin: 0;
-
     padding:
-        7px;
+        0;
+
+    background:
+        transparent;
 }
 
 
 .resource-panel-inner {
     padding:
-        22px 18px 18px;
+        20px 18px 16px;
+
+    background:
+        rgba(240,231,209,0.65);
+
+    border:
+        1px solid
+        rgba(188,169,134,0.55);
 }
 
 
@@ -369,30 +401,33 @@ button:active {
     margin:
         0 0 16px;
 
-    font-size: 22px;
+    font-size:
+        22px;
 }
 
 
 .resource-values {
-    display: grid;
+    display:
+        grid;
 
     grid-template-columns:
-        repeat(3, minmax(0, 1fr));
+        repeat(3, minmax(0,1fr));
 
-    gap: 10px;
+    gap:
+        10px;
 }
 
 
 .resource-value {
     padding:
-        10px 6px;
+        9px 6px;
 
     background:
-        rgba(255,255,255,0.25);
+        rgba(255,255,255,0.13);
 
     border:
         1px solid
-        #baa985;
+        rgba(153,135,102,0.42);
 
     border-radius:
         8px;
@@ -400,24 +435,32 @@ button:active {
 
 
 .resource-name {
-    display: block;
+    display:
+        block;
 
-    color: var(--muted);
+    color:
+        var(--muted);
 
-    font-size: 12px;
+    font-size:
+        12px;
 }
 
 
 .resource-amount {
-    display: block;
+    display:
+        block;
 
-    margin-top: 3px;
+    margin-top:
+        3px;
 
-    color: var(--wood-dark);
+    color:
+        var(--wood-dark);
 
-    font-size: 21px;
+    font-size:
+        21px;
 
-    font-weight: bold;
+    font-weight:
+        bold;
 }
 
 
@@ -426,27 +469,39 @@ button:active {
 ========================================================= */
 
 .territories {
-    display: grid;
+    display:
+        grid;
 
     grid-template-columns:
-        repeat(2, minmax(0, 1fr));
+        repeat(2, minmax(0,1fr));
 
-    gap: 28px;
+    gap:
+        28px;
 
-    margin-top: 40px;
+    margin-top:
+        40px;
 }
 
 
 .territory {
-    padding: 7px;
+    min-width:
+        0;
 
-    min-width: 0;
+    background:
+        transparent;
 }
 
 
 .territory-inner {
     padding:
-        24px 18px;
+        22px 18px;
+
+    background:
+        rgba(240,231,209,0.60);
+
+    border:
+        1px solid
+        rgba(188,169,134,0.48);
 }
 
 
@@ -460,15 +515,20 @@ button:active {
 
 
 .territory-subtitle {
-    display: block;
+    display:
+        block;
 
-    margin-bottom: 12px;
+    margin-bottom:
+        12px;
 
-    color: var(--muted);
+    color:
+        var(--muted);
 
-    font-size: 13px;
+    font-size:
+        13px;
 
-    font-style: italic;
+    font-style:
+        italic;
 }
 
 
@@ -477,54 +537,79 @@ button:active {
 ========================================================= */
 
 .territory-deck-area {
-    position: relative;
+    position:
+        relative;
 
-    min-height: 330px;
+    min-height:
+        330px;
 
-    display: flex;
+    display:
+        flex;
 
-    flex-direction: column;
+    flex-direction:
+        column;
 
-    align-items: center;
+    align-items:
+        center;
 
-    justify-content: center;
+    justify-content:
+        center;
+
+    background:
+        transparent;
 }
 
 
 /* =========================================================
-   CLOSED TERRITORY DECK
+   TERRITORY DECK
 ========================================================= */
 
 .territory-deck {
-    position: relative;
+    position:
+        relative;
 
-    width: 180px;
-    height: 230px;
+    width:
+        180px;
+
+    height:
+        230px;
 
     margin:
         15px auto;
 
-    cursor: pointer;
+    cursor:
+        pointer;
+
+    background:
+        transparent;
 }
 
 
 .territory-card {
-    position: absolute;
+    position:
+        absolute;
 
-    left: 0;
-    top: 0;
+    left:
+        0;
 
-    width: 180px;
-    height: 230px;
+    top:
+        0;
 
-    object-fit: contain;
+    width:
+        180px;
+
+    height:
+        230px;
+
+    object-fit:
+        contain;
 
     transform-origin:
         center bottom;
 
     filter:
         drop-shadow(
-            0 7px 6px rgba(55, 39, 22, 0.18)
+            0 7px 6px rgba(55,39,22,0.22)
         );
 
     transition:
@@ -540,24 +625,22 @@ button:active {
 }
 
 
-/* =========================================================
-   EXPANDED TERRITORY DECK
-========================================================= */
-
 .territory-deck.expanded {
     width:
-        min(90vw, 820px);
+        min(90vw,820px);
 
     height:
         340px;
 
-    cursor: default;
+    cursor:
+        default;
 }
 
 
 .territory-deck.expanded
 .territory-card {
-    cursor: pointer;
+    cursor:
+        pointer;
 }
 
 
@@ -577,11 +660,14 @@ button:active {
 ========================================================= */
 
 .deck-count {
-    margin-top: 6px;
+    margin-top:
+        6px;
 
-    color: var(--muted);
+    color:
+        var(--muted);
 
-    font-size: 14px;
+    font-size:
+        14px;
 }
 
 
@@ -590,21 +676,27 @@ button:active {
 ========================================================= */
 
 .empty-deck {
-    width: 180px;
-    height: 230px;
+    width:
+        180px;
+
+    height:
+        230px;
 
     margin:
         15px auto;
 
-    display: flex;
+    display:
+        flex;
 
-    align-items: center;
+    align-items:
+        center;
 
-    justify-content: center;
+    justify-content:
+        center;
 
     border:
         1px dashed
-        #9d8d6e;
+        rgba(157,141,110,0.7);
 
     border-radius:
         9px;
@@ -613,16 +705,7 @@ button:active {
         #87785f;
 
     background:
-        rgba(255,255,255,0.18);
-}
-
-
-/* =========================================================
-   CLOSE DECK BUTTON
-========================================================= */
-
-.close-deck {
-    margin-top: 10px;
+        rgba(255,255,255,0.10);
 }
 
 
@@ -631,22 +714,29 @@ button:active {
 ========================================================= */
 
 .modal-overlay {
-    position: fixed;
+    position:
+        fixed;
 
-    inset: 0;
+    inset:
+        0;
 
-    display: none;
+    display:
+        none;
 
-    align-items: center;
+    align-items:
+        center;
 
-    justify-content: center;
+    justify-content:
+        center;
 
     background:
-        rgba(39, 29, 19, 0.58);
+        rgba(39,29,19,0.55);
 
-    padding: 20px;
+    padding:
+        20px;
 
-    z-index: 10000;
+    z-index:
+        10000;
 
     backdrop-filter:
         blur(2px);
@@ -654,7 +744,8 @@ button:active {
 
 
 .modal-overlay.open {
-    display: flex;
+    display:
+        flex;
 }
 
 
@@ -663,10 +754,11 @@ button:active {
 ========================================================= */
 
 .territory-modal {
-    position: relative;
+    position:
+        relative;
 
     width:
-        min(920px, 95vw);
+        min(920px,95vw);
 
     min-height:
         300px;
@@ -679,14 +771,21 @@ button:active {
 
     padding:
         8px;
+
+    background:
+        transparent;
 }
 
 
 .territory-modal-inner {
-    position: relative;
+    position:
+        relative;
 
     padding:
         42px 20px 24px;
+
+    background:
+        rgba(240,231,209,0.93);
 }
 
 
@@ -695,22 +794,35 @@ button:active {
 ========================================================= */
 
 .modal-close {
-    position: absolute;
+    position:
+        absolute;
 
-    top: 10px;
-    right: 10px;
+    top:
+        10px;
 
-    width: 38px;
-    height: 38px;
+    right:
+        10px;
 
-    margin: 0;
-    padding: 0;
+    width:
+        38px;
 
-    font-size: 24px;
+    height:
+        38px;
 
-    line-height: 1;
+    margin:
+        0;
 
-    z-index: 2;
+    padding:
+        0;
+
+    font-size:
+        24px;
+
+    line-height:
+        1;
+
+    z-index:
+        2;
 }
 
 
@@ -719,24 +831,32 @@ button:active {
 ========================================================= */
 
 .modal-card-slots {
-    display: flex;
+    display:
+        flex;
 
-    flex-direction: row;
+    flex-direction:
+        row;
 
-    align-items: center;
+    align-items:
+        center;
 
-    justify-content: center;
+    justify-content:
+        center;
 
-    gap: 12px;
+    gap:
+        12px;
 
-    width: 100%;
+    width:
+        100%;
 
-    overflow-x: auto;
+    overflow-x:
+        auto;
 
     padding:
         10px 5px 15px;
 
-    margin-top: 5px;
+    margin-top:
+        5px;
 }
 
 
@@ -744,82 +864,57 @@ button:active {
     flex:
         0 0 95px;
 
-    width: 95px;
+    width:
+        95px;
 
-    height: 135px;
+    height:
+        135px;
 
-    display: flex;
+    display:
+        flex;
 
-    align-items: center;
+    align-items:
+        center;
 
-    justify-content: center;
+    justify-content:
+        center;
 
     background:
-        rgba(107,83,53,0.08);
+        rgba(107,83,53,0.07);
 
     border:
         1px dashed
-        #998766;
+        rgba(153,135,102,0.75);
 
     border-radius:
         8px;
 
-    overflow: hidden;
+    overflow:
+        hidden;
 }
 
 
 .modal-card-slot.empty {
     background:
-        rgba(255,255,255,0.14);
+        rgba(255,255,255,0.10);
 }
 
 
 .internal-territory-card {
-    width: 100%;
-    height: 100%;
+    width:
+        100%;
 
-    object-fit: contain;
+    height:
+        100%;
 
-    display: block;
+    object-fit:
+        contain;
 
-    pointer-events: none;
-}
+    display:
+        block;
 
-
-/* =========================================================
-   BUILD BUTTON
-========================================================= */
-
-.modal-build-button {
-    display: block;
-
-    min-width: 130px;
-
-    margin:
-        12px auto 0;
-}
-
-
-/* =========================================================
-   BUILD SIDEBAR OVERLAY
-========================================================= */
-
-.build-sidebar-overlay {
-    position: fixed;
-
-    inset: 0;
-
-    display: none;
-
-    background:
-        rgba(39,29,19,0.28);
-
-    z-index: 11000;
-}
-
-
-.build-sidebar-overlay.open {
-    display: block;
+    pointer-events:
+        none;
 }
 
 
@@ -827,25 +922,57 @@ button:active {
    BUILD SIDEBAR
 ========================================================= */
 
-.build-sidebar {
-    position: absolute;
+.build-sidebar-overlay {
+    position:
+        fixed;
 
-    top: 0;
-    right: 0;
+    inset:
+        0;
+
+    display:
+        none;
+
+    background:
+        rgba(30,22,15,0.25);
+
+    z-index:
+        11000;
+}
+
+
+.build-sidebar-overlay.open {
+    display:
+        block;
+}
+
+
+.build-sidebar {
+    position:
+        absolute;
+
+    top:
+        0;
+
+    right:
+        0;
 
     width:
-        min(500px, 91vw);
+        min(500px,91vw);
 
-    height: 100%;
+    height:
+        100%;
 
-    padding: 8px;
+    padding:
+        8px;
 
     transform:
         translateX(100%);
 
     transition:
-        transform 0.32s
-        cubic-bezier(.2,.8,.2,1);
+        transform 0.32s cubic-bezier(.2,.8,.2,1);
+
+    background:
+        transparent;
 }
 
 
@@ -857,14 +984,20 @@ button:active {
 
 
 .build-sidebar-inner {
-    position: relative;
+    position:
+        relative;
 
-    height: 100%;
+    height:
+        100%;
 
     padding:
         26px 22px;
 
-    overflow-y: auto;
+    overflow-y:
+        auto;
+
+    background:
+        rgba(240,231,209,0.95);
 }
 
 
@@ -873,36 +1006,50 @@ button:active {
 ========================================================= */
 
 .build-sidebar-header {
-    display: flex;
+    display:
+        flex;
 
-    align-items: center;
+    align-items:
+        center;
 
-    justify-content: space-between;
+    justify-content:
+        space-between;
 
-    gap: 15px;
+    gap:
+        15px;
 
-    margin-bottom: 24px;
+    margin-bottom:
+        24px;
 }
 
 
 .build-sidebar-header h2 {
-    margin: 0;
+    margin:
+        0;
 
     font-size:
-        clamp(25px, 4vw, 34px);
+        clamp(25px,4vw,34px);
 }
 
 
 .build-sidebar-close {
-    width: 38px;
-    height: 38px;
+    width:
+        38px;
 
-    margin: 0;
-    padding: 0;
+    height:
+        38px;
 
-    font-size: 24px;
+    margin:
+        0;
 
-    line-height: 1;
+    padding:
+        0;
+
+    font-size:
+        24px;
+
+    line-height:
+        1;
 }
 
 
@@ -911,11 +1058,12 @@ button:active {
 ========================================================= */
 
 .resources-section {
-    padding-top: 20px;
+    padding-top:
+        20px;
 
     border-top:
         1px solid
-        #bca986;
+        rgba(188,169,134,0.65);
 }
 
 
@@ -923,49 +1071,54 @@ button:active {
     margin:
         0 0 20px;
 
-    font-size: 23px;
+    font-size:
+        23px;
 }
 
 
 .resources-list {
-    display: grid;
+    display:
+        grid;
 
     grid-template-columns:
-        repeat(2, minmax(0, 1fr));
+        repeat(2,minmax(0,1fr));
 
-    gap: 18px;
+    gap:
+        18px;
 }
 
 
 .resource-card {
-    width: 100%;
+    width:
+        100%;
 
     aspect-ratio:
         3 / 4;
 
-    display: flex;
+    display:
+        flex;
 
-    align-items: center;
+    align-items:
+        center;
 
-    justify-content: center;
+    justify-content:
+        center;
 
     background:
-        linear-gradient(
-            180deg,
-            #eee2c8,
-            #d9c6a1
-        );
+        rgba(232,220,193,0.78);
 
     border:
         1px solid
-        #a88e65;
+        rgba(168,142,101,0.72);
 
     border-radius:
         10px;
 
-    overflow: hidden;
+    overflow:
+        hidden;
 
-    cursor: pointer;
+    cursor:
+        pointer;
 
     box-shadow:
         0 5px 12px rgba(63,43,23,0.14);
@@ -986,12 +1139,17 @@ button:active {
 
 
 .resource-card img {
-    width: 100%;
-    height: 100%;
+    width:
+        100%;
 
-    object-fit: contain;
+    height:
+        100%;
 
-    display: block;
+    object-fit:
+        contain;
+
+    display:
+        block;
 }
 
 
@@ -1010,11 +1168,11 @@ button:active {
         #776a58;
 
     background:
-        rgba(255,255,255,0.16);
+        rgba(255,255,255,0.10);
 
     border:
         1px dashed
-        #a99878;
+        rgba(169,152,120,0.78);
 
     border-radius:
         9px;
@@ -1034,9 +1192,11 @@ button:active {
 @media (max-width: 750px) {
 
     main {
-        width: 94%;
+        width:
+            94%;
 
-        margin-top: 18px;
+        margin-top:
+            18px;
     }
 
 
@@ -1054,36 +1214,49 @@ button:active {
 
     .resource-values {
         grid-template-columns:
-            repeat(3, minmax(0, 1fr));
+            repeat(3,minmax(0,1fr));
     }
 
 
     .territory-deck.expanded {
-        width: 100%;
-        height: 300px;
+        width:
+            100%;
+
+        height:
+            300px;
     }
 
 
     .territory-card {
-        width: 135px;
-        height: 175px;
+        width:
+            135px;
+
+        height:
+            175px;
     }
 
 
     .world-card {
-        width: 160px;
-        height: 205px;
+        width:
+            160px;
+
+        height:
+            205px;
     }
 
 
     .world-deck {
-        width: 160px;
-        height: 205px;
+        width:
+            160px;
+
+        height:
+            205px;
     }
 
 
     .territory-modal {
-        width: 95vw;
+        width:
+            95vw;
     }
 
 
@@ -1094,9 +1267,11 @@ button:active {
 
 
     .modal-card-slots {
-        justify-content: flex-start;
+        justify-content:
+            flex-start;
 
-        gap: 10px;
+        gap:
+            10px;
     }
 
 
@@ -1104,14 +1279,17 @@ button:active {
         flex:
             0 0 80px;
 
-        width: 80px;
+        width:
+            80px;
 
-        height: 115px;
+        height:
+            115px;
     }
 
 
     .build-sidebar {
-        width: 90vw;
+        width:
+            90vw;
     }
 
 
@@ -1138,7 +1316,7 @@ button:active {
 
 
 <!-- =====================================================
-     TITLE
+     TITLE / WORLD DECK
 ===================================================== -->
 
 <div class="wood-frame">
@@ -1154,10 +1332,6 @@ button:active {
             resources, and growing settlements.
         </span>
 
-
-        <!-- =============================================
-             WORLD DECK
-        ============================================== -->
 
         <div
             id="worldDeckVisual"
@@ -1190,7 +1364,7 @@ button:active {
 
 
 <!-- =====================================================
-     LAST DRAWN CARD
+     LAST DRAWN CARD / GAME INFORMATION
 ===================================================== -->
 
 <div id="message">
@@ -1205,9 +1379,7 @@ button:active {
 <section class="player-resources">
 
 
-    <!-- =================================================
-         PLAYER 1
-    ================================================== -->
+    <!-- PLAYER 1 -->
 
     <div class="wood-frame resource-panel">
 
@@ -1221,7 +1393,6 @@ button:active {
             <div class="resource-values">
 
                 <div class="resource-value">
-
                     <span class="resource-name">
                         Wood
                     </span>
@@ -1232,12 +1403,10 @@ button:active {
                     >
                         0
                     </span>
-
                 </div>
 
 
                 <div class="resource-value">
-
                     <span class="resource-name">
                         Oil
                     </span>
@@ -1248,12 +1417,10 @@ button:active {
                     >
                         0
                     </span>
-
                 </div>
 
 
                 <div class="resource-value">
-
                     <span class="resource-name">
                         Stone
                     </span>
@@ -1264,12 +1431,10 @@ button:active {
                     >
                         0
                     </span>
-
                 </div>
 
 
                 <div class="resource-value">
-
                     <span class="resource-name">
                         Iron
                     </span>
@@ -1280,12 +1445,10 @@ button:active {
                     >
                         0
                     </span>
-
                 </div>
 
 
                 <div class="resource-value">
-
                     <span class="resource-name">
                         Crop
                     </span>
@@ -1296,12 +1459,10 @@ button:active {
                     >
                         0
                     </span>
-
                 </div>
 
 
                 <div class="resource-value">
-
                     <span class="resource-name">
                         Idle People
                     </span>
@@ -1312,7 +1473,6 @@ button:active {
                     >
                         0
                     </span>
-
                 </div>
 
             </div>
@@ -1322,9 +1482,7 @@ button:active {
     </div>
 
 
-    <!-- =================================================
-         PLAYER 2
-    ================================================== -->
+    <!-- PLAYER 2 -->
 
     <div class="wood-frame resource-panel">
 
@@ -1338,7 +1496,6 @@ button:active {
             <div class="resource-values">
 
                 <div class="resource-value">
-
                     <span class="resource-name">
                         Wood
                     </span>
@@ -1349,12 +1506,10 @@ button:active {
                     >
                         0
                     </span>
-
                 </div>
 
 
                 <div class="resource-value">
-
                     <span class="resource-name">
                         Oil
                     </span>
@@ -1365,12 +1520,10 @@ button:active {
                     >
                         0
                     </span>
-
                 </div>
 
 
                 <div class="resource-value">
-
                     <span class="resource-name">
                         Stone
                     </span>
@@ -1381,12 +1534,10 @@ button:active {
                     >
                         0
                     </span>
-
                 </div>
 
 
                 <div class="resource-value">
-
                     <span class="resource-name">
                         Iron
                     </span>
@@ -1397,12 +1548,10 @@ button:active {
                     >
                         0
                     </span>
-
                 </div>
 
 
                 <div class="resource-value">
-
                     <span class="resource-name">
                         Crop
                     </span>
@@ -1413,12 +1562,10 @@ button:active {
                     >
                         0
                     </span>
-
                 </div>
 
 
                 <div class="resource-value">
-
                     <span class="resource-name">
                         Idle People
                     </span>
@@ -1429,7 +1576,6 @@ button:active {
                     >
                         0
                     </span>
-
                 </div>
 
             </div>
@@ -1448,9 +1594,7 @@ button:active {
 <section class="territories">
 
 
-    <!-- =================================================
-         PLAYER 1 TERRITORY DECK
-    ================================================== -->
+    <!-- PLAYER 1 -->
 
     <div class="wood-frame territory">
 
@@ -1475,9 +1619,7 @@ button:active {
     </div>
 
 
-    <!-- =================================================
-         PLAYER 2 TERRITORY DECK
-    ================================================== -->
+    <!-- PLAYER 2 -->
 
     <div class="wood-frame territory">
 
@@ -1507,7 +1649,7 @@ button:active {
 
 
 <!-- =====================================================
-     TERRITORY CARD MODAL
+     TERRITORY MODAL
 ===================================================== -->
 
 <div
@@ -1529,19 +1671,11 @@ button:active {
             </button>
 
 
-            <!-- =========================================
-                 SEVEN INTERNAL TERRITORY SLOTS
-            ========================================== -->
-
             <div
                 id="territoryModalContent"
                 class="modal-card-slots"
             ></div>
 
-
-            <!-- =========================================
-                 BUILD BUTTON
-            ========================================== -->
 
             <button
                 class="modal-build-button"
@@ -1572,11 +1706,6 @@ button:active {
             class="parchment build-sidebar-inner"
         >
 
-
-            <!-- =========================================
-                 HEADER
-            ========================================== -->
-
             <div class="build-sidebar-header">
 
                 <h2>
@@ -1594,10 +1723,6 @@ button:active {
 
             </div>
 
-
-            <!-- =========================================
-                 BUILDABLE CARDS
-            ========================================== -->
 
             <section class="resources-section">
 
@@ -1696,7 +1821,7 @@ const worldTypes = {
 
 
 /* =========================================================
-   BUILDING IMAGE DEFINITIONS
+   BUILDING IMAGES
 ========================================================= */
 
 const buildingImages = {
@@ -1723,7 +1848,7 @@ const buildingImages = {
 
 
 /* =========================================================
-   TERRITORY BUILDING RULES
+   BUILDING RULES
 ========================================================= */
 
 const territoryBuildRules = {
@@ -1734,29 +1859,13 @@ const territoryBuildRules = {
         "Tavern"
     ],
 
-
     Mountain: [
         "Mine",
         "Oilfield",
         "Quarry"
     ],
 
-
     Forest: [],
-
-
-    /*
-       Meadow deliberately contains
-       NO resource buildings.
-
-       Therefore:
-       no Farm
-       no Mine
-       no Oilfield
-       no Quarry
-
-       Only Residence and Tavern.
-    */
 
     Meadow: [
         "Residence",
@@ -1767,57 +1876,35 @@ const territoryBuildRules = {
 
 
 /* =========================================================
-   PLAYER RESOURCE STORAGE
+   PLAYER RESOURCES
 ========================================================= */
 
 let player1Resources = {
 
-    Wood:
-        0,
-
-    Oil:
-        0,
-
-    Stone:
-        0,
-
-    Iron:
-        0,
-
-    Crop:
-        0,
-
-    IdlePeople:
-        0
+    Wood: 0,
+    Oil: 0,
+    Stone: 0,
+    Iron: 0,
+    Crop: 0,
+    IdlePeople: 0
 
 };
 
 
 let player2Resources = {
 
-    Wood:
-        0,
-
-    Oil:
-        0,
-
-    Stone:
-        0,
-
-    Iron:
-        0,
-
-    Crop:
-        0,
-
-    IdlePeople:
-        0
+    Wood: 0,
+    Oil: 0,
+    Stone: 0,
+    Iron: 0,
+    Crop: 0,
+    IdlePeople: 0
 
 };
 
 
 /* =========================================================
-   RESOURCE GENERATION
+   RESOURCE TIMER
 ========================================================= */
 
 const RESOURCE_TICK_MS =
@@ -1825,7 +1912,7 @@ const RESOURCE_TICK_MS =
 
 
 /* =========================================================
-   WORLD / TERRITORY DECKS
+   DECKS
 ========================================================= */
 
 let worldDeck = [];
@@ -1836,7 +1923,7 @@ let player2TerritoryDeck = [];
 
 
 /* =========================================================
-   TERRITORY SELECTION STATE
+   UI STATE
 ========================================================= */
 
 let openTerritory = null;
@@ -1879,7 +1966,7 @@ function shuffle(deck) {
 
 
 /* =========================================================
-   CREATE RANDOMIZED WORLD DECK
+   CREATE WORLD DECK
 ========================================================= */
 
 function createWorldDeck() {
@@ -1905,9 +1992,7 @@ function createWorldDeck() {
             i++
         ) {
 
-            worldDeck.push(
-                type
-            );
+            worldDeck.push(type);
 
         }
 
@@ -1941,10 +2026,6 @@ function drawWorld(player) {
     let card;
 
 
-    /*
-       Player 1 draws from TOP.
-    */
-
     if (
         player === 1
     ) {
@@ -1958,11 +2039,6 @@ function drawWorld(player) {
         );
 
     }
-
-
-    /*
-       Player 2 draws from BOTTOM.
-    */
 
     else {
 
@@ -2012,7 +2088,7 @@ function drawWorld(player) {
 
 
 /* =========================================================
-   WORLD DECK RENDERING
+   WORLD DECK RENDER
 ========================================================= */
 
 function renderWorldDeck() {
@@ -2081,7 +2157,7 @@ function renderWorldDeck() {
 
 
 /* =========================================================
-   RESOURCE DISPLAY
+   RESOURCE RENDER
 ========================================================= */
 
 function renderResources() {
@@ -2252,7 +2328,7 @@ let resourceProductionTimer =
 
 
 /* =========================================================
-   TERRITORY DECK RENDERING
+   TERRITORY DECK RENDER
 ========================================================= */
 
 function renderTerritoryDeck(
@@ -2646,7 +2722,7 @@ function renderExpandedTerritoryDeck(
 
 
 /* =========================================================
-   OPEN TERRITORY DECK
+   OPEN / CLOSE TERRITORY DECK
 ========================================================= */
 
 function openTerritoryDeck(
@@ -2661,10 +2737,6 @@ function openTerritoryDeck(
 
 }
 
-
-/* =========================================================
-   CLOSE TERRITORY DECK
-========================================================= */
 
 function closeTerritoryDeck(
     player
@@ -2686,7 +2758,7 @@ function closeTerritoryDeck(
 
 
 /* =========================================================
-   TERRITORY INTERNAL SLOT SYSTEM
+   TERRITORY INTERNAL SLOT LAYOUT
 ========================================================= */
 
 function getTerritorySlotCards(
@@ -2694,7 +2766,6 @@ function getTerritorySlotCards(
 ) {
 
     const slots = [
-
         null,
         null,
         null,
@@ -2702,7 +2773,6 @@ function getTerritorySlotCards(
         null,
         null,
         null
-
     ];
 
 
@@ -2935,7 +3005,7 @@ document
 
 
 /* =========================================================
-   OPEN BUILD SIDEBAR
+   BUILD SIDEBAR
 ========================================================= */
 
 function openBuildSidebar() {
@@ -2943,40 +3013,32 @@ function openBuildSidebar() {
     renderBuildOptions();
 
 
-    const sidebarOverlay =
-        document.getElementById(
+    document
+        .getElementById(
             "buildSidebarOverlay"
+        )
+        .classList.add(
+            "open"
         );
-
-
-    sidebarOverlay.classList.add(
-        "open"
-    );
 
 }
 
-
-/* =========================================================
-   CLOSE BUILD SIDEBAR
-========================================================= */
 
 function closeBuildSidebar() {
 
-    const sidebarOverlay =
-        document.getElementById(
+    document
+        .getElementById(
             "buildSidebarOverlay"
+        )
+        .classList.remove(
+            "open"
         );
-
-
-    sidebarOverlay.classList.remove(
-        "open"
-    );
 
 }
 
 
 /* =========================================================
-   RENDER BUILDABLE CARDS
+   BUILDABLE CARDS
 ========================================================= */
 
 function renderBuildOptions() {
@@ -3071,8 +3133,8 @@ function renderBuildOptions() {
                 () => {
 
                     /*
-                       Reserved for future
-                       construction logic.
+                       Construction logic reserved
+                       for a future update.
                     */
 
                 };
@@ -3180,7 +3242,8 @@ function newGame() {
     player2TerritoryDeck = [];
 
 
-    openTerritory = null;
+    openTerritory =
+        null;
 
     selectedTerritoryPlayer =
         null;
@@ -3191,46 +3254,24 @@ function newGame() {
 
     player1Resources = {
 
-        Wood:
-            0,
-
-        Oil:
-            0,
-
-        Stone:
-            0,
-
-        Iron:
-            0,
-
-        Crop:
-            0,
-
-        IdlePeople:
-            0
+        Wood: 0,
+        Oil: 0,
+        Stone: 0,
+        Iron: 0,
+        Crop: 0,
+        IdlePeople: 0
 
     };
 
 
     player2Resources = {
 
-        Wood:
-            0,
-
-        Oil:
-            0,
-
-        Stone:
-            0,
-
-        Iron:
-            0,
-
-        Crop:
-            0,
-
-        IdlePeople:
-            0
+        Wood: 0,
+        Oil: 0,
+        Stone: 0,
+        Iron: 0,
+        Crop: 0,
+        IdlePeople: 0
 
     };
 
@@ -3261,7 +3302,7 @@ function newGame() {
 
 
 /* =========================================================
-   START GAME
+   START
 ========================================================= */
 
 newGame();
@@ -3270,4 +3311,3 @@ newGame();
 
 </body>
 </html>
-```
