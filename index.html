@@ -373,7 +373,6 @@ button:active {
         white;
 }
 
-
 .drawn-card {
     display:
         block;
@@ -399,6 +398,7 @@ button:active {
 
 /* =========================================================
    PLAYER RESOURCES
+   PLAYER 1 ABOVE PLAYER 2
 ========================================================= */
 
 .player-resources {
@@ -406,13 +406,25 @@ button:active {
         25px;
 
     display:
-        grid;
+        flex;
 
-    grid-template-columns:
-        repeat(2, minmax(0,1fr));
+    flex-direction:
+        column;
 
     gap:
         24px;
+
+    width:
+        100%;
+}
+
+
+.resource-panel {
+    width:
+        100%;
+
+    background:
+        transparent;
 }
 
 
@@ -667,7 +679,7 @@ button:active {
 
 
 /* =========================================================
-   EMPTY DECK
+   EMPTY TERRITORY DECK
 ========================================================= */
 
 .empty-deck {
@@ -756,6 +768,9 @@ button:active {
 
     padding:
         8px;
+
+    background:
+        transparent;
 }
 
 
@@ -765,6 +780,9 @@ button:active {
 
     padding:
         42px 20px 24px;
+
+    background:
+        transparent;
 }
 
 
@@ -806,8 +824,8 @@ button:active {
 
 
 /* =========================================================
-   INTERNAL TERRITORY SLOTS
-   ALL 7 SLOTS ARE ALWAYS VISIBLE
+   SEVEN TERRITORY SLOTS
+   EMPTY SLOTS REMAIN VISIBLE
 ========================================================= */
 
 .modal-card-slots {
@@ -858,11 +876,6 @@ button:active {
 
     justify-content:
         center;
-
-    /*
-       Empty slots are intentionally retained.
-       They do not collapse or disappear.
-    */
 
     background:
         transparent;
@@ -1186,9 +1199,13 @@ button:active {
     }
 
 
+    /*
+       Player data remains stacked.
+    */
+
     .player-resources {
-        grid-template-columns:
-            1fr;
+        flex-direction:
+            column;
     }
 
 
@@ -1365,7 +1382,9 @@ button:active {
 <section class="player-resources">
 
 
-    <!-- PLAYER 1 -->
+    <!-- =================================================
+         PLAYER 1
+    ================================================== -->
 
     <div class="wood-frame resource-panel">
 
@@ -1379,6 +1398,7 @@ button:active {
             <div class="resource-values">
 
                 <div class="resource-value">
+
                     <span class="resource-name">
                         Wood
                     </span>
@@ -1389,10 +1409,12 @@ button:active {
                     >
                         0
                     </span>
+
                 </div>
 
 
                 <div class="resource-value">
+
                     <span class="resource-name">
                         Oil
                     </span>
@@ -1403,10 +1425,12 @@ button:active {
                     >
                         0
                     </span>
+
                 </div>
 
 
                 <div class="resource-value">
+
                     <span class="resource-name">
                         Stone
                     </span>
@@ -1417,10 +1441,12 @@ button:active {
                     >
                         0
                     </span>
+
                 </div>
 
 
                 <div class="resource-value">
+
                     <span class="resource-name">
                         Iron
                     </span>
@@ -1431,10 +1457,12 @@ button:active {
                     >
                         0
                     </span>
+
                 </div>
 
 
                 <div class="resource-value">
+
                     <span class="resource-name">
                         Crop
                     </span>
@@ -1445,10 +1473,12 @@ button:active {
                     >
                         0
                     </span>
+
                 </div>
 
 
                 <div class="resource-value">
+
                     <span class="resource-name">
                         Idle People
                     </span>
@@ -1459,6 +1489,7 @@ button:active {
                     >
                         0
                     </span>
+
                 </div>
 
             </div>
@@ -1468,7 +1499,9 @@ button:active {
     </div>
 
 
-    <!-- PLAYER 2 -->
+    <!-- =================================================
+         PLAYER 2
+    ================================================== -->
 
     <div class="wood-frame resource-panel">
 
@@ -1482,6 +1515,7 @@ button:active {
             <div class="resource-values">
 
                 <div class="resource-value">
+
                     <span class="resource-name">
                         Wood
                     </span>
@@ -1492,10 +1526,12 @@ button:active {
                     >
                         0
                     </span>
+
                 </div>
 
 
                 <div class="resource-value">
+
                     <span class="resource-name">
                         Oil
                     </span>
@@ -1506,10 +1542,12 @@ button:active {
                     >
                         0
                     </span>
+
                 </div>
 
 
                 <div class="resource-value">
+
                     <span class="resource-name">
                         Stone
                     </span>
@@ -1520,10 +1558,12 @@ button:active {
                     >
                         0
                     </span>
+
                 </div>
 
 
                 <div class="resource-value">
+
                     <span class="resource-name">
                         Iron
                     </span>
@@ -1534,10 +1574,12 @@ button:active {
                     >
                         0
                     </span>
+
                 </div>
 
 
                 <div class="resource-value">
+
                     <span class="resource-name">
                         Crop
                     </span>
@@ -1548,10 +1590,12 @@ button:active {
                     >
                         0
                     </span>
+
                 </div>
 
 
                 <div class="resource-value">
+
                     <span class="resource-name">
                         Idle People
                     </span>
@@ -1562,6 +1606,7 @@ button:active {
                     >
                         0
                     </span>
+
                 </div>
 
             </div>
@@ -1580,7 +1625,9 @@ button:active {
 <section class="territories">
 
 
-    <!-- PLAYER 1 -->
+    <!-- =================================================
+         PLAYER 1 TERRITORIES
+    ================================================== -->
 
     <div class="wood-frame territory">
 
@@ -1605,7 +1652,9 @@ button:active {
     </div>
 
 
-    <!-- PLAYER 2 -->
+    <!-- =================================================
+         PLAYER 2 TERRITORIES
+    ================================================== -->
 
     <div class="wood-frame territory">
 
@@ -1655,11 +1704,6 @@ button:active {
                 ×
             </button>
 
-
-            <!--
-                ALL SEVEN SLOTS ARE RENDERED.
-                Empty slots remain visible.
-            -->
 
             <div
                 id="territoryModalContent"
@@ -1811,7 +1855,7 @@ const worldTypes = {
 
 
 /* =========================================================
-   BUILDING IMAGES
+   BUILDING IMAGE DEFINITIONS
 ========================================================= */
 
 const buildingImages = {
@@ -1838,7 +1882,7 @@ const buildingImages = {
 
 
 /* =========================================================
-   TERRITORY BUILD RULES
+   TERRITORY BUILDING RULES
 ========================================================= */
 
 const territoryBuildRules = {
@@ -1866,7 +1910,7 @@ const territoryBuildRules = {
 
 
 /* =========================================================
-   PLAYER RESOURCES
+   PLAYER RESOURCE STORAGE
 ========================================================= */
 
 let player1Resources = {
@@ -1894,7 +1938,7 @@ let player2Resources = {
 
 
 /* =========================================================
-   RESOURCE TIMER
+   RESOURCE GENERATION
 ========================================================= */
 
 const RESOURCE_TICK_MS =
@@ -2755,13 +2799,6 @@ function getTerritorySlotCards(
     cardType
 ) {
 
-    /*
-       Always return exactly seven slots.
-
-       null means the slot is empty.
-       Empty slots are NOT removed.
-    */
-
     const slots = [
         null,
         null,
@@ -2838,7 +2875,7 @@ function getTerritorySlotCards(
 
     /*
        Meadow:
-       all seven remain null.
+       all seven are empty.
     */
 
     return slots;
@@ -2885,10 +2922,7 @@ function openTerritoryModal(
 
 
     /*
-       IMPORTANT:
-       This loop always runs seven times.
-       Every null slot receives an actual
-       .modal-card-slot element.
+       ALWAYS CREATE ALL SEVEN SLOTS.
     */
 
     slotCards.forEach(
@@ -2904,26 +2938,19 @@ function openTerritoryModal(
                 "modal-card-slot";
 
 
-            /*
-               Empty slots deliberately
-               remain in the DOM.
-            */
-
             if (
                 slotCard === null
             ) {
+
+                /*
+                   Empty slot stays visible.
+                */
 
                 slot.classList.add(
                     "empty"
                 );
 
             }
-
-
-            /*
-               Occupied slots receive the
-               corresponding territory card.
-            */
 
             else {
 
@@ -3136,11 +3163,6 @@ function renderBuildOptions() {
 
     /*
        Only legal buildings are shown.
-       Meadow therefore shows ONLY:
-           Residence
-           Tavern
-
-       No resource cards are rendered.
     */
 
     allowedBuildings.forEach(
@@ -3182,7 +3204,7 @@ function renderBuildOptions() {
 
                     /*
                        Construction logic reserved
-                       for a future update.
+                       for future update.
                     */
 
                 };
