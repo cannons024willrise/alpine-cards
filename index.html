@@ -119,7 +119,7 @@ h3 {
 
 
 /* =========================================================
-   ALL NON-CARD CONTAINERS ARE TRANSPARENT
+   TRANSPARENT CONTAINERS
 ========================================================= */
 
 .wood-frame,
@@ -254,7 +254,7 @@ button:active {
 
 
 /* =========================================================
-   WORLD SECTION
+   WORLD DECK
 ========================================================= */
 
 .world-section {
@@ -265,10 +265,6 @@ button:active {
         24px 20px 28px;
 }
 
-
-/* =========================================================
-   WORLD DECK
-========================================================= */
 
 .world-deck {
     position:
@@ -313,20 +309,17 @@ button:active {
         transform 0.25s ease;
 }
 
-
 .world-card:nth-child(1) {
     transform:
         translate(-8px, 5px)
         rotate(-3deg);
 }
 
-
 .world-card:nth-child(2) {
     transform:
         translate(-4px, 2px)
         rotate(-1.5deg);
 }
-
 
 .world-card:nth-child(3) {
     transform:
@@ -351,7 +344,7 @@ button:active {
 
 
 /* =========================================================
-   MESSAGE / INFORMATION
+   MESSAGE
 ========================================================= */
 
 #message {
@@ -373,7 +366,6 @@ button:active {
     text-shadow:
         0 2px 4px rgba(0,0,0,0.65);
 }
-
 
 #message b,
 #message small {
@@ -706,7 +698,7 @@ button:active {
 
 
 /* =========================================================
-   MODAL
+   MODAL OVERLAY
 ========================================================= */
 
 .modal-overlay {
@@ -741,6 +733,10 @@ button:active {
         flex;
 }
 
+
+/* =========================================================
+   TERRITORY MODAL
+========================================================= */
 
 .territory-modal {
     position:
@@ -811,6 +807,7 @@ button:active {
 
 /* =========================================================
    INTERNAL TERRITORY SLOTS
+   ALL 7 SLOTS ARE ALWAYS VISIBLE
 ========================================================= */
 
 .modal-card-slots {
@@ -862,17 +859,33 @@ button:active {
     justify-content:
         center;
 
+    /*
+       Empty slots are intentionally retained.
+       They do not collapse or disappear.
+    */
+
     background:
         transparent;
 
     border:
-        none;
+        1px dashed
+        rgba(255,255,255,0.45);
+
+    border-radius:
+        8px;
+
+    position:
+        relative;
 }
 
 
 .modal-card-slot.empty {
     background:
         transparent;
+
+    border:
+        1px dashed
+        rgba(255,255,255,0.45);
 }
 
 
@@ -891,6 +904,11 @@ button:active {
 
     pointer-events:
         none;
+
+    filter:
+        drop-shadow(
+            0 6px 6px rgba(0,0,0,0.30)
+        );
 }
 
 
@@ -945,7 +963,8 @@ button:active {
         translateX(100%);
 
     transition:
-        transform 0.32s cubic-bezier(.2,.8,.2,1);
+        transform 0.32s
+        cubic-bezier(.2,.8,.2,1);
 }
 
 
@@ -1360,7 +1379,6 @@ button:active {
             <div class="resource-values">
 
                 <div class="resource-value">
-
                     <span class="resource-name">
                         Wood
                     </span>
@@ -1371,12 +1389,10 @@ button:active {
                     >
                         0
                     </span>
-
                 </div>
 
 
                 <div class="resource-value">
-
                     <span class="resource-name">
                         Oil
                     </span>
@@ -1387,12 +1403,10 @@ button:active {
                     >
                         0
                     </span>
-
                 </div>
 
 
                 <div class="resource-value">
-
                     <span class="resource-name">
                         Stone
                     </span>
@@ -1403,12 +1417,10 @@ button:active {
                     >
                         0
                     </span>
-
                 </div>
 
 
                 <div class="resource-value">
-
                     <span class="resource-name">
                         Iron
                     </span>
@@ -1419,12 +1431,10 @@ button:active {
                     >
                         0
                     </span>
-
                 </div>
 
 
                 <div class="resource-value">
-
                     <span class="resource-name">
                         Crop
                     </span>
@@ -1435,12 +1445,10 @@ button:active {
                     >
                         0
                     </span>
-
                 </div>
 
 
                 <div class="resource-value">
-
                     <span class="resource-name">
                         Idle People
                     </span>
@@ -1451,7 +1459,6 @@ button:active {
                     >
                         0
                     </span>
-
                 </div>
 
             </div>
@@ -1475,7 +1482,6 @@ button:active {
             <div class="resource-values">
 
                 <div class="resource-value">
-
                     <span class="resource-name">
                         Wood
                     </span>
@@ -1486,12 +1492,10 @@ button:active {
                     >
                         0
                     </span>
-
                 </div>
 
 
                 <div class="resource-value">
-
                     <span class="resource-name">
                         Oil
                     </span>
@@ -1502,12 +1506,10 @@ button:active {
                     >
                         0
                     </span>
-
                 </div>
 
 
                 <div class="resource-value">
-
                     <span class="resource-name">
                         Stone
                     </span>
@@ -1518,12 +1520,10 @@ button:active {
                     >
                         0
                     </span>
-
                 </div>
 
 
                 <div class="resource-value">
-
                     <span class="resource-name">
                         Iron
                     </span>
@@ -1534,12 +1534,10 @@ button:active {
                     >
                         0
                     </span>
-
                 </div>
 
 
                 <div class="resource-value">
-
                     <span class="resource-name">
                         Crop
                     </span>
@@ -1550,12 +1548,10 @@ button:active {
                     >
                         0
                     </span>
-
                 </div>
 
 
                 <div class="resource-value">
-
                     <span class="resource-name">
                         Idle People
                     </span>
@@ -1566,7 +1562,6 @@ button:active {
                     >
                         0
                     </span>
-
                 </div>
 
             </div>
@@ -1660,6 +1655,11 @@ button:active {
                 ×
             </button>
 
+
+            <!--
+                ALL SEVEN SLOTS ARE RENDERED.
+                Empty slots remain visible.
+            -->
 
             <div
                 id="territoryModalContent"
@@ -1811,7 +1811,7 @@ const worldTypes = {
 
 
 /* =========================================================
-   BUILDING IMAGE DEFINITIONS
+   BUILDING IMAGES
 ========================================================= */
 
 const buildingImages = {
@@ -1838,7 +1838,7 @@ const buildingImages = {
 
 
 /* =========================================================
-   TERRITORY BUILDING RULES
+   TERRITORY BUILD RULES
 ========================================================= */
 
 const territoryBuildRules = {
@@ -2755,6 +2755,13 @@ function getTerritorySlotCards(
     cardType
 ) {
 
+    /*
+       Always return exactly seven slots.
+
+       null means the slot is empty.
+       Empty slots are NOT removed.
+    */
+
     const slots = [
         null,
         null,
@@ -2765,6 +2772,11 @@ function getTerritorySlotCards(
         null
     ];
 
+
+    /*
+       Mountain:
+       slots 3, 4, 5
+    */
 
     if (
         cardType === "Mountain"
@@ -2782,6 +2794,11 @@ function getTerritorySlotCards(
     }
 
 
+    /*
+       River:
+       slot 4
+    */
+
     else if (
         cardType === "River"
     ) {
@@ -2791,6 +2808,11 @@ function getTerritorySlotCards(
 
     }
 
+
+    /*
+       Forest:
+       slots 2, 3, 4, 5, 6
+    */
 
     else if (
         cardType === "Forest"
@@ -2813,6 +2835,11 @@ function getTerritorySlotCards(
 
     }
 
+
+    /*
+       Meadow:
+       all seven remain null.
+    */
 
     return slots;
 
@@ -2857,6 +2884,13 @@ function openTerritoryModal(
     content.innerHTML = "";
 
 
+    /*
+       IMPORTANT:
+       This loop always runs seven times.
+       Every null slot receives an actual
+       .modal-card-slot element.
+    */
+
     slotCards.forEach(
         (slotCard) => {
 
@@ -2870,9 +2904,28 @@ function openTerritoryModal(
                 "modal-card-slot";
 
 
+            /*
+               Empty slots deliberately
+               remain in the DOM.
+            */
+
             if (
-                slotCard !== null
+                slotCard === null
             ) {
+
+                slot.classList.add(
+                    "empty"
+                );
+
+            }
+
+
+            /*
+               Occupied slots receive the
+               corresponding territory card.
+            */
+
+            else {
 
                 const internalCard =
                     document.createElement(
@@ -3049,6 +3102,10 @@ function renderBuildOptions() {
         ] || [];
 
 
+    /*
+       Forest has no buildable cards.
+    */
+
     if (
         allowedBuildings.length === 0
     ) {
@@ -3076,6 +3133,15 @@ function renderBuildOptions() {
 
     }
 
+
+    /*
+       Only legal buildings are shown.
+       Meadow therefore shows ONLY:
+           Residence
+           Tavern
+
+       No resource cards are rendered.
+    */
 
     allowedBuildings.forEach(
         (building) => {
@@ -3116,7 +3182,7 @@ function renderBuildOptions() {
 
                     /*
                        Construction logic reserved
-                       for future update.
+                       for a future update.
                     */
 
                 };
