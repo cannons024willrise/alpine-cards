@@ -1,4 +1,4 @@
-
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,31 +17,13 @@
     box-sizing: border-box;
 }
 
-:root {
-    --paper: #e8dcc1;
-    --paper-light: #f0e7d1;
-
-    --wood-dark: #392719;
-    --wood: #5b4027;
-    --wood-light: #80603b;
-
-    --ink: #33281e;
-    --muted: #766b5b;
-
-    --shadow:
-        0 8px 22px rgba(30, 20, 10, 0.20);
-}
-
 html {
     min-height: 100%;
 }
 
 body {
     margin: 0;
-
     min-height: 100vh;
-
-    color: var(--ink);
 
     font-family:
         Georgia,
@@ -62,151 +44,6 @@ body {
 
 
 /* =========================================================
-   TITLE
-========================================================= */
-
-h1 {
-    margin:
-        0 0 8px;
-
-    color: #2f2419;
-
-    font-size:
-        clamp(34px, 5vw, 52px);
-
-    letter-spacing:
-        0.08em;
-
-    text-shadow:
-        0 2px 0 rgba(255,255,255,0.55);
-}
-
-h2 {
-    color: var(--wood-dark);
-
-    margin-top: 0;
-}
-
-h3 {
-    color: var(--wood-dark);
-}
-
-
-/* =========================================================
-   SUBTITLE
-========================================================= */
-
-.subtitle {
-    display: inline-block;
-
-    max-width: 700px;
-
-    color: var(--muted);
-
-    font-style: italic;
-
-    line-height: 1.5;
-}
-
-
-/* =========================================================
-   GENERAL BUTTONS
-========================================================= */
-
-button {
-    margin: 5px;
-
-    padding:
-        10px 16px;
-
-    color:
-        #f0e7d1;
-
-    background:
-        linear-gradient(
-            180deg,
-            rgba(128,96,59,0.96),
-            rgba(91,64,39,0.96)
-        );
-
-    border:
-        1px solid
-        #392719;
-
-    border-radius:
-        8px;
-
-    box-shadow:
-        0 3px 0 #392719,
-        0 5px 10px rgba(0,0,0,0.14);
-
-    font-family:
-        Georgia,
-        serif;
-
-    cursor: pointer;
-
-    transition:
-        transform 0.15s ease,
-        filter 0.15s ease;
-}
-
-button:hover {
-    filter: brightness(1.08);
-
-    transform:
-        translateY(-1px);
-}
-
-button:active {
-    transform:
-        translateY(2px);
-
-    box-shadow:
-        0 1px 0 #392719;
-}
-
-
-/* =========================================================
-   TRANSPARENT CONTAINERS
-========================================================= */
-
-.wood-frame {
-    position: relative;
-
-    background: transparent;
-
-    border: none;
-
-    border-radius: 0;
-
-    box-shadow: none;
-
-    padding: 0;
-}
-
-
-.parchment {
-    background:
-        rgba(240, 231, 209, 0.78);
-
-    border:
-        1px solid
-        rgba(188, 169, 134, 0.65);
-
-    border-radius:
-        9px;
-
-    box-shadow:
-        0 5px 16px rgba(52, 37, 23, 0.12),
-        inset 0 1px 0 rgba(255,255,255,0.42);
-
-    backdrop-filter:
-        blur(1.5px);
-}
-
-
-/* =========================================================
    MAIN
 ========================================================= */
 
@@ -220,25 +57,124 @@ main {
 
 
 /* =========================================================
+   HEADINGS
+========================================================= */
+
+h1 {
+    margin:
+        0 0 8px;
+
+    font-size:
+        clamp(34px, 5vw, 52px);
+
+    letter-spacing:
+        0.08em;
+}
+
+h2 {
+    margin-top:
+        0;
+}
+
+h3 {
+    margin-top:
+        0;
+}
+
+
+/* =========================================================
+   SUBTITLE
+========================================================= */
+
+.subtitle {
+    display:
+        inline-block;
+
+    max-width:
+        700px;
+
+    line-height:
+        1.5;
+
+    font-style:
+        italic;
+}
+
+
+/* =========================================================
+   ALL NON-CARD CONTAINERS ARE TRANSPARENT
+========================================================= */
+
+.wood-frame,
+.parchment,
+.world-section,
+.resource-panel,
+.resource-panel-inner,
+.territory,
+.territory-inner,
+.territory-deck-area,
+.territory-deck,
+.build-sidebar,
+.build-sidebar-inner {
+    background:
+        transparent;
+
+    border:
+        none;
+
+    box-shadow:
+        none;
+}
+
+
+/* =========================================================
+   BUTTONS
+   No custom color styling.
+   Browser-native button appearance.
+========================================================= */
+
+button {
+    margin:
+        5px;
+
+    padding:
+        10px 16px;
+
+    font-family:
+        Georgia,
+        serif;
+
+    cursor:
+        pointer;
+}
+
+
+/* =========================================================
    WORLD SECTION
 ========================================================= */
 
 .world-section {
-    margin-top: 28px;
+    margin-top:
+        28px;
 
     padding:
         24px 20px 28px;
-
-    background:
-        rgba(240, 231, 209, 0.72);
 }
 
 
-.world-deck {
-    position: relative;
+/* =========================================================
+   WORLD DECK
+========================================================= */
 
-    width: 180px;
-    height: 230px;
+.world-deck {
+    position:
+        relative;
+
+    width:
+        180px;
+
+    height:
+        230px;
 
     margin:
         24px auto;
@@ -246,19 +182,27 @@ main {
 
 
 .world-card {
-    position: absolute;
+    position:
+        absolute;
 
-    left: 0;
-    top: 0;
+    left:
+        0;
 
-    width: 180px;
-    height: 230px;
+    top:
+        0;
 
-    object-fit: contain;
+    width:
+        180px;
+
+    height:
+        230px;
+
+    object-fit:
+        contain;
 
     filter:
         drop-shadow(
-            0 8px 8px rgba(55,39,22,0.20)
+            0 8px 8px rgba(0,0,0,0.22)
         );
 
     transition:
@@ -288,19 +232,13 @@ main {
 ========================================================= */
 
 #remaining {
-    color:
-        var(--muted);
-
     margin-bottom:
         10px;
-
-    font-size:
-        15px;
 }
 
 
 /* =========================================================
-   MESSAGE / INFO
+   MESSAGE / INFORMATION
 ========================================================= */
 
 #message {
@@ -315,49 +253,34 @@ main {
 
     max-width:
         92%;
-
-    padding:
-        10px 18px;
-
-    color:
-        var(--wood-dark);
-
-    background:
-        rgba(240,231,209,0.76);
-
-    border:
-        1px solid
-        rgba(188,169,134,0.55);
-
-    border-radius:
-        8px;
-
-    box-shadow:
-        0 5px 14px rgba(52,37,23,0.10);
 }
 
 
 .drawn-card {
-    display: block;
+    display:
+        block;
 
-    width: 220px;
+    width:
+        220px;
 
-    max-width: 100%;
+    max-width:
+        100%;
 
-    height: auto;
+    height:
+        auto;
 
     margin:
         12px auto;
 
     filter:
         drop-shadow(
-            0 8px 8px rgba(55,39,22,0.22)
+            0 8px 8px rgba(0,0,0,0.22)
         );
 }
 
 
 /* =========================================================
-   PLAYER RESOURCE AREA
+   PLAYER RESOURCES
 ========================================================= */
 
 .player-resources {
@@ -375,34 +298,15 @@ main {
 }
 
 
-.resource-panel {
-    padding:
-        0;
-
-    background:
-        transparent;
-}
-
-
 .resource-panel-inner {
     padding:
         20px 18px 16px;
-
-    background:
-        rgba(240,231,209,0.65);
-
-    border:
-        1px solid
-        rgba(188,169,134,0.55);
 }
 
 
 .resource-panel h3 {
     margin:
         0 0 16px;
-
-    font-size:
-        22px;
 }
 
 
@@ -411,7 +315,7 @@ main {
         grid;
 
     grid-template-columns:
-        repeat(3, minmax(0,1fr));
+        repeat(3, minmax(0, 1fr));
 
     gap:
         10px;
@@ -420,26 +324,19 @@ main {
 
 .resource-value {
     padding:
-        9px 6px;
+        7px 4px;
 
     background:
-        rgba(255,255,255,0.13);
+        transparent;
 
     border:
-        1px solid
-        rgba(153,135,102,0.42);
-
-    border-radius:
-        8px;
+        none;
 }
 
 
 .resource-name {
     display:
         block;
-
-    color:
-        var(--muted);
 
     font-size:
         12px;
@@ -452,9 +349,6 @@ main {
 
     margin-top:
         3px;
-
-    color:
-        var(--wood-dark);
 
     font-size:
         21px;
@@ -473,7 +367,7 @@ main {
         grid;
 
     grid-template-columns:
-        repeat(2, minmax(0,1fr));
+        repeat(2, minmax(0, 1fr));
 
     gap:
         28px;
@@ -483,25 +377,9 @@ main {
 }
 
 
-.territory {
-    min-width:
-        0;
-
-    background:
-        transparent;
-}
-
-
 .territory-inner {
     padding:
         22px 18px;
-
-    background:
-        rgba(240,231,209,0.60);
-
-    border:
-        1px solid
-        rgba(188,169,134,0.48);
 }
 
 
@@ -521,42 +399,11 @@ main {
     margin-bottom:
         12px;
 
-    color:
-        var(--muted);
-
     font-size:
         13px;
 
     font-style:
         italic;
-}
-
-
-/* =========================================================
-   TERRITORY DECK AREA
-========================================================= */
-
-.territory-deck-area {
-    position:
-        relative;
-
-    min-height:
-        330px;
-
-    display:
-        flex;
-
-    flex-direction:
-        column;
-
-    align-items:
-        center;
-
-    justify-content:
-        center;
-
-    background:
-        transparent;
 }
 
 
@@ -579,9 +426,6 @@ main {
 
     cursor:
         pointer;
-
-    background:
-        transparent;
 }
 
 
@@ -609,7 +453,7 @@ main {
 
     filter:
         drop-shadow(
-            0 7px 6px rgba(55,39,22,0.22)
+            0 7px 6px rgba(0,0,0,0.22)
         );
 
     transition:
@@ -627,7 +471,7 @@ main {
 
 .territory-deck.expanded {
     width:
-        min(90vw,820px);
+        min(90vw, 820px);
 
     height:
         340px;
@@ -663,9 +507,6 @@ main {
     margin-top:
         6px;
 
-    color:
-        var(--muted);
-
     font-size:
         14px;
 }
@@ -693,24 +534,11 @@ main {
 
     justify-content:
         center;
-
-    border:
-        1px dashed
-        rgba(157,141,110,0.7);
-
-    border-radius:
-        9px;
-
-    color:
-        #87785f;
-
-    background:
-        rgba(255,255,255,0.10);
 }
 
 
 /* =========================================================
-   MODAL OVERLAY
+   MODAL
 ========================================================= */
 
 .modal-overlay {
@@ -730,16 +558,13 @@ main {
         center;
 
     background:
-        rgba(39,29,19,0.55);
+        transparent;
 
     padding:
         20px;
 
     z-index:
         10000;
-
-    backdrop-filter:
-        blur(2px);
 }
 
 
@@ -748,10 +573,6 @@ main {
         flex;
 }
 
-
-/* =========================================================
-   TERRITORY MODAL
-========================================================= */
 
 .territory-modal {
     position:
@@ -771,9 +592,6 @@ main {
 
     padding:
         8px;
-
-    background:
-        transparent;
 }
 
 
@@ -783,9 +601,6 @@ main {
 
     padding:
         42px 20px 24px;
-
-    background:
-        rgba(240,231,209,0.93);
 }
 
 
@@ -878,25 +693,12 @@ main {
 
     justify-content:
         center;
-
-    background:
-        rgba(107,83,53,0.07);
-
-    border:
-        1px dashed
-        rgba(153,135,102,0.75);
-
-    border-radius:
-        8px;
-
-    overflow:
-        hidden;
 }
 
 
 .modal-card-slot.empty {
     background:
-        rgba(255,255,255,0.10);
+        transparent;
 }
 
 
@@ -933,7 +735,7 @@ main {
         none;
 
     background:
-        rgba(30,22,15,0.25);
+        transparent;
 
     z-index:
         11000;
@@ -970,9 +772,6 @@ main {
 
     transition:
         transform 0.32s cubic-bezier(.2,.8,.2,1);
-
-    background:
-        transparent;
 }
 
 
@@ -995,14 +794,11 @@ main {
 
     overflow-y:
         auto;
-
-    background:
-        rgba(240,231,209,0.95);
 }
 
 
 /* =========================================================
-   BUILD SIDEBAR HEADER
+   BUILD HEADER
 ========================================================= */
 
 .build-sidebar-header {
@@ -1060,21 +856,18 @@ main {
 .resources-section {
     padding-top:
         20px;
-
-    border-top:
-        1px solid
-        rgba(188,169,134,0.65);
 }
 
 
 .resources-section h3 {
     margin:
         0 0 20px;
-
-    font-size:
-        23px;
 }
 
+
+/* =========================================================
+   BUILDABLE CARDS
+========================================================= */
 
 .resources-list {
     display:
@@ -1105,14 +898,10 @@ main {
         center;
 
     background:
-        rgba(232,220,193,0.78);
+        transparent;
 
     border:
-        1px solid
-        rgba(168,142,101,0.72);
-
-    border-radius:
-        10px;
+        none;
 
     overflow:
         hidden;
@@ -1121,20 +910,16 @@ main {
         pointer;
 
     box-shadow:
-        0 5px 12px rgba(63,43,23,0.14);
+        none;
 
     transition:
-        transform 0.18s ease,
-        box-shadow 0.18s ease;
+        transform 0.18s ease;
 }
 
 
 .resource-card:hover {
     transform:
         translateY(-4px);
-
-    box-shadow:
-        0 10px 18px rgba(63,43,23,0.18);
 }
 
 
@@ -1164,24 +949,8 @@ main {
     padding:
         26px 18px;
 
-    color:
-        #776a58;
-
-    background:
-        rgba(255,255,255,0.10);
-
-    border:
-        1px dashed
-        rgba(169,152,120,0.78);
-
-    border-radius:
-        9px;
-
     font-style:
         italic;
-
-    text-align:
-        center;
 }
 
 
@@ -1364,7 +1133,7 @@ main {
 
 
 <!-- =====================================================
-     LAST DRAWN CARD / GAME INFORMATION
+     INFORMATION
 ===================================================== -->
 
 <div id="message">
@@ -1588,7 +1357,7 @@ main {
 
 
 <!-- =====================================================
-     PLAYER TERRITORY DECKS
+     TERRITORY DECKS
 ===================================================== -->
 
 <section class="territories">
@@ -1660,7 +1429,6 @@ main {
     <div class="wood-frame territory-modal">
 
         <div class="parchment territory-modal-inner">
-
 
             <button
                 class="modal-close"
@@ -2881,16 +2649,8 @@ function openTerritoryModal(
 
 
             if (
-                slotCard === null
+                slotCard !== null
             ) {
-
-                slot.classList.add(
-                    "empty"
-                );
-
-            }
-
-            else {
 
                 const internalCard =
                     document.createElement(
@@ -2980,7 +2740,7 @@ function closeTerritoryModal() {
 
 
 /* =========================================================
-   CLOSE MODAL OUTSIDE CLICK
+   MODAL OUTSIDE CLICK
 ========================================================= */
 
 document
@@ -3134,7 +2894,7 @@ function renderBuildOptions() {
 
                     /*
                        Construction logic reserved
-                       for a future update.
+                       for future update.
                     */
 
                 };
@@ -3151,7 +2911,7 @@ function renderBuildOptions() {
 
 
 /* =========================================================
-   CLOSE BUILD SIDEBAR OUTSIDE CLICK
+   BUILD SIDEBAR OUTSIDE CLICK
 ========================================================= */
 
 document
@@ -3311,3 +3071,4 @@ newGame();
 
 </body>
 </html>
+```
