@@ -581,7 +581,7 @@ button:hover {
 
 
 /* =========================================================
-   RESOURCES SECTION
+   RESOURCES / BUILD CARDS SECTION
 ========================================================= */
 
 .resources-section {
@@ -605,7 +605,7 @@ button:hover {
 
 
 /*
-   Resource cards use a grid.
+   Only legal/buildable cards are rendered here.
 */
 
 .resources-list {
@@ -621,7 +621,7 @@ button:hover {
 
 
 /* =========================================================
-   LARGE RESOURCE CARDS
+   LARGE BUILD CARD
 ========================================================= */
 
 .resource-card {
@@ -630,6 +630,8 @@ button:hover {
     aspect-ratio: 3 / 4;
 
     display: flex;
+
+    flex-direction: column;
 
     align-items: center;
     justify-content: center;
@@ -659,6 +661,11 @@ button:hover {
         #806735;
 }
 
+
+/*
+   Image fills most of the card.
+*/
+
 .resource-card img {
     width: 100%;
     height: 100%;
@@ -669,87 +676,33 @@ button:hover {
 }
 
 
-/* =========================================================
-   BUILDABLE BUILDINGS SECTION
-========================================================= */
-
-.buildings-section {
-    margin-top: 30px;
-
-    padding-top: 20px;
-
-    border-top:
-        1px solid
-        #444;
-}
-
-.buildings-section h3 {
-    margin:
-        0 0 15px 0;
-
-    font-family: Georgia, serif;
-
-    font-size: 22px;
-}
-
-
 /*
-   Building choices.
+   Text-only buildable cards such as
+   Residence and Tavern for which no
+   image asset has been supplied yet.
 */
 
-.buildings-list {
-    display: grid;
+.resource-card.text-only {
+    padding: 15px;
 
-    grid-template-columns:
-        repeat(2, minmax(0, 1fr));
+    font-size: 18px;
 
-    gap: 12px;
-}
-
-
-/*
-   Individual legal building.
-*/
-
-.building-option {
-    padding: 14px;
-
-    background: #191919;
-
-    border:
-        1px solid
-        #555;
-
-    border-radius: 8px;
+    font-weight: bold;
 
     text-align: center;
 
-    cursor: pointer;
-
-    transition:
-        background 0.20s ease,
-        border-color 0.20s ease,
-        transform 0.20s ease;
-}
-
-.building-option:hover {
-    background: #2b251b;
-
-    border-color:
-        #806735;
-
-    transform:
-        translateY(-2px);
+    color: #eee;
 }
 
 
-/*
-   Message used when no buildings
-   are allowed on the territory.
-*/
+/* =========================================================
+   NO BUILDABLE CARDS
+========================================================= */
 
-.no-buildings {
-    padding: 20px;
+.no-buildables {
+    width: 100%;
+
+    padding: 25px 15px;
 
     background: #191919;
 
@@ -762,6 +715,17 @@ button:hover {
     color: #888;
 
     text-align: center;
+
+    font-size: 14px;
+}
+
+
+/* =========================================================
+   BUILD SIDEBAR CONTENT
+========================================================= */
+
+.build-sidebar-content {
+    min-height: 50px;
 }
 
 
@@ -804,9 +768,10 @@ button:hover {
             40px 12px 20px;
     }
 
+
     /*
-       Keep all seven internal slots
-       on ONE horizontal line.
+       Seven internal territory slots
+       remain on one horizontal line.
     */
 
     .modal-card-slots {
@@ -817,6 +782,7 @@ button:hover {
         overflow-x: auto;
     }
 
+
     .modal-card-slot {
         flex:
             0 0 80px;
@@ -825,20 +791,24 @@ button:hover {
         height: 115px;
     }
 
+
     .build-sidebar {
         width: 88vw;
     }
+
+
+    /*
+       Buildable cards become one per row
+       on narrow screens.
+    */
 
     .resources-list {
         grid-template-columns: 1fr;
     }
 
+
     .resource-card {
         aspect-ratio: 4 / 3;
-    }
-
-    .buildings-list {
-        grid-template-columns: 1fr;
     }
 
 }
@@ -875,6 +845,7 @@ button:hover {
         id="worldDeckVisual"
         class="world-deck"
     ></div>
+
 
     <div id="remaining">
         0 World Cards remaining
@@ -1040,7 +1011,7 @@ button:hover {
 
 
         <!-- =============================================
-             RESOURCES SECTION
+             BUILDABLE CARDS SECTION
         ============================================== -->
 
         <section class="resources-section">
@@ -1051,78 +1022,8 @@ button:hover {
 
 
             <div
+                id="buildCardsList"
                 class="resources-list"
-            >
-
-                <div
-                    class="resource-card"
-                >
-
-                    <img
-                        src="farm.png"
-                        alt="Farm"
-                    >
-
-                </div>
-
-
-                <div
-                    class="resource-card"
-                >
-
-                    <img
-                        src="mine.png"
-                        alt="Mine"
-                    >
-
-                </div>
-
-
-                <div
-                    class="resource-card"
-                >
-
-                    <img
-                        src="oilfield.png"
-                        alt="Oilfield"
-                    >
-
-                </div>
-
-
-                <div
-                    class="resource-card"
-                >
-
-                    <img
-                        src="quarry.png"
-                        alt="Quarry"
-                    >
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- =============================================
-             LEGAL BUILDINGS SECTION
-        ============================================== -->
-
-        <section
-            id="buildingsSection"
-            class="buildings-section"
-        >
-
-            <h3>
-                Buildings
-            </h3>
-
-
-            <div
-                id="buildingsList"
-                class="buildings-list"
             ></div>
 
         </section>
@@ -1209,14 +1110,35 @@ const worldTypes = {
 
 
 /* =========================================================
+   BUILDING IMAGE DEFINITIONS
+========================================================= */
+
+const buildingImages = {
+
+    Farm:
+        "farm.png",
+
+    Mine:
+        "mine.png",
+
+    Oilfield:
+        "oilfield.png",
+
+    Quarry:
+        "quarry.png"
+
+};
+
+
+/* =========================================================
    TERRITORY BUILDING RULES
 ========================================================= */
 
 /*
-   This defines which buildings may be
-   constructed on each Territory Card.
+   These are the ONLY buildings which may
+   be built on each Territory Card.
 
-   Costs are intentionally NOT included yet.
+   There are no construction costs here yet.
 */
 
 const territoryBuildRules = {
@@ -1274,9 +1196,6 @@ let openTerritory = null;
 
 /*
    Currently selected Territory Card.
-
-   Used by the Build sidebar so it knows
-   which territory's rules to display.
 */
 
 let selectedTerritoryPlayer = null;
@@ -1323,11 +1242,6 @@ function createWorldDeck() {
 
     worldDeck = [];
 
-
-    /*
-       Randomly choose 3–6 copies
-       of each World Card type.
-    */
 
     for (
         const type of Object.keys(worldTypes)
@@ -1378,11 +1292,6 @@ function drawWorld(player) {
     let card;
 
 
-    /*
-       Player 1:
-       remove from TOP.
-    */
-
     if (player === 1) {
 
         card =
@@ -1394,12 +1303,6 @@ function drawWorld(player) {
         );
 
     }
-
-
-    /*
-       Player 2:
-       remove from BOTTOM.
-    */
 
     else {
 
@@ -1843,10 +1746,6 @@ function renderExpandedTerritoryDeck(
             );
 
 
-            /*
-               Select card and open modal.
-            */
-
             img.onclick =
                 (event) => {
 
@@ -2037,8 +1936,7 @@ function openTerritoryModal(
 
 
     /*
-       Remember exactly which Territory
-       Card was selected.
+       Remember selected territory.
     */
 
     selectedTerritoryPlayer =
@@ -2049,7 +1947,7 @@ function openTerritoryModal(
 
 
     /*
-       Build the seven internal slots.
+       Build seven internal slots.
     */
 
     const slotCards =
@@ -2201,18 +2099,13 @@ document
 
 function openBuildSidebar() {
 
+    renderBuildOptions();
+
+
     const sidebarOverlay =
         document.getElementById(
             "buildSidebarOverlay"
         );
-
-
-    /*
-       Render legal building choices
-       for the selected territory.
-    */
-
-    renderBuildOptions();
 
 
     sidebarOverlay.classList.add(
@@ -2242,22 +2135,22 @@ function closeBuildSidebar() {
 
 
 /* =========================================================
-   RENDER BUILD OPTIONS
+   RENDER ONLY BUILDABLE CARDS
 ========================================================= */
 
 function renderBuildOptions() {
 
-    const buildingsList =
+    const list =
         document.getElementById(
-            "buildingsList"
+            "buildCardsList"
         );
 
 
-    buildingsList.innerHTML = "";
+    list.innerHTML = "";
 
 
     /*
-       No territory selected.
+       No selected Territory Card.
     */
 
     if (
@@ -2276,30 +2169,29 @@ function renderBuildOptions() {
 
 
     /*
-       Forest or any other territory
-       with no legal buildings.
+       No buildable cards.
     */
 
     if (
         allowedBuildings.length === 0
     ) {
 
-        const message =
+        const empty =
             document.createElement(
                 "div"
             );
 
 
-        message.className =
-            "no-buildings";
+        empty.className =
+            "no-buildables";
 
 
-        message.textContent =
+        empty.textContent =
             "No buildings can be built here.";
 
 
-        buildingsList.appendChild(
-            message
+        list.appendChild(
+            empty
         );
 
 
@@ -2309,45 +2201,90 @@ function renderBuildOptions() {
 
 
     /*
-       Create one option for every
-       legal building.
+       Only the legal buildings are
+       created visually.
     */
 
     allowedBuildings.forEach(
         (building) => {
 
-            const option =
+            const card =
                 document.createElement(
                     "div"
                 );
 
 
-            option.className =
-                "building-option";
-
-
-            option.textContent =
-                building;
+            card.className =
+                "resource-card";
 
 
             /*
-               Costs are NOT checked yet.
-               Clicking currently does nothing.
+               Resource building has an image.
             */
 
-            option.onclick =
+            if (
+                buildingImages[building]
+            ) {
+
+                const image =
+                    document.createElement(
+                        "img"
+                    );
+
+
+                image.src =
+                    buildingImages[
+                        building
+                    ];
+
+
+                image.alt =
+                    building;
+
+
+                card.appendChild(
+                    image
+                );
+
+            }
+
+
+            /*
+               Residence and Tavern have
+               no image asset yet, so show
+               the buildable card by name.
+            */
+
+            else {
+
+                card.classList.add(
+                    "text-only"
+                );
+
+
+                card.textContent =
+                    building;
+
+            }
+
+
+            /*
+               No construction logic yet.
+            */
+
+            card.onclick =
                 () => {
 
                     /*
                        Reserved for future
-                       construction logic.
+                       building placement logic.
                     */
 
                 };
 
 
-            buildingsList.appendChild(
-                option
+            list.appendChild(
+                card
             );
 
         }
