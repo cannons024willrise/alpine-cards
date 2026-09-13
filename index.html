@@ -1,4 +1,4 @@
-
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -750,7 +750,7 @@ button:active {
 
 
 /* =========================================================
-   MODAL OVERLAY
+   MODAL
 ========================================================= */
 
 .modal-overlay {
@@ -804,6 +804,9 @@ button:active {
 
     padding:
         8px;
+
+    background:
+        transparent;
 }
 
 
@@ -813,6 +816,9 @@ button:active {
 
     padding:
         42px 20px 24px;
+
+    background:
+        transparent;
 }
 
 
@@ -1033,7 +1039,7 @@ button:active {
 
 
 /* =========================================================
-   BUILD HEADER
+   BUILD SIDEBAR HEADER
 ========================================================= */
 
 .build-sidebar-header {
@@ -1112,6 +1118,10 @@ button:active {
 }
 
 
+/* =========================================================
+   BUILDABLE CARDS
+========================================================= */
+
 .resources-list {
     display:
         grid;
@@ -1123,10 +1133,6 @@ button:active {
         18px;
 }
 
-
-/* =========================================================
-   BUILDABLE CARDS
-========================================================= */
 
 .resource-card {
     width:
@@ -1412,7 +1418,7 @@ button:active {
 
 
     <!-- =================================================
-         PLAYER 1 DATA
+         PLAYER 1
     ================================================== -->
 
     <div class="wood-frame resource-panel">
@@ -1516,7 +1522,7 @@ button:active {
                         id="player1IdlePeople"
                         class="resource-amount"
                     >
-                        0
+                        2
                     </span>
 
                 </div>
@@ -1529,7 +1535,7 @@ button:active {
 
 
     <!-- =================================================
-         PLAYER 2 DATA
+         PLAYER 2
     ================================================== -->
 
     <div class="wood-frame resource-panel">
@@ -1633,7 +1639,7 @@ button:active {
                         id="player2IdlePeople"
                         class="resource-amount"
                     >
-                        0
+                        2
                     </span>
 
                 </div>
@@ -1734,11 +1740,6 @@ button:active {
                 ×
             </button>
 
-
-            <!--
-                Exactly seven slots are always rendered.
-                Empty slots remain visible.
-            -->
 
             <div
                 id="territoryModalContent"
@@ -1917,7 +1918,7 @@ const buildingImages = {
 
 
 /* =========================================================
-   TERRITORY BUILDING RULES
+   TERRITORY BUILD RULES
 ========================================================= */
 
 const territoryBuildRules = {
@@ -1945,17 +1946,22 @@ const territoryBuildRules = {
 
 
 /* =========================================================
-   PLAYER RESOURCES
+   PLAYER RESOURCE STORAGE
 ========================================================= */
 
 let player1Resources = {
 
     Wood: 0,
+
     Oil: 0,
+
     Stone: 0,
+
     Iron: 0,
+
     Crop: 0,
-    IdlePeople: 0
+
+    IdlePeople: 2
 
 };
 
@@ -1963,11 +1969,16 @@ let player1Resources = {
 let player2Resources = {
 
     Wood: 0,
+
     Oil: 0,
+
     Stone: 0,
+
     Iron: 0,
+
     Crop: 0,
-    IdlePeople: 0
+
+    IdlePeople: 2
 
 };
 
@@ -2845,11 +2856,6 @@ function getTerritorySlotCards(
     ];
 
 
-    /*
-       Mountain:
-       slots 3, 4, 5
-    */
-
     if (
         cardType === "Mountain"
     ) {
@@ -2866,11 +2872,6 @@ function getTerritorySlotCards(
     }
 
 
-    /*
-       River:
-       slot 4
-    */
-
     else if (
         cardType === "River"
     ) {
@@ -2880,11 +2881,6 @@ function getTerritorySlotCards(
 
     }
 
-
-    /*
-       Forest:
-       slots 2, 3, 4, 5, 6
-    */
 
     else if (
         cardType === "Forest"
@@ -2907,11 +2903,6 @@ function getTerritorySlotCards(
 
     }
 
-
-    /*
-       Meadow:
-       all seven slots remain empty.
-    */
 
     return slots;
 
@@ -2955,10 +2946,6 @@ function openTerritoryModal(
 
     content.innerHTML = "";
 
-
-    /*
-       Always render exactly seven slots.
-    */
 
     slotCards.forEach(
         (slotCard) => {
@@ -3188,15 +3175,6 @@ function renderBuildOptions() {
     }
 
 
-    /*
-       Only legal buildings are shown.
-       Meadow:
-           Residence
-           Tavern
-
-       No resource cards.
-    */
-
     allowedBuildings.forEach(
         (building) => {
 
@@ -3354,14 +3332,24 @@ function newGame() {
         null;
 
 
+    /*
+       Both players start with
+       exactly 2 Idle People.
+    */
+
     player1Resources = {
 
         Wood: 0,
+
         Oil: 0,
+
         Stone: 0,
+
         Iron: 0,
+
         Crop: 0,
-        IdlePeople: 0
+
+        IdlePeople: 2
 
     };
 
@@ -3369,11 +3357,16 @@ function newGame() {
     player2Resources = {
 
         Wood: 0,
+
         Oil: 0,
+
         Stone: 0,
+
         Iron: 0,
+
         Crop: 0,
-        IdlePeople: 0
+
+        IdlePeople: 2
 
     };
 
@@ -3413,3 +3406,4 @@ newGame();
 
 </body>
 </html>
+```
