@@ -83,7 +83,14 @@ inset 0 2px 2px rgba(0,0,0,.22),
 0 1px 0 rgba(25,16,9,.95),
 0 3px 7px rgba(0,0,0,.25)
 }
-.assign-button.active,.unassign-button.active{
+button:disabled{
+opacity:.45;
+cursor:not-allowed;
+transform:none
+}
+.assign-button.active,
+.unassign-button.active,
+.move-button.active{
 outline:2px solid white;
 box-shadow:
 inset 0 1px 0 rgba(255,255,255,.24),
@@ -326,8 +333,20 @@ cursor:pointer;
 border:2px solid rgba(255,170,170,.9);
 box-shadow:0 0 12px rgba(255,80,80,.18)
 }
+.modal-card-slot.movable-source{
+cursor:pointer;
+border:2px solid rgba(160,220,255,.95);
+box-shadow:0 0 14px rgba(80,180,255,.25)
+}
+.modal-card-slot.move-target{
+cursor:pointer;
+border:2px solid rgba(180,255,180,.95);
+box-shadow:0 0 14px rgba(80,255,120,.22)
+}
 .modal-card-slot.assignable:hover,
-.modal-card-slot.unassignable:hover{
+.modal-card-slot.unassignable:hover,
+.modal-card-slot.movable-source:hover,
+.modal-card-slot.move-target:hover{
 transform:translateY(-4px)
 }
 .modal-card-slot.assigned{
@@ -362,6 +381,15 @@ min-height:22px;
 margin:2px auto 8px;
 color:white;
 font-size:13px;
+text-shadow:0 2px 4px rgba(0,0,0,.65);
+line-height:1.5
+}
+#territoryResources{
+margin:0 auto 12px;
+max-width:760px;
+font-size:12px;
+line-height:1.5;
+color:white;
 text-shadow:0 2px 4px rgba(0,0,0,.65)
 }
 .modal-actions{
@@ -456,6 +484,7 @@ color:white;
 font-style:italic;
 text-shadow:0 2px 4px rgba(0,0,0,.65)
 }
+
 @media(max-width:750px){
 main{width:94%;margin-top:18px}
 .player-resources{flex-direction:column}
@@ -498,29 +527,23 @@ A quiet winter age of territories, resources, and growing settlements.
 
 <div id="turnButtons">
 
-<button
-id="player1DrawButton"
-onclick="drawWorld(1)">
-Player 1 — Draw Top </button>
+<button id="player1DrawButton" onclick="drawWorld(1)">
+Player 1 — Draw Top
+</button>
 
-<button
-id="player2DrawButton"
-onclick="drawWorld(2)"
-style="display:none">
-Player 2 — Draw Bottom </button>
+<button id="player2DrawButton" onclick="drawWorld(2)" style="display:none">
+Player 2 — Draw Bottom
+</button>
 
 <br>
 
-<button
-id="player1EndTurnButton"
-onclick="endTurn(1)">
-Player 1 — End Turn </button>
+<button id="player1EndTurnButton" onclick="endTurn(1)">
+Player 1 — End Turn
+</button>
 
-<button
-id="player2EndTurnButton"
-onclick="endTurn(2)"
-style="display:none">
-Player 2 — End Turn </button>
+<button id="player2EndTurnButton" onclick="endTurn(2)" style="display:none">
+Player 2 — End Turn
+</button>
 
 </div>
 
@@ -677,8 +700,10 @@ aria-label="Close">
 
 <div id="territoryModalContent" class="modal-card-slots"></div>
 
+<div id="territoryResources"></div>
+
 <div id="assignmentStatus">
-Select Assign, then choose an occupied internal card.
+Select an action.
 </div>
 
 <div class="modal-actions">
@@ -694,6 +719,12 @@ id="unassignButton"
 class="unassign-button"
 onclick="toggleUnassignmentMode()">
 Unassign </button>
+
+<button
+id="moveButton"
+class="move-button"
+onclick="toggleMoveMode()">
+Move </button>
 
 <button
 class="modal-build-button"
@@ -780,35 +811,59 @@ Meadow:["Residence","Tavern"]
 };
 
 
-let player1Resources={
+function blankResources(){
+
+return{
 Wood:0,
 Oil:0,
 Stone:0,
 Iron:0,
-Crop:0,
+Crop:0
+};
+
+}
+
+
+function createTerritory(type){
+
+return{
+type:type,
+resources:blankResources(),
+assignments:Array(7).fill(null)
+};
+
+}
+
+
+/*
+Players only directly store:
+Population and Idle People.
+
+Wood, Oil, Stone, Iron and Crop
+are stored on individual Territory Cards
+and calculated as totals for display.
+*/
+
+let player1Resources={
 IdlePeople:2,
 Population:2
 };
-
 
 let player2Resources={
-Wood:0,
-Oil:0,
-Stone:0,
-Iron:0,
-Crop:0,
 IdlePeople:2,
 Population:2
 };
 
-
-let worldDeck=[];
 
 let player1TerritoryDeck=[];
 let player2TerritoryDeck=[];
 
-let player1TerritoryAssignments=[];
-let player2TerritoryAssignments=[];
+let worldDeck=[];
+
+let player1Civilians=[];
+let player2Civilians=[];
+
+let nextCivilianId=1;
 
 let openTerritory=null;
 
@@ -818,13 +873,91 @@ let selectedTerritoryType=null;
 
 let assignmentMode=false;
 let unassignmentMode=false;
+let moveMode=false;
+
+let moveSourcePlayer=null;
+let moveSourceTerritoryIndex=null;
+let moveSourceSlotIndex=null;
 
 let currentTurn=1;
 
 
 /*
-Show only the buttons belonging
-to the current player.
+Each civilian records:
+- location
+- assignment
+- whether they already moved this turn
+*/
+
+function createCivilian(){
+
+return{
+id:nextCivilianId++,
+territoryIndex:null,
+slotIndex:null,
+movedThisTurn:false
+};
+
+}
+
+
+/*
+Starting population.
+*/
+
+function initializeCivilians(){
+
+player1Civilians=[
+createCivilian(),
+createCivilian()
+];
+
+player2Civilians=[
+createCivilian(),
+createCivilian()
+];
+
+}
+
+
+function shuffle(deck){
+
+for(let i=deck.length-1;i>0;i--){
+
+const j=Math.floor(Math.random()*(i+1));
+
+[deck[i],deck[j]]=
+[deck[j],deck[i]];
+
+}
+
+}
+
+
+function createWorldDeck(){
+
+worldDeck=[];
+
+for(const type of Object.keys(worldTypes)){
+
+const copies=
+3+Math.floor(Math.random()*4);
+
+for(let i=0;i<copies;i++){
+
+worldDeck.push(type);
+
+}
+
+}
+
+shuffle(worldDeck);
+
+}
+
+
+/*
+Turn UI.
 */
 
 function renderTurn(){
@@ -865,61 +998,456 @@ currentTurn===2
 }
 
 
-function shuffle(deck){
+/*
+Calculate total resources across
+all Territory Cards.
+*/
 
-for(let i=deck.length-1;i>0;i--){
+function getPlayerResourceTotals(player){
 
-const j=Math.floor(
-Math.random()*(i+1)
-);
+const deck=
+player===1
+?player1TerritoryDeck
+:player2TerritoryDeck;
 
-[deck[i],deck[j]]=
-[deck[j],deck[i]];
+const totals=blankResources();
 
-}
+deck.forEach(territory=>{
 
-}
+for(const resource in totals){
 
-
-function createWorldDeck(){
-
-worldDeck=[];
-
-for(
-const type of Object.keys(worldTypes)
-){
-
-const copies=
-3+Math.floor(
-Math.random()*4
-);
-
-for(let i=0;i<copies;i++){
-
-worldDeck.push(type);
+totals[resource]+=
+territory.resources[resource]||0;
 
 }
 
-}
+});
 
-shuffle(worldDeck);
+return totals;
 
 }
 
 
 /*
-A World Card requires at least
-one Idle Person.
+Display resources.
+*/
 
+function renderResources(){
+
+const p1=
+getPlayerResourceTotals(1);
+
+const p2=
+getPlayerResourceTotals(2);
+
+
+document.getElementById(
+"player1Wood"
+).textContent=p1.Wood;
+
+document.getElementById(
+"player1Oil"
+).textContent=p1.Oil;
+
+document.getElementById(
+"player1Stone"
+).textContent=p1.Stone;
+
+document.getElementById(
+"player1Iron"
+).textContent=p1.Iron;
+
+document.getElementById(
+"player1Crop"
+).textContent=p1.Crop;
+
+document.getElementById(
+"player1IdlePeople"
+).textContent=
+player1Resources.IdlePeople;
+
+document.getElementById(
+"player1Population"
+).textContent=
+player1Resources.Population;
+
+
+document.getElementById(
+"player2Wood"
+).textContent=p2.Wood;
+
+document.getElementById(
+"player2Oil"
+).textContent=p2.Oil;
+
+document.getElementById(
+"player2Stone"
+).textContent=p2.Stone;
+
+document.getElementById(
+"player2Iron"
+).textContent=p2.Iron;
+
+document.getElementById(
+"player2Crop"
+).textContent=p2.Crop;
+
+document.getElementById(
+"player2IdlePeople"
+).textContent=
+player2Resources.IdlePeople;
+
+document.getElementById(
+"player2Population"
+).textContent=
+player2Resources.Population;
+
+}
+
+
+/*
+Count assigned people on one
+specific Territory Card.
+*/
+
+function countAssignedOnTerritory(
+territory
+){
+
+return territory.assignments.filter(
+id=>id!==null
+).length;
+
+}
+
+
+/*
+Get the internal worker layout.
+*/
+
+function getTerritorySlotCards(type){
+
+const slots=[
+null,null,null,null,null,null,null
+];
+
+if(type==="Mountain"){
+
+slots[2]="Mountain";
+slots[3]="Mountain";
+slots[4]="Mountain";
+
+}else if(type==="River"){
+
+slots[3]="River";
+
+}else if(type==="Forest"){
+
+slots[1]="Forest";
+slots[2]="Forest";
+slots[3]="Forest";
+slots[4]="Forest";
+slots[5]="Forest";
+
+}
+
+return slots;
+
+}
+
+
+/*
+Find a civilian by ID.
+*/
+
+function getCivilian(
+player,
+id
+){
+
+const people=
+player===1
+?player1Civilians
+:player2Civilians;
+
+return people.find(
+person=>person.id===id
+)||null;
+
+}
+
+
+/*
+Find an Idle civilian.
+
+Assignment itself places an Idle civilian
+into the selected Territory Card.
+*/
+
+function getIdleCivilian(player){
+
+const people=
+player===1
+?player1Civilians
+:player2Civilians;
+
+return people.find(
+person=>person.slotIndex===null
+)||null;
+
+}
+
+
+/*
+Find assigned worker count.
+*/
+
+function countAssignedWorkers(
+deck,
+type
+){
+
+let total=0;
+
+deck.forEach(territory=>{
+
+if(territory.type!==type){
+return;
+}
+
+total+=
+countAssignedOnTerritory(
+territory
+);
+
+});
+
+return total;
+
+}
+
+
+/*
+PER-CARD RESOURCE PRODUCTION.
+
+Each Territory Card stores its own output.
+*/
+
+function resolveProduction(
+player
+){
+
+const deck=
+player===1
+?player1TerritoryDeck
+:player2TerritoryDeck;
+
+
+deck.forEach(
+territory=>{
+
+const workers=
+countAssignedOnTerritory(
+territory
+);
+
+
+if(
+territory.type==="River"
+){
+
+territory.resources.Wood+=
+workers;
+
+territory.resources.Crop+=
+workers*3;
+
+}
+
+
+if(
+territory.type==="Mountain"
+){
+
+territory.resources.Stone+=
+workers;
+
+}
+
+
+if(
+territory.type==="Forest"
+){
+
+territory.resources.Wood+=
+workers*5;
+
+territory.resources.Crop+=
+workers;
+
+}
+
+}
+);
+
+
+}
+
+
+/*
+Consume Crop from the player's
+individual Territory Card stocks.
+
+Every Person consumes 1 Crop.
+*/
+
+function consumeCrop(
+player,
+amount
+){
+
+const deck=
+player===1
+?player1TerritoryDeck
+:player2TerritoryDeck;
+
+let remaining=amount;
+
+
+/*
+Consume from territory stocks.
+*/
+
+for(
+const territory of deck
+){
+
+if(remaining<=0){
+break;
+}
+
+const available=
+territory.resources.Crop;
+
+const used=
+Math.min(
+available,
+remaining
+);
+
+territory.resources.Crop-=used;
+remaining-=used;
+
+}
+
+}
+
+
+/*
+Per-turn economy:
+production first, then food consumption.
+*/
+
+function resolveTurn(player){
+
+const people=
+player===1
+?player1Resources
+:player2Resources;
+
+
+/*
+Production happens on each
+individual Territory Card.
+*/
+
+resolveProduction(player);
+
+
+/*
+Every Person eats 1 Crop.
+*/
+
+consumeCrop(
+player,
+people.Population
+);
+
+
+renderResources();
+
+}
+
+
+/*
+End turn and reset movement
+for that player's civilians.
+*/
+
+function endTurn(player){
+
+if(player!==currentTurn){
+return;
+}
+
+
+resolveTurn(player);
+
+
+/*
+A civilian can move once per turn.
+Their allowance resets when the
+player's next turn begins.
+*/
+
+const people=
+player===1
+?player1Civilians
+:player2Civilians;
+
+people.forEach(
+person=>{
+person.movedThisTurn=false;
+}
+);
+
+
+assignmentMode=false;
+unassignmentMode=false;
+moveMode=false;
+
+clearMoveSource();
+
+
+currentTurn=
+player===1
+?2
+:1;
+
+
+renderAll();
+
+
+showMessage(
+`Player ${player} ended their turn. Player ${currentTurn}'s turn.`
+);
+
+}
+
+
+/*
+World Card capture.
+
+No artificial once-per-turn capture limit.
+
+Still requires at least 1 Idle Person.
 The Person is NOT consumed.
 */
 
 function drawWorld(player){
 
 if(player!==currentTurn){
-
 return;
-
 }
 
 
@@ -951,46 +1479,41 @@ return;
 }
 
 
-let card;
+const type=
+player===1
+?worldDeck.shift()
+:worldDeck.pop();
+
+
+const territory=
+createTerritory(type);
 
 
 if(player===1){
 
-card=worldDeck.shift();
-
-player1TerritoryDeck.push(card);
-
-player1TerritoryAssignments.push(
-Array(7).fill(false)
+player1TerritoryDeck.push(
+territory
 );
 
 }else{
 
-card=worldDeck.pop();
-
-player2TerritoryDeck.push(card);
-
-player2TerritoryAssignments.push(
-Array(7).fill(false)
+player2TerritoryDeck.push(
+territory
 );
 
 }
 
 
-const data=
-worldTypes[card];
-
-
 showMessage(`
 <img
 class="drawn-card"
-src="${data.image}"
-alt="${card} Card"
+src="${worldTypes[type].image}"
+alt="${type} Card"
 >
-<b>Player ${player} acquired a ${card} World Card.</b>
+<b>Player ${player} acquired a ${type} World Card.</b>
 <br>
 <small>
-Building capacity: ${data.capacity}
+Building capacity: ${worldTypes[type].capacity}
 <br>
 At least 1 Idle Person was required.
 No Idle Person was consumed.
@@ -999,353 +1522,6 @@ No Idle Person was consumed.
 
 
 renderAll();
-
-}
-
-
-function renderWorldDeck(){
-
-const container=
-document.getElementById(
-"worldDeckVisual"
-);
-
-container.innerHTML="";
-
-
-if(worldDeck.length===0){
-
-container.innerHTML=
-"<small>THE WORLD DECK IS EMPTY</small>";
-
-return;
-
-}
-
-
-const visible=
-Math.min(3,worldDeck.length);
-
-
-for(let i=0;i<visible;i++){
-
-const img=
-document.createElement("img");
-
-img.src=
-worldTypes[worldDeck[i]].image;
-
-img.alt="World Deck";
-
-img.className=
-"world-card";
-
-container.appendChild(img);
-
-}
-
-}
-
-
-function renderResources(){
-
-const p1=player1Resources;
-const p2=player2Resources;
-
-
-document.getElementById(
-"player1Wood"
-).textContent=p1.Wood;
-
-document.getElementById(
-"player1Oil"
-).textContent=p1.Oil;
-
-document.getElementById(
-"player1Stone"
-).textContent=p1.Stone;
-
-document.getElementById(
-"player1Iron"
-).textContent=p1.Iron;
-
-document.getElementById(
-"player1Crop"
-).textContent=p1.Crop;
-
-document.getElementById(
-"player1IdlePeople"
-).textContent=p1.IdlePeople;
-
-document.getElementById(
-"player1Population"
-).textContent=p1.Population;
-
-
-document.getElementById(
-"player2Wood"
-).textContent=p2.Wood;
-
-document.getElementById(
-"player2Oil"
-).textContent=p2.Oil;
-
-document.getElementById(
-"player2Stone"
-).textContent=p2.Stone;
-
-document.getElementById(
-"player2Iron"
-).textContent=p2.Iron;
-
-document.getElementById(
-"player2Crop"
-).textContent=p2.Crop;
-
-document.getElementById(
-"player2IdlePeople"
-).textContent=p2.IdlePeople;
-
-document.getElementById(
-"player2Population"
-).textContent=p2.Population;
-
-}
-
-
-function countTerritoryCards(
-deck,
-type
-){
-
-return deck.filter(
-card=>card===type
-).length;
-
-}
-
-
-function countAssignedCards(
-assignmentDeck,
-type,
-playerDeck
-){
-
-let total=0;
-
-
-for(
-let i=0;
-i<playerDeck.length;
-i++
-){
-
-if(
-playerDeck[i]!==type
-){
-
-continue;
-
-}
-
-
-const assignments=
-assignmentDeck[i];
-
-
-if(!assignments){
-
-continue;
-
-}
-
-
-assignments.forEach(
-assigned=>{
-
-if(assigned){
-
-total++;
-
-}
-
-}
-);
-
-}
-
-
-return total;
-
-}
-
-
-/*
-PER-TURN ECONOMY
-
-River:
-Each River needs 1 assigned Person.
-That worker produces:
-+1 Wood
-+3 Crop
-
-Mountain:
-Each assigned Mountain worker:
-+1 Stone
-
-Forest:
-Each assigned Forest worker:
-+5 Wood
-+1 Crop
-
-Every Person:
--1 Crop
-
-This happens ONLY when the
-current player ends their turn.
-*/
-
-function resolveTurn(player){
-
-const resources=
-player===1
-?player1Resources
-:player2Resources;
-
-
-const territoryDeck=
-player===1
-?player1TerritoryDeck
-:player2TerritoryDeck;
-
-
-const assignments=
-player===1
-?player1TerritoryAssignments
-:player2TerritoryAssignments;
-
-
-/*
-River workers.
-*/
-
-const riverWorkers=
-countAssignedCards(
-assignments,
-"River",
-territoryDeck
-);
-
-
-/*
-Mountain workers.
-*/
-
-const mountainWorkers=
-countAssignedCards(
-assignments,
-"Mountain",
-territoryDeck
-);
-
-
-/*
-Forest workers.
-*/
-
-const forestWorkers=
-countAssignedCards(
-assignments,
-"Forest",
-territoryDeck
-);
-
-
-/*
-RIVER PRODUCTION
-*/
-
-resources.Wood+=riverWorkers;
-
-resources.Crop+=riverWorkers*3;
-
-
-/*
-MOUNTAIN PRODUCTION
-*/
-
-resources.Stone+=mountainWorkers;
-
-
-/*
-FOREST PRODUCTION
-*/
-
-resources.Wood+=forestWorkers*5;
-
-resources.Crop+=forestWorkers;
-
-
-/*
-FOOD CONSUMPTION
-
-Every Person consumes
-1 Crop per turn.
-*/
-
-resources.Crop=
-Math.max(
-0,
-resources.Crop-resources.Population
-);
-
-
-renderResources();
-
-}
-
-
-/*
-END TURN
-
-The current player's economy
-is resolved once, then the turn
-passes to the other player.
-*/
-
-function endTurn(player){
-
-if(player!==currentTurn){
-
-return;
-
-}
-
-
-/*
-Production and consumption
-for this player's turn.
-*/
-
-resolveTurn(player);
-
-
-/*
-Switch turn.
-*/
-
-currentTurn=
-player===1
-?2
-:1;
-
-
-renderAll();
-
-
-showMessage(
-`Player ${player} ended their turn. Player ${currentTurn}'s turn.`
-);
 
 }
 
@@ -1372,12 +1548,8 @@ container.innerHTML="";
 if(deck.length===0){
 
 container.innerHTML=`
-<div class="empty-deck">
-EMPTY DECK
-</div>
-<div class="deck-count">
-0 cards
-</div>
+<div class="empty-deck">EMPTY DECK</div>
+<div class="deck-count">0 cards</div>
 `;
 
 return;
@@ -1432,13 +1604,11 @@ if(openTerritory===player){
 const closeButton=
 document.createElement("button");
 
-closeButton.className=
-"close-deck";
+closeButton.className="close-deck";
+closeButton.textContent="Close Deck";
 
-closeButton.textContent=
-"Close Deck";
-
-closeButton.onclick=()=>{
+closeButton.onclick=
+()=>{
 closeTerritoryDeck(player);
 };
 
@@ -1463,13 +1633,11 @@ Math.min(4,deck.length);
 
 for(let i=0;i<visible;i++){
 
-const card=deck[i];
-
 const img=
 document.createElement("img");
 
 img.src=
-worldTypes[card].image;
+worldTypes[deck[i].type].image;
 
 img.alt="";
 
@@ -1486,12 +1654,17 @@ deckElement.appendChild(img);
 }
 
 
-deckElement.onclick=()=>{
+deckElement.onclick=
+()=>{
 openTerritoryDeck(player);
 };
 
 }
 
+
+/*
+Expanded territory deck.
+*/
 
 function renderExpandedTerritoryDeck(
 deckElement,
@@ -1507,7 +1680,6 @@ deckElement.classList.add(
 const total=
 deck.length;
 
-
 const availableWidth=
 Math.min(
 740,
@@ -1517,29 +1689,29 @@ window.innerWidth-100
 )
 );
 
-
 const spacing=
 Math.min(
 145,
 availableWidth/Math.max(total,1)
 );
 
-
 const centre=
 (total-1)/2;
 
 
 deck.forEach(
-(card,index)=>{
+(territory,index)=>{
 
 const img=
 document.createElement("img");
 
 img.src=
-worldTypes[card].image;
+worldTypes[
+territory.type
+].image;
 
 img.alt=
-`${card} Card`;
+`${territory.type} Card`;
 
 img.className=
 "territory-card";
@@ -1550,9 +1722,7 @@ img.style.transform=
 img.style.zIndex=
 100+index;
 
-deckElement.appendChild(
-img
-);
+deckElement.appendChild(img);
 
 
 requestAnimationFrame(
@@ -1575,7 +1745,8 @@ img.style.transform=
 );
 
 
-img.onclick=(event)=>{
+img.onclick=
+event=>{
 
 event.stopPropagation();
 
@@ -1585,8 +1756,8 @@ deckElement
 ".territory-card.selected"
 )
 .forEach(
-selectedCard=>{
-selectedCard.classList.remove(
+card=>{
+card.classList.remove(
 "selected"
 );
 }
@@ -1601,7 +1772,7 @@ img.classList.add(
 openTerritoryModal(
 player,
 index,
-card
+territory.type
 );
 
 };
@@ -1613,7 +1784,9 @@ card
 deckElement.onclick=
 event=>{
 
-if(event.target===deckElement){
+if(
+event.target===deckElement
+){
 
 closeTerritoryDeck(
 player
@@ -1626,10 +1799,17 @@ player
 }
 
 
+/*
+Open/close territory deck.
+*/
+
 function openTerritoryDeck(player){
 
 assignmentMode=false;
 unassignmentMode=false;
+moveMode=false;
+
+clearMoveSource();
 
 openTerritory=player;
 
@@ -1644,6 +1824,9 @@ if(openTerritory===player){
 
 assignmentMode=false;
 unassignmentMode=false;
+moveMode=false;
+
+clearMoveSource();
 
 openTerritory=null;
 
@@ -1654,52 +1837,43 @@ renderAll();
 }
 
 
-function getTerritorySlotCards(
-cardType
-){
-
-const slots=[
-null,
-null,
-null,
-null,
-null,
-null,
-null
-];
-
-
-if(cardType==="Mountain"){
-
-slots[2]="Mountain";
-slots[3]="Mountain";
-slots[4]="Mountain";
-
-}else if(cardType==="River"){
-
 /*
-One worker slot for a River.
+Modal state.
 */
 
-slots[3]="River";
+function openTerritoryModal(
+player,
+index,
+type
+){
 
-}else if(cardType==="Forest"){
+selectedTerritoryPlayer=player;
+selectedTerritoryIndex=index;
+selectedTerritoryType=type;
 
-slots[1]="Forest";
-slots[2]="Forest";
-slots[3]="Forest";
-slots[4]="Forest";
-slots[5]="Forest";
+assignmentMode=false;
+unassignmentMode=false;
+moveMode=false;
+
+clearMoveSource();
+
+document
+.getElementById(
+"territoryModal"
+)
+.classList.add("open");
+
+
+renderTerritoryModal();
 
 }
 
 
-return slots;
+/*
+Return selected Territory object.
+*/
 
-}
-
-
-function getSelectedAssignmentArray(){
+function getSelectedTerritory(){
 
 if(
 selectedTerritoryPlayer===null ||
@@ -1710,60 +1884,55 @@ return null;
 
 }
 
-
-const assignments=
+const deck=
 selectedTerritoryPlayer===1
-?player1TerritoryAssignments
-:player2TerritoryAssignments;
+?player1TerritoryDeck
+:player2TerritoryDeck;
 
-
-if(
-!assignments[selectedTerritoryIndex]
-){
-
-assignments[selectedTerritoryIndex]=
-Array(7).fill(false);
-
-}
-
-
-return assignments[
+return deck[
 selectedTerritoryIndex
-];
+]||null;
 
 }
 
 
-function openTerritoryModal(
-player,
-index,
-card
+/*
+Render the selected Territory's
+individual resource stock.
+*/
+
+function renderTerritoryResources(
+territory
 ){
 
-const modal=
+const box=
 document.getElementById(
-"territoryModal"
+"territoryResources"
 );
 
+if(!box || !territory){
+return;
+}
 
-selectedTerritoryPlayer=
-player;
 
-selectedTerritoryIndex=
-index;
+const r=territory.resources;
 
-selectedTerritoryType=
-card;
 
-assignmentMode=false;
-unassignmentMode=false;
-
-renderTerritoryModal();
-
-modal.classList.add("open");
+box.innerHTML=
+`Stored resources:
+Wood ${r.Wood} ·
+Oil ${r.Oil} ·
+Stone ${r.Stone} ·
+Iron ${r.Iron} ·
+Crop ${r.Crop}`;
 
 }
 
+
+/*
+Render internal cards and all
+available actions.
+*/
 
 function renderTerritoryModal(){
 
@@ -1787,52 +1956,52 @@ document.getElementById(
 "unassignButton"
 );
 
+const moveButton=
+document.getElementById(
+"moveButton"
+);
 
-if(
-!content ||
-!status ||
-!assignButton ||
-!unassignButton
-){
 
+if(!content){
 return;
-
 }
 
 
 content.innerHTML="";
 
 
-if(!selectedTerritoryType){
+const territory=
+getSelectedTerritory();
 
+
+if(!territory){
 return;
-
 }
+
+
+renderTerritoryResources(
+territory
+);
 
 
 const slotCards=
 getTerritorySlotCards(
-selectedTerritoryType
+territory.type
 );
 
 const assignments=
-getSelectedAssignmentArray();
+territory.assignments;
 
 
 let assignedCount=0;
 
-
-if(assignments){
-
 assignments.forEach(
-assigned=>{
-if(assigned){
+id=>{
+if(id!==null){
 assignedCount++;
 }
 }
 );
-
-}
 
 
 slotCards.forEach(
@@ -1856,9 +2025,21 @@ slot.classList.add(
 }else{
 
 
+const civilian=
+assignments[slotIndex]!==null
+?getCivilian(
+selectedTerritoryPlayer,
+assignments[slotIndex]
+)
+:null;
+
+
+/*
+Assign target.
+*/
+
 if(
 assignmentMode &&
-assignments &&
 !assignments[slotIndex]
 ){
 
@@ -1869,10 +2050,13 @@ slot.classList.add(
 }
 
 
+/*
+Unassign target.
+*/
+
 if(
 unassignmentMode &&
-assignments &&
-assignments[slotIndex]
+assignments[slotIndex]!==null
 ){
 
 slot.classList.add(
@@ -1882,22 +2066,37 @@ slot.classList.add(
 }
 
 
+/*
+Move source.
+*/
+
 if(
-assignments &&
-assignments[slotIndex]
+moveMode &&
+assignments[slotIndex]!==null &&
+civilian &&
+canPersonMove(
+selectedTerritoryPlayer,
+civilian
+)
 ){
 
 slot.classList.add(
-"assigned"
+"movable-source"
 );
 
 }
 
 
+/*
+Move destination.
+
+Only the selected destination Territory
+is shown here. Adjacent target Territory
+cards are handled when their modal opens.
+*/
+
 const internalCard=
-document.createElement(
-"img"
-);
+document.createElement("img");
 
 internalCard.className=
 "internal-territory-card";
@@ -1914,8 +2113,7 @@ internalCard
 
 
 if(
-assignments &&
-assignments[slotIndex]
+assignments[slotIndex]!==null
 ){
 
 const marker=
@@ -1936,7 +2134,8 @@ marker
 }
 
 
-slot.onclick=()=>{
+slot.onclick=
+()=>{
 
 if(assignmentMode){
 
@@ -1947,6 +2146,12 @@ slotIndex
 }else if(unassignmentMode){
 
 unassignPersonFromSlot(
+slotIndex
+);
+
+}else if(moveMode){
+
+handleMoveSlotClick(
 slotIndex
 );
 
@@ -1973,108 +2178,84 @@ selectedTerritoryPlayer===1
 
 if(assignmentMode){
 
-if(player.IdlePeople<=0){
-
 status.textContent=
-"No Idle People available.";
+player.IdlePeople>0
+?`Choose an unassigned internal card. Idle People: ${player.IdlePeople}`
+:"No Idle People available.";
+
+assignButton.classList.add("active");
+assignButton.textContent="Assigning...";
 
 }else{
 
-status.textContent=
-`Choose an unassigned internal card. Idle People available: ${player.IdlePeople}`;
-
-}
-
-assignButton.classList.add(
-"active"
-);
-
-assignButton.textContent=
-"Assigning...";
-
-}else{
-
-assignButton.classList.remove(
-"active"
-);
-
-assignButton.textContent=
-"Assign";
+assignButton.classList.remove("active");
+assignButton.textContent="Assign";
 
 }
 
 
 if(unassignmentMode){
 
-if(assignedCount<=0){
-
 status.textContent=
-"No assigned people to unassign.";
+assignedCount>0
+?`Choose an assigned internal card to return that person to Idle. Assigned here: ${assignedCount}`
+:"No assigned people to unassign.";
+
+unassignButton.classList.add("active");
+unassignButton.textContent="Unassigning...";
 
 }else{
 
-status.textContent=
-`Choose an assigned internal card to return that person to Idle. Assigned here: ${assignedCount}`;
+unassignButton.classList.remove("active");
+unassignButton.textContent="Unassign";
 
 }
 
-unassignButton.classList.add(
-"active"
-);
 
-unassignButton.textContent=
-"Unassigning...";
+if(moveMode){
+
+status.textContent=
+moveSourceTerritoryIndex===null
+?"Choose an assigned Person to move."
+:"Select an adjacent Territory Card, then an empty worker slot.";
+
+moveButton.classList.add("active");
+moveButton.textContent="Moving...";
 
 }else{
 
-unassignButton.classList.remove(
-"active"
-);
-
-unassignButton.textContent=
-"Unassign";
+moveButton.classList.remove("active");
+moveButton.textContent="Move";
 
 }
 
 
 if(
 !assignmentMode &&
-!unassignmentMode
+!unassignmentMode &&
+!moveMode
 ){
 
 status.textContent=
-`Assigned workers on this territory: ${assignedCount}. Population: ${player.Population}.`;
+`Assigned workers: ${assignedCount}. Population: ${player.Population}.`;
 
 }
 
 }
 
+
+/*
+Assignment mode.
+*/
 
 function toggleAssignmentMode(){
 
 if(
-selectedTerritoryPlayer===null ||
-selectedTerritoryIndex===null
-){
-
-return;
-
-}
-
-
-const resources=
-selectedTerritoryPlayer===1
-?player1Resources
-:player2Resources;
-
-
-if(
-!assignmentMode &&
-resources.IdlePeople<=0
+selectedTerritoryPlayer!==currentTurn
 ){
 
 showMessage(
-`Player ${selectedTerritoryPlayer} has no Idle People available.`
+"Only the current player can assign civilians."
 );
 
 return;
@@ -2086,18 +2267,28 @@ assignmentMode=
 !assignmentMode;
 
 unassignmentMode=false;
+moveMode=false;
+
+clearMoveSource();
 
 renderTerritoryModal();
 
 }
 
 
+/*
+Unassignment mode.
+*/
+
 function toggleUnassignmentMode(){
 
 if(
-selectedTerritoryPlayer===null ||
-selectedTerritoryIndex===null
+selectedTerritoryPlayer!==currentTurn
 ){
+
+showMessage(
+"Only the current player can unassign civilians."
+);
 
 return;
 
@@ -2108,54 +2299,279 @@ unassignmentMode=
 !unassignmentMode;
 
 assignmentMode=false;
+moveMode=false;
+
+clearMoveSource();
 
 renderTerritoryModal();
 
 }
 
 
+/*
+Move mode.
+*/
+
+function toggleMoveMode(){
+
+if(
+selectedTerritoryPlayer!==currentTurn
+){
+
+showMessage(
+"Only the current player can move civilians."
+);
+
+return;
+
+}
+
+
+moveMode=
+!moveMode;
+
+assignmentMode=false;
+unassignmentMode=false;
+
+clearMoveSource();
+
+renderTerritoryModal();
+
+}
+
+
+/*
+Clear move source.
+*/
+
+function clearMoveSource(){
+
+moveSourcePlayer=null;
+moveSourceTerritoryIndex=null;
+moveSourceSlotIndex=null;
+
+}
+
+
+/*
+Can civilian move this turn?
+*/
+
+function canPersonMove(
+player,
+civilian
+){
+
+return(
+player===currentTurn &&
+civilian &&
+!civilian.movedThisTurn
+);
+
+}
+
+
+/*
+Determine whether two Territory Cards
+are exactly one card apart.
+*/
+
+function isAdjacentTerritory(
+sourceIndex,
+targetIndex
+){
+
+return Math.abs(
+sourceIndex-targetIndex
+)===1;
+
+}
+
+
+/*
+First click selects a worker.
+Second click is handled by selecting
+an adjacent Territory Card.
+*/
+
+function handleMoveSlotClick(
+slotIndex
+){
+
+const territory=
+getSelectedTerritory();
+
+if(!territory){
+return;
+}
+
+
+const civilianId=
+territory.assignments[
+slotIndex
+];
+
+
+if(
+civilianId===null
+){
+
+showMessage(
+"Choose an assigned Person to move."
+);
+
+return;
+
+}
+
+
+const civilian=
+getCivilian(
+selectedTerritoryPlayer,
+civilianId
+);
+
+
+if(
+!canPersonMove(
+selectedTerritoryPlayer,
+civilian
+)
+){
+
+showMessage(
+"That Person has already moved this turn."
+);
+
+return;
+
+}
+
+
+/*
+Store the source.
+*/
+
+moveSourcePlayer=
+selectedTerritoryPlayer;
+
+moveSourceTerritoryIndex=
+selectedTerritoryIndex;
+
+moveSourceSlotIndex=
+slotIndex;
+
+
+showMessage(
+"Source Person selected. Open an adjacent Territory Card and choose an empty internal card."
+);
+
+renderTerritoryModal();
+
+}
+
+
+/*
+Open an adjacent target Territory
+from the expanded deck while moving.
+*/
+
+function attemptOpenMoveTarget(
+player,
+targetIndex,
+type
+){
+
+if(
+!moveMode ||
+moveSourceTerritoryIndex===null
+){
+
+openTerritoryModal(
+player,
+targetIndex,
+type
+);
+
+return;
+
+}
+
+
+if(
+player!==moveSourcePlayer
+){
+
+showMessage(
+"A civilian can only move within their owner's territories."
+);
+
+return;
+
+}
+
+
+if(
+!isAdjacentTerritory(
+moveSourceTerritoryIndex,
+targetIndex
+)
+){
+
+showMessage(
+"A civilian can move only one Territory Card per turn."
+);
+
+return;
+
+}
+
+
+selectedTerritoryPlayer=
+player;
+
+selectedTerritoryIndex=
+targetIndex;
+
+selectedTerritoryType=
+type;
+
+renderTerritoryModal();
+
+}
+
+
+/*
+Assign Idle Person to an internal card.
+*/
+
 function assignPersonToSlot(
 slotIndex
 ){
 
 if(!assignmentMode){
-
 return;
-
 }
 
 
-const resources=
+const territory=
+getSelectedTerritory();
+
+
+if(!territory){
+return;
+}
+
+
+const player=
 selectedTerritoryPlayer===1
 ?player1Resources
 :player2Resources;
 
 
-const assignments=
-getSelectedAssignmentArray();
-
-
-if(!assignments){
-
-return;
-
-}
-
-
-const slotCards=
-getTerritorySlotCards(
-selectedTerritoryType
-);
-
-
-if(slotCards[slotIndex]===null){
-
-return;
-
-}
-
-
-if(assignments[slotIndex]){
+if(
+territory.assignments[slotIndex]!==null
+){
 
 showMessage(
 "That internal card already has a person assigned."
@@ -2166,80 +2582,96 @@ return;
 }
 
 
-if(resources.IdlePeople<=0){
+/*
+Only valid internal slots can be assigned.
+*/
 
-showMessage(
-`Player ${selectedTerritoryPlayer} has no Idle People available.`
-);
-
-assignmentMode=false;
-
-renderTerritoryModal();
+if(
+getTerritorySlotCards(
+territory.type
+)[slotIndex]===null
+){
 
 return;
 
 }
 
 
-assignments[slotIndex]=true;
+const civilian=
+getIdleCivilian(
+selectedTerritoryPlayer
+);
 
-resources.IdlePeople-=1;
+
+if(!civilian){
+
+showMessage(
+"No Idle People available."
+);
+
+return;
+
+}
+
+
+/*
+Move the idle civilian into the
+selected job.
+*/
+
+territory.assignments[slotIndex]=
+civilian.id;
+
+civilian.territoryIndex=
+selectedTerritoryIndex;
+
+civilian.slotIndex=
+slotIndex;
+
+player.IdlePeople-=1;
 
 assignmentMode=false;
 
-renderResources();
+renderAll();
 renderTerritoryModal();
 
 
 showMessage(
-`Player ${selectedTerritoryPlayer} assigned one person to a ${slotCards[slotIndex]} internal card.`
+`Player ${selectedTerritoryPlayer} assigned one person to a ${territory.type} internal card.`
 );
 
 }
 
+
+/*
+Unassign worker.
+*/
 
 function unassignPersonFromSlot(
 slotIndex
 ){
 
 if(!unassignmentMode){
-
 return;
-
 }
 
 
-const resources=
-selectedTerritoryPlayer===1
-?player1Resources
-:player2Resources;
+const territory=
+getSelectedTerritory();
 
 
-const assignments=
-getSelectedAssignmentArray();
-
-
-if(!assignments){
-
+if(!territory){
 return;
-
 }
 
 
-const slotCards=
-getTerritorySlotCards(
-selectedTerritoryType
-);
+const civilianId=
+territory.assignments[
+slotIndex
+];
 
 
-if(slotCards[slotIndex]===null){
-
-return;
-
-}
-
-
-if(!assignments[slotIndex]){
+if(civilianId===null){
 
 showMessage(
 "That internal card has no person assigned."
@@ -2250,7 +2682,32 @@ return;
 }
 
 
-assignments[slotIndex]=false;
+const civilian=
+getCivilian(
+selectedTerritoryPlayer,
+civilianId
+);
+
+
+territory.assignments[
+slotIndex
+]=null;
+
+
+if(civilian){
+
+civilian.slotIndex=null;
+civilian.territoryIndex=
+selectedTerritoryIndex;
+
+}
+
+
+const resources=
+selectedTerritoryPlayer===1
+?player1Resources
+:player2Resources;
+
 
 resources.IdlePeople+=1;
 
@@ -2261,22 +2718,23 @@ renderTerritoryModal();
 
 
 showMessage(
-`Player ${selectedTerritoryPlayer} unassigned one person from the ${slotCards[slotIndex]} internal card.`
+`Player ${selectedTerritoryPlayer} unassigned one person from the ${territory.type} internal card.`
 );
 
 }
 
 
+/*
+Close territory modal.
+*/
+
 function closeTerritoryModal(){
 
-const modal=
-document.getElementById(
+document
+.getElementById(
 "territoryModal"
-);
-
-modal.classList.remove(
-"open"
-);
+)
+.classList.remove("open");
 
 closeBuildSidebar();
 
@@ -2286,6 +2744,9 @@ selectedTerritoryType=null;
 
 assignmentMode=false;
 unassignmentMode=false;
+moveMode=false;
+
+clearMoveSource();
 
 
 document
@@ -2303,6 +2764,310 @@ card.classList.remove(
 }
 
 
+/*
+When a target Territory Card is opened
+during movement, target slots become
+clickable.
+*/
+
+function prepareMoveTarget(){
+
+if(
+!moveMode ||
+moveSourceTerritoryIndex===null
+){
+
+return;
+
+}
+
+
+if(
+!isAdjacentTerritory(
+moveSourceTerritoryIndex,
+selectedTerritoryIndex
+)
+){
+
+return;
+
+}
+
+
+const content=
+document.getElementById(
+"territoryModalContent"
+);
+
+const territory=
+getSelectedTerritory();
+
+
+if(!content || !territory){
+return;
+}
+
+
+const slots=
+content.querySelectorAll(
+".modal-card-slot"
+);
+
+
+slots.forEach(
+(slot,slotIndex)=>{
+
+const slotType=
+getTerritorySlotCards(
+territory.type
+)[slotIndex];
+
+if(
+slotType!==null &&
+territory.assignments[slotIndex]===null
+){
+
+slot.classList.add(
+"move-target"
+);
+
+slot.onclick=()=>{
+
+completeMove(
+slotIndex
+);
+
+};
+
+}
+
+}
+);
+
+}
+
+
+/*
+Complete movement.
+
+The civilian:
+- leaves source assignment
+- moves exactly one Territory Card
+- arrives Idle
+- consumes their movement allowance
+*/
+
+function completeMove(
+targetSlotIndex
+){
+
+if(
+moveSourceTerritoryIndex===null ||
+moveSourceSlotIndex===null
+){
+
+return;
+
+}
+
+
+const sourceDeck=
+moveSourcePlayer===1
+?player1TerritoryDeck
+:player2TerritoryDeck;
+
+
+const targetTerritory=
+sourceDeck[
+selectedTerritoryIndex
+];
+
+
+if(!targetTerritory){
+
+return;
+
+}
+
+
+/*
+Must be adjacent.
+*/
+
+if(
+!isAdjacentTerritory(
+moveSourceTerritoryIndex,
+selectedTerritoryIndex
+)
+){
+
+showMessage(
+"A civilian can move only one Territory Card per turn."
+);
+
+return;
+
+}
+
+
+/*
+Target must be an empty valid slot.
+*/
+
+const targetSlots=
+getTerritorySlotCards(
+targetTerritory.type
+);
+
+
+if(
+targetSlots[targetSlotIndex]===null
+){
+
+return;
+
+}
+
+
+if(
+targetTerritory.assignments[targetSlotIndex]!==null
+){
+
+showMessage(
+"The destination internal card is occupied."
+);
+
+return;
+
+}
+
+
+const sourceTerritory=
+sourceDeck[
+moveSourceTerritoryIndex
+];
+
+
+const civilianId=
+sourceTerritory.assignments[
+moveSourceSlotIndex
+];
+
+
+if(civilianId===null){
+
+return;
+
+}
+
+
+const civilian=
+getCivilian(
+moveSourcePlayer,
+civilianId
+);
+
+
+if(
+!canPersonMove(
+moveSourcePlayer,
+civilian
+)
+){
+
+showMessage(
+"That Person has already moved this turn."
+);
+
+return;
+
+}
+
+
+/*
+REMOVE SOURCE ASSIGNMENT.
+*/
+
+sourceTerritory.assignments[
+moveSourceSlotIndex
+]=null;
+
+
+/*
+CIVILIAN MOVES TO DESTINATION.
+*/
+
+if(civilian){
+
+civilian.territoryIndex=
+selectedTerritoryIndex;
+
+/*
+They arrive Idle.
+*/
+
+civilian.slotIndex=null;
+
+/*
+Their movement for this turn
+is now spent.
+*/
+
+civilian.movedThisTurn=true;
+
+}
+
+
+/*
+Because the worker leaves their old job,
+they become Idle.
+*/
+
+const resources=
+moveSourcePlayer===1
+?player1Resources
+:player2Resources;
+
+resources.IdlePeople+=1;
+
+
+const sourceNumber=
+moveSourceTerritoryIndex+1;
+
+const targetNumber=
+selectedTerritoryIndex+1;
+
+
+clearMoveSource();
+
+moveMode=false;
+
+renderResources();
+renderAll();
+
+
+showMessage(
+`Player ${moveSourcePlayer} moved a Person from Territory Card ${sourceNumber} to Territory Card ${targetNumber}. The Person is now Idle.`
+);
+
+
+/*
+Re-open destination modal.
+*/
+
+openTerritoryModal(
+moveSourcePlayer,
+selectedTerritoryIndex,
+targetTerritory.type
+);
+
+}
+
+
+/*
+Territory modal backdrop.
+*/
+
 document
 .getElementById(
 "territoryModal"
@@ -2312,7 +3077,8 @@ document
 event=>{
 
 if(
-event.target.id==="territoryModal"
+event.target.id===
+"territoryModal"
 ){
 
 closeTerritoryModal();
@@ -2322,6 +3088,46 @@ closeTerritoryModal();
 }
 );
 
+
+/*
+Intercept territory-card clicks while
+Move mode has a source selected.
+*/
+
+document.addEventListener(
+"click",
+event=>{
+
+const card=
+event.target.closest(
+".territory-card"
+);
+
+if(
+!card ||
+!moveMode ||
+moveSourceTerritoryIndex===null
+){
+
+return;
+
+}
+
+
+/*
+The normal onclick already handles
+the destination modal. The actual
+one-card movement restriction is
+checked inside the destination modal.
+*/
+
+}
+);
+
+
+/*
+Build sidebar.
+*/
 
 function openBuildSidebar(){
 
@@ -2370,12 +3176,12 @@ selectedTerritoryType
 ]||[];
 
 
-if(
-allowedBuildings.length===0
-){
+if(allowedBuildings.length===0){
 
 const empty=
-document.createElement("div");
+document.createElement(
+"div"
+);
 
 empty.className=
 "no-buildables";
@@ -2440,7 +3246,8 @@ document
 event=>{
 
 if(
-event.target.id==="buildSidebarOverlay"
+event.target.id===
+"buildSidebarOverlay"
 ){
 
 closeBuildSidebar();
@@ -2451,21 +3258,22 @@ closeBuildSidebar();
 );
 
 
+/*
+Render everything.
+*/
+
 function renderAll(){
 
 renderWorldDeck();
-
 
 document.getElementById(
 "remaining"
 ).textContent=
 `${worldDeck.length} World Cards remaining`;
 
-
 renderTurn();
 
 renderResources();
-
 
 renderTerritoryDeck(
 1,
@@ -2480,6 +3288,10 @@ player2TerritoryDeck
 }
 
 
+/*
+Message.
+*/
+
 function showMessage(text){
 
 document.getElementById(
@@ -2490,6 +3302,10 @@ text;
 }
 
 
+/*
+New game.
+*/
+
 function newGame(){
 
 worldDeck=[];
@@ -2497,8 +3313,22 @@ worldDeck=[];
 player1TerritoryDeck=[];
 player2TerritoryDeck=[];
 
-player1TerritoryAssignments=[];
-player2TerritoryAssignments=[];
+player1Resources={
+IdlePeople:2,
+Population:2
+};
+
+player2Resources={
+IdlePeople:2,
+Population:2
+};
+
+player1Civilians=[];
+player2Civilians=[];
+
+nextCivilianId=1;
+
+initializeCivilians();
 
 openTerritory=null;
 
@@ -2508,31 +3338,11 @@ selectedTerritoryType=null;
 
 assignmentMode=false;
 unassignmentMode=false;
+moveMode=false;
+
+clearMoveSource();
 
 currentTurn=1;
-
-
-player1Resources={
-Wood:0,
-Oil:0,
-Stone:0,
-Iron:0,
-Crop:0,
-IdlePeople:2,
-Population:2
-};
-
-
-player2Resources={
-Wood:0,
-Oil:0,
-Stone:0,
-Iron:0,
-Crop:0,
-IdlePeople:2,
-Population:2
-};
-
 
 closeTerritoryModal();
 closeBuildSidebar();
