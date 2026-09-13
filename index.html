@@ -1,5 +1,1986 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Winter World Deck</title>
 
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Winter World Deck</title><style>*{box-sizing:border-box}html{min-height:100%}body{margin:0;min-height:100vh;color:white;font-family:Georgia,"Times New Roman",serif;text-align:center;background:url("bg.jpg") center center / cover fixed no-repeat;overflow-x:hidden}main{width:min(1160px,94%);margin:28px auto 60px}h1,h2,h3{color:white;text-shadow:0 2px 4px rgba(0,0,0,0.65)}h1{margin:0 0 8px;font-size:clamp(34px,5vw,52px);letter-spacing:0.08em}h2{margin-top:0}h3{margin-top:0}.subtitle{display:inline-block;max-width:700px;color:white;line-height:1.5;font-style:italic;text-shadow:0 2px 4px rgba(0,0,0,0.65)}.wood-frame,.parchment,.world-section,.resource-panel,.resource-panel-inner,.territory,.territory-inner,.territory-deck-area,.territory-deck,.build-sidebar,.build-sidebar-inner{background:transparent;border:none;box-shadow:none}button{position:relative;margin:6px;padding:11px 18px;color:white;background:linear-gradient( 180deg,rgba(92,68,43,0.98) 0%,rgba(62,43,27,0.98) 100% );border:1px solid rgba(220,200,162,0.75);border-radius:6px;box-shadow:inset 0 1px 0 rgba(255,255,255,0.18),inset 0 -2px 0 rgba(0,0,0,0.30),0 3px 0 rgba(25,16,9,0.95),0 6px 12px rgba(0,0,0,0.28);font-family:Georgia,"Times New Roman",serif;font-size:15px;font-weight:bold;letter-spacing:0.02em;text-shadow:0 1px 2px rgba(0,0,0,0.65);cursor:pointer;transition:transform 0.12s ease,filter 0.12s ease,box-shadow 0.12s ease}button::before{content:"";position:absolute;inset:3px;border:1px solid rgba(255,255,255,0.08);border-radius:3px;pointer-events:none}button:hover{filter:brightness(1.15);transform:translateY(-2px);box-shadow:inset 0 1px 0 rgba(255,255,255,0.22),inset 0 -2px 0 rgba(0,0,0,0.30),0 5px 0 rgba(25,16,9,0.95),0 9px 16px rgba(0,0,0,0.30)}button:active{transform:translateY(2px);box-shadow:inset 0 2px 2px rgba(0,0,0,0.22),0 1px 0 rgba(25,16,9,0.95),0 3px 7px rgba(0,0,0,0.25)}.assign-button.active{outline:2px solid white;box-shadow:inset 0 1px 0 rgba(255,255,255,0.24),inset 0 -2px 0 rgba(0,0,0,0.30),0 0 14px rgba(255,255,255,0.35),0 4px 0 rgba(25,16,9,0.95)}.world-section{margin-top:28px;padding:24px 20px 28px}.world-deck{position:relative;width:180px;height:230px;margin:24px auto}.world-card{position:absolute;left:0;top:0;width:180px;height:230px;object-fit:contain;filter:drop-shadow( 0 8px 8px rgba(0,0,0,0.35) );transition:transform 0.25s ease}.world-card:nth-child(1){transform:translate(-8px,5px) rotate(-3deg)}.world-card:nth-child(2){transform:translate(-4px,2px) rotate(-1.5deg)}.world-card:nth-child(3){transform:translate(0,0)}#remaining{margin-bottom:10px;color:white;text-shadow:0 2px 4px rgba(0,0,0,0.65)}#message{min-height:50px;margin:22px auto;width:fit-content;max-width:92%;color:white;text-shadow:0 2px 4px rgba(0,0,0,0.65)}#message b,#message small{color:white}.drawn-card{display:block;width:220px;max-width:100%;height:auto;margin:12px auto;filter:drop-shadow( 0 8px 8px rgba(0,0,0,0.35) )}.player-resources{margin-top:25px;display:flex;flex-direction:column;gap:24px;width:100%}.resource-panel{width:100%;background:transparent}.resource-panel-inner{padding:20px 18px 16px}.resource-panel h3{margin:0 0 16px;color:white;text-shadow:0 2px 4px rgba(0,0,0,0.65)}.resource-values{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.resource-value{padding:7px 4px;background:transparent;border:none}.resource-name{display:block;color:white;font-size:12px;text-shadow:0 2px 4px rgba(0,0,0,0.65)}.resource-amount{display:block;margin-top:3px;color:white;font-size:21px;font-weight:bold;text-shadow:0 2px 4px rgba(0,0,0,0.65)}.territories{display:flex;flex-direction:column;gap:40px;margin-top:40px;width:100%}.territory{width:100%;min-width:0;background:transparent}.territory-inner{padding:22px 18px}.territory h2{margin:0 0 8px;color:white;font-size:clamp(21px,3vw,27px);text-shadow:0 2px 4px rgba(0,0,0,0.65)}.territory-subtitle{display:block;margin-bottom:12px;color:white;font-size:13px;font-style:italic;text-shadow:0 2px 4px rgba(0,0,0,0.65)}.territory-deck-area{position:relative;min-height:330px;display:flex;flex-direction:column;align-items:center;justify-content:center;background:transparent}.territory-deck{position:relative;width:180px;height:230px;margin:15px auto;cursor:pointer}.territory-card{position:absolute;left:0;top:0;width:180px;height:230px;object-fit:contain;transform-origin:center bottom;filter:drop-shadow( 0 7px 6px rgba(0,0,0,0.35) );transition:transform 0.50s cubic-bezier(.2,.8,.2,1),opacity 0.30s ease}.territory-deck:not(.expanded):hover .territory-card:last-child{transform:translateY(-8px)}.territory-deck.expanded{width:min(90vw,820px);height:340px;cursor:default}.territory-deck.expanded .territory-card{cursor:pointer}.territory-card.selected{transform:translateY(-25px) scale(1.05) !important;z-index:9999 !important}.deck-count{margin-top:6px;color:white;font-size:14px;text-shadow:0 2px 4px rgba(0,0,0,0.65)}.empty-deck{width:180px;height:230px;margin:15px auto;display:flex;align-items:center;justify-content:center;color:white;text-shadow:0 2px 4px rgba(0,0,0,0.65)}.modal-overlay{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,0.55);padding:20px;z-index:10000}.modal-overlay.open{display:flex}.territory-modal{position:relative;width:min(920px,95vw);min-height:300px;max-height:90vh;overflow:hidden auto;padding:8px}.territory-modal-inner{position:relative;padding:42px 20px 24px}.modal-close{position:absolute;top:10px;right:10px;width:38px;height:38px;margin:0;padding:0;font-size:24px;line-height:1;z-index:2}.modal-card-slots{display:flex;flex-direction:row;align-items:center;justify-content:center;gap:12px;width:100%;overflow-x:auto;padding:10px 5px 15px;margin-top:5px}.modal-card-slot{flex:0 0 95px;width:95px;height:135px;display:flex;align-items:center;justify-content:center;background:transparent;border:1px dashed rgba(255,255,255,0.45);border-radius:8px;position:relative;transition:transform 0.15s ease,border-color 0.15s ease}.modal-card-slot.empty{background:transparent;border:1px dashed rgba(255,255,255,0.45);cursor:default}.modal-card-slot.assignable{cursor:pointer;border:2px solid rgba(255,255,255,0.85);box-shadow:0 0 12px rgba(255,255,255,0.18)}.modal-card-slot.assignable:hover{transform:translateY(-4px)}.modal-card-slot.assigned{border:2px solid white;box-shadow:0 0 14px rgba(255,255,255,0.30)}.internal-territory-card{width:100%;height:100%;object-fit:contain;display:block;pointer-events:none;filter:drop-shadow( 0 6px 6px rgba(0,0,0,0.30) )}.assigned-marker{position:absolute;left:50%;bottom:5px;transform:translateX(-50%);padding:3px 7px;color:white;background:rgba(0,0,0,0.72);border:1px solid rgba(255,255,255,0.65);border-radius:4px;font-size:11px;font-weight:bold;pointer-events:none;text-shadow:0 1px 2px rgba(0,0,0,0.8)}#assignmentStatus{min-height:22px;margin:2px auto 8px;color:white;font-size:13px;text-shadow:0 2px 4px rgba(0,0,0,0.65)}.modal-actions{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:4px}.build-sidebar-overlay{position:fixed;inset:0;display:none;background:rgba(0,0,0,0.35);z-index:11000}.build-sidebar-overlay.open{display:block}.build-sidebar{position:absolute;top:0;right:0;width:min(500px,91vw);height:100%;padding:8px;transform:translateX(100%);transition:transform 0.32s cubic-bezier(.2,.8,.2,1)}.build-sidebar-overlay.open .build-sidebar{transform:translateX(0)}.build-sidebar-inner{position:relative;height:100%;padding:26px 22px;overflow-y:auto}.build-sidebar-header{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-bottom:24px}.build-sidebar-header h2{margin:0;color:white;font-size:clamp(25px,4vw,34px);text-shadow:0 2px 4px rgba(0,0,0,0.65)}.build-sidebar-close{width:38px;height:38px;margin:0;padding:0;font-size:24px;line-height:1}.resources-section{padding-top:20px}.resources-section h3{margin:0 0 20px;color:white;text-shadow:0 2px 4px rgba(0,0,0,0.65)}.resources-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}.resource-card{width:100%;aspect-ratio:3 / 4;display:flex;align-items:center;justify-content:center;background:transparent;border:none;overflow:hidden;cursor:pointer;box-shadow:none;transition:transform 0.18s ease}.resource-card:hover{transform:translateY(-4px) scale(1.02)}.resource-card img{width:100%;height:100%;object-fit:contain;display:block;filter:drop-shadow( 0 7px 6px rgba(0,0,0,0.35) )}.no-buildables{grid-column:1 / -1;padding:26px 18px;color:white;font-style:italic;text-shadow:0 2px 4px rgba(0,0,0,0.65)}@media (max-width:750px){main{width:94%;margin-top:18px}.player-resources{flex-direction:column}.territories{flex-direction:column;gap:32px}.resource-values{grid-template-columns:repeat(3,minmax(0,1fr))}.territory-deck.expanded{width:100%;height:300px}.territory-card{width:135px;height:175px}.world-card{width:160px;height:205px}.world-deck{width:160px;height:205px}.territory-modal{width:95vw}.territory-modal-inner{padding:42px 12px 22px}.modal-card-slots{justify-content:flex-start;gap:10px}.modal-card-slot{flex:0 0 80px;width:80px;height:115px}.build-sidebar{width:90vw}.resources-list{grid-template-columns:1fr}.resource-card{aspect-ratio:4 / 3}}</style></head><body><main><div class="wood-frame"><div class="parchment world-section"><h1> WORLD DECK </h1><span class="subtitle"> A quiet winter age of territories, resources, and growing settlements. </span><div id="worldDeckVisual" class="world-deck" ></div><div id="remaining"> 0 World Cards remaining </div><button onclick="drawWorld(1)"> Player 1 — Draw Top </button><button onclick="drawWorld(2)"> Player 2 — Draw Bottom </button><button onclick="newGame()"> New Game </button></div></div><div id="message"> No World Card drawn yet.
-</div><section class="player-resources"><div class="wood-frame resource-panel"><div class="parchment resource-panel-inner"><h3> PLAYER 1 </h3><div class="resource-values"><div class="resource-value"><span class="resource-name"> Wood </span><span id="player1Wood" class="resource-amount" > 0 </span></div><div class="resource-value"><span class="resource-name"> Oil </span><span id="player1Oil" class="resource-amount" > 0 </span></div><div class="resource-value"><span class="resource-name"> Stone </span><span id="player1Stone" class="resource-amount" > 0 </span></div><div class="resource-value"><span class="resource-name"> Iron </span><span id="player1Iron" class="resource-amount" > 0 </span></div><div class="resource-value"><span class="resource-name"> Crop </span><span id="player1Crop" class="resource-amount" > 0 </span></div><div class="resource-value"><span class="resource-name"> Idle People </span><span id="player1IdlePeople" class="resource-amount" > 2 </span></div></div></div></div><div class="wood-frame resource-panel"><div class="parchment resource-panel-inner"><h3> PLAYER 2 </h3><div class="resource-values"><div class="resource-value"><span class="resource-name"> Wood </span><span id="player2Wood" class="resource-amount" > 0 </span></div><div class="resource-value"><span class="resource-name"> Oil </span><span id="player2Oil" class="resource-amount" > 0 </span></div><div class="resource-value"><span class="resource-name"> Stone </span><span id="player2Stone" class="resource-amount" > 0 </span></div><div class="resource-value"><span class="resource-name"> Iron </span><span id="player2Iron" class="resource-amount" > 0 </span></div><div class="resource-value"><span class="resource-name"> Crop </span><span id="player2Crop" class="resource-amount" > 0 </span></div><div class="resource-value"><span class="resource-name"> Idle People </span><span id="player2IdlePeople" class="resource-amount" > 2 </span></div></div></div></div></section><section class="territories"><div class="wood-frame territory"><div class="parchment territory-inner"><h2> PLAYER 1 TERRITORIES </h2><span class="territory-subtitle"> Your lands and their quiet potential. </span><div id="player1Deck" class="territory-deck-area" ></div></div></div><div class="wood-frame territory"><div class="parchment territory-inner"><h2> PLAYER 2 TERRITORIES </h2><span class="territory-subtitle"> Your lands and their quiet potential. </span><div id="player2Deck" class="territory-deck-area" ></div></div></div></section></main><div id="territoryModal" class="modal-overlay"
-><div class="wood-frame territory-modal"><div class="parchment territory-modal-inner"><button class="modal-close" onclick="closeTerritoryModal()" aria-label="Close" > × </button><div id="territoryModalContent" class="modal-card-slots" ></div><div id="assignmentStatus"> Select Assign, then choose an occupied internal card. </div><div class="modal-actions"><button id="assignButton" class="assign-button" onclick="toggleAssignmentMode()" > Assign </button><button class="modal-build-button" onclick="openBuildSidebar()" > Build </button></div></div></div></div><div id="buildSidebarOverlay" class="build-sidebar-overlay"
-><div class="wood-frame build-sidebar"><aside class="parchment build-sidebar-inner" ><div class="build-sidebar-header"><h2> BUILD </h2><button class="build-sidebar-close" onclick="closeBuildSidebar()" aria-label="Close Build Sidebar" > × </button></div><section class="resources-section"><h3> Buildable </h3><div id="buildCardsList" class="resources-list" ></div></section></aside></div></div><script>const worldTypes={River:{image:"river.png",capacity:6,buildings:["Farm","Residence","Tavern"]},Mountain:{image:"mountain.png",capacity:4,buildings:["Quarry","Mine","Oilfield"]},Forest:{image:"forest.png",capacity:2,buildings:["Forest(automatic)"]},Meadow:{image:"meadow.png",capacity:7,buildings:["Residence","Tavern"]}};const buildingImages={Farm:"farm.png",Mine:"mine.png",Oilfield:"oilfield.png",Quarry:"quarry.png",Residence:"residence.png",Tavern:"tavern.png"};const territoryBuildRules={River:["Farm","Residence","Tavern"],Mountain:["Mine","Oilfield","Quarry"],Forest:[],Meadow:["Residence","Tavern"]};let player1Resources={Wood:0,Oil:0,Stone:0,Iron:0,Crop:0,IdlePeople:2};let player2Resources={Wood:0,Oil:0,Stone:0,Iron:0,Crop:0,IdlePeople:2};const RESOURCE_TICK_MS=5000;let worldDeck=[];let player1TerritoryDeck=[];let player2TerritoryDeck=[];let player1TerritoryAssignments=[];let player2TerritoryAssignments=[];let openTerritory=null;let selectedTerritoryPlayer=null;let selectedTerritoryIndex=null;let selectedTerritoryType=null;let assignmentMode=false;function shuffle(deck){for(let i=deck.length - 1;i > 0;i--){const j=Math.floor(Math.random()*(i + 1));[deck[i],deck[j]]=[deck[j],deck[i]];}}function createWorldDeck(){worldDeck=[];for(const type of Object.keys(worldTypes)){const copies=3 + Math.floor(Math.random()* 4);for(let i=0;i < copies;i++){worldDeck.push(type);}}shuffle(worldDeck);}function drawWorld(player){const resources=player===1 ? player1Resources:player2Resources;if(resources.IdlePeople < 1){showMessage(`Player ${player}needs at least 1 Idle Person to take a new World Card.`);return;}if(worldDeck.length===0){showMessage("The World Deck is empty.");return;}let card;if(player===1){card=worldDeck.shift();player1TerritoryDeck.push(card);player1TerritoryAssignments.push(Array(7).fill(false));}else{card=worldDeck.pop();player2TerritoryDeck.push(card);player2TerritoryAssignments.push(Array(7).fill(false));}const data=worldTypes[card];showMessage(` <img class="drawn-card" src="${data.image}" alt="${card}Card" ><b> Player ${player}acquired a ${card}World Card. </b><br><small> Building capacity:${data.capacity}<br> At least 1 Idle Person was required. No Idle Person was consumed. </small> `);renderAll();}function renderWorldDeck(){const container=document.getElementById("worldDeckVisual");container.innerHTML="";if(worldDeck.length===0){container.innerHTML="<small>THE WORLD DECK IS EMPTY</small>";return;}const visible=Math.min(3,worldDeck.length);for(let i=0;i < visible;i++){const img=document.createElement("img");img.src=worldTypes[worldDeck[i]].image;img.alt="World Deck";img.className="world-card";container.appendChild(img);}}function renderResources(){document.getElementById("player1Wood").textContent=player1Resources.Wood;document.getElementById("player1Oil").textContent=player1Resources.Oil;document.getElementById("player1Stone").textContent=player1Resources.Stone;document.getElementById("player1Iron").textContent=player1Resources.Iron;document.getElementById("player1Crop").textContent=player1Resources.Crop;document.getElementById("player1IdlePeople").textContent=player1Resources.IdlePeople;document.getElementById("player2Wood").textContent=player2Resources.Wood;document.getElementById("player2Oil").textContent=player2Resources.Oil;document.getElementById("player2Stone").textContent=player2Resources.Stone;document.getElementById("player2Iron").textContent=player2Resources.Iron;document.getElementById("player2Crop").textContent=player2Resources.Crop;document.getElementById("player2IdlePeople").textContent=player2Resources.IdlePeople;}function countTerritoryCards(deck,type){return deck.filter(card=>card===type).length;}function countAssignedCards(assignmentDeck,type,playerDeck){let total=0;for(let i=0;i < playerDeck.length;i++){if(playerDeck[i]!==type){continue;}const assignments=assignmentDeck[i];if(!assignments){continue;}assignments.forEach(assigned=>{if(assigned){total++;}});}return total;}function generateResources(){const player1MountainWorkers=countAssignedCards(player1TerritoryAssignments,"Mountain",player1TerritoryDeck);const player1ForestWorkers=countAssignedCards(player1TerritoryAssignments,"Forest",player1TerritoryDeck);const player2MountainWorkers=countAssignedCards(player2TerritoryAssignments,"Mountain",player2TerritoryDeck);const player2ForestWorkers=countAssignedCards(player2TerritoryAssignments,"Forest",player2TerritoryDeck);player1Resources.Stone +=player1MountainWorkers;player2Resources.Stone +=player2MountainWorkers;player1Resources.Wood +=player1ForestWorkers * 5;player1Resources.Crop +=player1ForestWorkers;player2Resources.Wood +=player2ForestWorkers * 5;player2Resources.Crop +=player2ForestWorkers;renderResources();}let resourceProductionTimer=setInterval(generateResources,RESOURCE_TICK_MS);function renderTerritoryDeck(player,deck){const container=document.getElementById(player===1 ? "player1Deck":"player2Deck");container.innerHTML="";if(deck.length===0){container.innerHTML=` <div class="empty-deck"> EMPTY DECK </div><div class="deck-count"> 0 cards </div> `;return;}const deckElement=document.createElement("div");deckElement.className="territory-deck";if(openTerritory !==player){renderClosedTerritoryDeck(deckElement,deck,player);}else{renderExpandedTerritoryDeck(deckElement,deck,player);}container.appendChild(deckElement);const count=document.createElement("div");count.className="deck-count";count.textContent=`${deck.length}card${deck.length===1 ? "":"s"}`;container.appendChild(count);if(openTerritory===player){const closeButton=document.createElement("button");closeButton.className="close-deck";closeButton.textContent="Close Deck";closeButton.onclick=()=>{closeTerritoryDeck(player);};container.appendChild(closeButton);}}function renderClosedTerritoryDeck(deckElement,deck,player){const visible=Math.min(4,deck.length);for(let i=0;i < visible;i++){const card=deck[i];const img=document.createElement("img");img.src=worldTypes[card].image;img.alt="";img.className="territory-card";img.style.zIndex=i;img.style.transform=` translate(${i * 3}px,${i * -2}px)`;deckElement.appendChild(img);}deckElement.onclick=()=>{openTerritoryDeck(player);};}function renderExpandedTerritoryDeck(deckElement,deck,player){deckElement.classList.add("expanded");const total=deck.length;const availableWidth=Math.min(740,Math.max(300,window.innerWidth - 100));const spacing=Math.min(145,availableWidth / Math.max(total,1));const centre=(total - 1)/ 2;deck.forEach((card,index)=>{const img=document.createElement("img");img.src=worldTypes[card].image;img.alt=`${card}Card`;img.className="territory-card";img.style.transform=` translateX(0)translateY(0)rotate(0deg)`;img.style.zIndex=100 + index;deckElement.appendChild(img);requestAnimationFrame(()=>{const x=(index - centre)* spacing;const rotation=(index - centre)* Math.min(5,35 / Math.max(total,1));img.style.transform=` translateX(${x}px)translateY(0)rotate(${rotation}deg)`;});img.onclick=(event)=>{event.stopPropagation();deckElement .querySelectorAll(".territory-card.selected").forEach(selectedCard=>{selectedCard.classList.remove("selected");});img.classList.add("selected");openTerritoryModal(player,index,card);};});deckElement.onclick=(event)=>{if(event.target===deckElement){closeTerritoryDeck(player);}};}function openTerritoryDeck(player){assignmentMode=false;openTerritory=player;renderAll();}function closeTerritoryDeck(player){if(openTerritory===player){assignmentMode=false;openTerritory=null;renderAll();}}function getTerritorySlotCards(cardType){const slots=[null,null,null,null,null,null,null];if(cardType==="Mountain"){slots[2]="Mountain";slots[3]="Mountain";slots[4]="Mountain";}else if(cardType==="River"){slots[3]="River";}else if(cardType==="Forest"){slots[1]="Forest";slots[2]="Forest";slots[3]="Forest";slots[4]="Forest";slots[5]="Forest";}return slots;}function getSelectedAssignmentArray(){if(selectedTerritoryPlayer===null || selectedTerritoryIndex===null){return null;}const assignments=selectedTerritoryPlayer===1 ? player1TerritoryAssignments:player2TerritoryAssignments;if(!assignments[selectedTerritoryIndex]){assignments[selectedTerritoryIndex]=Array(7).fill(false);}return assignments[selectedTerritoryIndex];}function openTerritoryModal(player,index,card){const modal=document.getElementById("territoryModal");selectedTerritoryPlayer=player;selectedTerritoryIndex=index;selectedTerritoryType=card;assignmentMode=false;renderTerritoryModal();modal.classList.add("open");}function renderTerritoryModal(){const content=document.getElementById("territoryModalContent");const status=document.getElementById("assignmentStatus");const assignButton=document.getElementById("assignButton");if(!content || !status || !assignButton){return;}content.innerHTML="";if(!selectedTerritoryType){return;}const slotCards=getTerritorySlotCards(selectedTerritoryType);const assignments=getSelectedAssignmentArray();let assignedCount=0;if(assignments){assignments.forEach(assigned=>{if(assigned){assignedCount++;}});}slotCards.forEach((slotCard,slotIndex)=>{const slot=document.createElement("div");slot.className="modal-card-slot";if(slotCard===null){slot.classList.add("empty");}else{if(assignmentMode && assignments && !assignments[slotIndex]){slot.classList.add("assignable");}if(assignments && assignments[slotIndex]){slot.classList.add("assigned");}const internalCard=document.createElement("img");internalCard.className="internal-territory-card";internalCard.src=worldTypes[slotCard].image;internalCard.alt=`${slotCard}Card`;slot.appendChild(internalCard);if(assignments && assignments[slotIndex]){const marker=document.createElement("div");marker.className="assigned-marker";marker.textContent="Assigned";slot.appendChild(marker);}slot.onclick=()=>{if(!assignmentMode){return;}assignPersonToSlot(slotIndex);};}content.appendChild(slot);});const player=selectedTerritoryPlayer===1 ? player1Resources:player2Resources;if(assignmentMode){if(player.IdlePeople <=0){status.textContent="No Idle People available.";}else{status.textContent=`Choose an unassigned internal card. Idle People available:${player.IdlePeople}`;}assignButton.classList.add("active");assignButton.textContent="Assigning...";}else{status.textContent=`Assigned workers on this territory:${assignedCount}. Click Assign to staff an internal card.`;assignButton.classList.remove("active");assignButton.textContent="Assign";}}function toggleAssignmentMode(){if(selectedTerritoryPlayer===null || selectedTerritoryIndex===null){return;}const resources=selectedTerritoryPlayer===1 ? player1Resources:player2Resources;if(!assignmentMode && resources.IdlePeople <=0){showMessage(`Player ${selectedTerritoryPlayer}has no Idle People available.`);return;}assignmentMode=!assignmentMode;renderTerritoryModal();}function assignPersonToSlot(slotIndex){if(!assignmentMode){return;}const resources=selectedTerritoryPlayer===1 ? player1Resources:player2Resources;const assignments=getSelectedAssignmentArray();if(!assignments){return;}const slotCards=getTerritorySlotCards(selectedTerritoryType);if(slotCards[slotIndex]===null){return;}if(assignments[slotIndex]){showMessage("That internal card already has a person assigned.");return;}if(resources.IdlePeople <=0){showMessage(`Player ${selectedTerritoryPlayer}has no Idle People available.`);assignmentMode=false;renderTerritoryModal();return;}assignments[slotIndex]=true;resources.IdlePeople -=1;assignmentMode=false;renderResources();renderTerritoryModal();showMessage(`Player ${selectedTerritoryPlayer}assigned one person to a ${slotCards[slotIndex]}internal card.`);}function closeTerritoryModal(){const modal=document.getElementById("territoryModal");modal.classList.remove("open");closeBuildSidebar();selectedTerritoryPlayer=null;selectedTerritoryIndex=null;selectedTerritoryType=null;assignmentMode=false;document .querySelectorAll(".territory-card.selected").forEach(card=>{card.classList.remove("selected");});}document .getElementById("territoryModal").addEventListener("click",(event)=>{if(event.target.id==="territoryModal"){closeTerritoryModal();}});function openBuildSidebar(){renderBuildOptions();document .getElementById("buildSidebarOverlay").classList.add("open");}function closeBuildSidebar(){document .getElementById("buildSidebarOverlay").classList.remove("open");}function renderBuildOptions(){const list=document.getElementById("buildCardsList");list.innerHTML="";if(!selectedTerritoryType){return;}const allowedBuildings=territoryBuildRules[selectedTerritoryType]||[];if(allowedBuildings.length===0){const empty=document.createElement("div");empty.className="no-buildables";empty.textContent="No buildings can be built here.";list.appendChild(empty);return;}allowedBuildings.forEach((building)=>{const card=document.createElement("div");card.className="resource-card";const image=document.createElement("img");image.src=buildingImages[building];image.alt=building;card.appendChild(image);card.onclick=()=>{};list.appendChild(card);});}document .getElementById("buildSidebarOverlay").addEventListener("click",(event)=>{if(event.target.id==="buildSidebarOverlay"){closeBuildSidebar();}});function renderAll(){renderWorldDeck();document.getElementById("remaining").textContent=`${worldDeck.length}World Cards remaining`;renderResources();renderTerritoryDeck(1,player1TerritoryDeck);renderTerritoryDeck(2,player2TerritoryDeck);}function showMessage(text){document.getElementById("message").innerHTML=text;}function newGame(){clearInterval(resourceProductionTimer);worldDeck=[];player1TerritoryDeck=[];player2TerritoryDeck=[];player1TerritoryAssignments=[];player2TerritoryAssignments=[];openTerritory=null;selectedTerritoryPlayer=null;selectedTerritoryIndex=null;selectedTerritoryType=null;assignmentMode=false;player1Resources={Wood:0,Oil:0,Stone:0,Iron:0,Crop:0,IdlePeople:2};player2Resources={Wood:0,Oil:0,Stone:0,Iron:0,Crop:0,IdlePeople:2};closeTerritoryModal();closeBuildSidebar();createWorldDeck();resourceProductionTimer=setInterval(generateResources,RESOURCE_TICK_MS);showMessage("A new World Deck has been shuffled.");renderAll();}newGame();</script></body></html>
+<style>
+*{box-sizing:border-box}
+html{min-height:100%}
+body{
+  margin:0;
+  min-height:100vh;
+  color:white;
+  font-family:Georgia,"Times New Roman",serif;
+  text-align:center;
+  background:url("bg.jpg") center center / cover fixed no-repeat;
+  overflow-x:hidden
+}
+main{width:min(1160px,94%);margin:28px auto 60px}
+h1,h2,h3{color:white;text-shadow:0 2px 4px rgba(0,0,0,.65)}
+h1{margin:0 0 8px;font-size:clamp(34px,5vw,52px);letter-spacing:.08em}
+h2{margin-top:0}
+h3{margin-top:0}
+.subtitle{
+  display:inline-block;
+  max-width:700px;
+  color:white;
+  line-height:1.5;
+  font-style:italic;
+  text-shadow:0 2px 4px rgba(0,0,0,.65)
+}
+.wood-frame,.parchment,.world-section,.resource-panel,.resource-panel-inner,
+.territory,.territory-inner,.territory-deck-area,.territory-deck,
+.build-sidebar,.build-sidebar-inner{
+  background:transparent;
+  border:none;
+  box-shadow:none
+}
+button{
+  position:relative;
+  margin:6px;
+  padding:11px 18px;
+  color:white;
+  background:linear-gradient(180deg,rgba(92,68,43,.98),rgba(62,43,27,.98));
+  border:1px solid rgba(220,200,162,.75);
+  border-radius:6px;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.18),
+    inset 0 -2px 0 rgba(0,0,0,.30),
+    0 3px 0 rgba(25,16,9,.95),
+    0 6px 12px rgba(0,0,0,.28);
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:15px;
+  font-weight:bold;
+  letter-spacing:.02em;
+  text-shadow:0 1px 2px rgba(0,0,0,.65);
+  cursor:pointer;
+  transition:transform .12s ease,filter .12s ease,box-shadow .12s ease
+}
+button::before{
+  content:"";
+  position:absolute;
+  inset:3px;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:3px;
+  pointer-events:none
+}
+button:hover{
+  filter:brightness(1.15);
+  transform:translateY(-2px);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.22),
+    inset 0 -2px 0 rgba(0,0,0,.30),
+    0 5px 0 rgba(25,16,9,.95),
+    0 9px 16px rgba(0,0,0,.30)
+}
+button:active{
+  transform:translateY(2px);
+  box-shadow:
+    inset 0 2px 2px rgba(0,0,0,.22),
+    0 1px 0 rgba(25,16,9,.95),
+    0 3px 7px rgba(0,0,0,.25)
+}
+.assign-button.active{
+  outline:2px solid white;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.24),
+    inset 0 -2px 0 rgba(0,0,0,.30),
+    0 0 14px rgba(255,255,255,.35),
+    0 4px 0 rgba(25,16,9,.95)
+}
+.unassign-button.active{
+  outline:2px solid white;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.24),
+    inset 0 -2px 0 rgba(0,0,0,.30),
+    0 0 14px rgba(255,255,255,.35),
+    0 4px 0 rgba(25,16,9,.95)
+}
+.world-section{margin-top:28px;padding:24px 20px 28px}
+.world-deck{position:relative;width:180px;height:230px;margin:24px auto}
+.world-card{
+  position:absolute;
+  left:0;
+  top:0;
+  width:180px;
+  height:230px;
+  object-fit:contain;
+  filter:drop-shadow(0 8px 8px rgba(0,0,0,.35));
+  transition:transform .25s ease
+}
+.world-card:nth-child(1){transform:translate(-8px,5px) rotate(-3deg)}
+.world-card:nth-child(2){transform:translate(-4px,2px) rotate(-1.5deg)}
+.world-card:nth-child(3){transform:translate(0,0)}
+#remaining{
+  margin-bottom:10px;
+  color:white;
+  text-shadow:0 2px 4px rgba(0,0,0,.65)
+}
+#message{
+  min-height:50px;
+  margin:22px auto;
+  width:fit-content;
+  max-width:92%;
+  color:white;
+  text-shadow:0 2px 4px rgba(0,0,0,.65)
+}
+#message b,#message small{color:white}
+.drawn-card{
+  display:block;
+  width:220px;
+  max-width:100%;
+  height:auto;
+  margin:12px auto;
+  filter:drop-shadow(0 8px 8px rgba(0,0,0,.35))
+}
+.player-resources{
+  margin-top:25px;
+  display:flex;
+  flex-direction:column;
+  gap:24px;
+  width:100%
+}
+.resource-panel{width:100%;background:transparent}
+.resource-panel-inner{padding:20px 18px 16px}
+.resource-panel h3{
+  margin:0 0 16px;
+  color:white;
+  text-shadow:0 2px 4px rgba(0,0,0,.65)
+}
+.resource-values{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:10px
+}
+.resource-value{
+  padding:7px 4px;
+  background:transparent;
+  border:none
+}
+.resource-name{
+  display:block;
+  color:white;
+  font-size:12px;
+  text-shadow:0 2px 4px rgba(0,0,0,.65)
+}
+.resource-amount{
+  display:block;
+  margin-top:3px;
+  color:white;
+  font-size:21px;
+  font-weight:bold;
+  text-shadow:0 2px 4px rgba(0,0,0,.65)
+}
+.territories{
+  display:flex;
+  flex-direction:column;
+  gap:40px;
+  margin-top:40px;
+  width:100%
+}
+.territory{width:100%;min-width:0;background:transparent}
+.territory-inner{padding:22px 18px}
+.territory h2{
+  margin:0 0 8px;
+  color:white;
+  font-size:clamp(21px,3vw,27px);
+  text-shadow:0 2px 4px rgba(0,0,0,.65)
+}
+.territory-subtitle{
+  display:block;
+  margin-bottom:12px;
+  color:white;
+  font-size:13px;
+  font-style:italic;
+  text-shadow:0 2px 4px rgba(0,0,0,.65)
+}
+.territory-deck-area{
+  position:relative;
+  min-height:330px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  background:transparent
+}
+.territory-deck{
+  position:relative;
+  width:180px;
+  height:230px;
+  margin:15px auto;
+  cursor:pointer
+}
+.territory-card{
+  position:absolute;
+  left:0;
+  top:0;
+  width:180px;
+  height:230px;
+  object-fit:contain;
+  transform-origin:center bottom;
+  filter:drop-shadow(0 7px 6px rgba(0,0,0,.35));
+  transition:transform .50s cubic-bezier(.2,.8,.2,1),opacity .30s ease
+}
+.territory-deck:not(.expanded):hover .territory-card:last-child{
+  transform:translateY(-8px)
+}
+.territory-deck.expanded{
+  width:min(90vw,820px);
+  height:340px;
+  cursor:default
+}
+.territory-deck.expanded .territory-card{cursor:pointer}
+.territory-card.selected{
+  transform:translateY(-25px) scale(1.05)!important;
+  z-index:9999!important
+}
+.deck-count{
+  margin-top:6px;
+  color:white;
+  font-size:14px;
+  text-shadow:0 2px 4px rgba(0,0,0,.65)
+}
+.empty-deck{
+  width:180px;
+  height:230px;
+  margin:15px auto;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:white;
+  text-shadow:0 2px 4px rgba(0,0,0,.65)
+}
+.modal-overlay{
+  position:fixed;
+  inset:0;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  background:rgba(0,0,0,.55);
+  padding:20px;
+  z-index:10000
+}
+.modal-overlay.open{display:flex}
+.territory-modal{
+  position:relative;
+  width:min(920px,95vw);
+  min-height:300px;
+  max-height:90vh;
+  overflow:hidden auto;
+  padding:8px
+}
+.territory-modal-inner{
+  position:relative;
+  padding:42px 20px 24px
+}
+.modal-close{
+  position:absolute;
+  top:10px;
+  right:10px;
+  width:38px;
+  height:38px;
+  margin:0;
+  padding:0;
+  font-size:24px;
+  line-height:1;
+  z-index:2
+}
+.modal-card-slots{
+  display:flex;
+  flex-direction:row;
+  align-items:center;
+  justify-content:center;
+  gap:12px;
+  width:100%;
+  overflow-x:auto;
+  padding:10px 5px 15px;
+  margin-top:5px
+}
+.modal-card-slot{
+  flex:0 0 95px;
+  width:95px;
+  height:135px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:transparent;
+  border:1px dashed rgba(255,255,255,.45);
+  border-radius:8px;
+  position:relative;
+  transition:transform .15s ease,border-color .15s ease
+}
+.modal-card-slot.empty{
+  background:transparent;
+  border:1px dashed rgba(255,255,255,.45);
+  cursor:default
+}
+.modal-card-slot.assignable{
+  cursor:pointer;
+  border:2px solid rgba(255,255,255,.85);
+  box-shadow:0 0 12px rgba(255,255,255,.18)
+}
+.modal-card-slot.unassignable{
+  cursor:pointer;
+  border:2px solid rgba(255,200,200,.9);
+  box-shadow:0 0 12px rgba(255,80,80,.18)
+}
+.modal-card-slot.assignable:hover,
+.modal-card-slot.unassignable:hover{
+  transform:translateY(-4px)
+}
+.modal-card-slot.assigned{
+  border:2px solid white;
+  box-shadow:0 0 14px rgba(255,255,255,.30)
+}
+.internal-territory-card{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  display:block;
+  pointer-events:none;
+  filter:drop-shadow(0 6px 6px rgba(0,0,0,.30))
+}
+.assigned-marker{
+  position:absolute;
+  left:50%;
+  bottom:5px;
+  transform:translateX(-50%);
+  padding:3px 7px;
+  color:white;
+  background:rgba(0,0,0,.72);
+  border:1px solid rgba(255,255,255,.65);
+  border-radius:4px;
+  font-size:11px;
+  font-weight:bold;
+  pointer-events:none;
+  text-shadow:0 1px 2px rgba(0,0,0,.8)
+}
+#assignmentStatus{
+  min-height:22px;
+  margin:2px auto 8px;
+  color:white;
+  font-size:13px;
+  text-shadow:0 2px 4px rgba(0,0,0,.65)
+}
+.modal-actions{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  justify-content:center;
+  gap:4px
+}
+.build-sidebar-overlay{
+  position:fixed;
+  inset:0;
+  display:none;
+  background:rgba(0,0,0,.35);
+  z-index:11000
+}
+.build-sidebar-overlay.open{display:block}
+.build-sidebar{
+  position:absolute;
+  top:0;
+  right:0;
+  width:min(500px,91vw);
+  height:100%;
+  padding:8px;
+  transform:translateX(100%);
+  transition:transform .32s cubic-bezier(.2,.8,.2,1)
+}
+.build-sidebar-overlay.open .build-sidebar{transform:translateX(0)}
+.build-sidebar-inner{
+  position:relative;
+  height:100%;
+  padding:26px 22px;
+  overflow-y:auto
+}
+.build-sidebar-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+  margin-bottom:24px
+}
+.build-sidebar-header h2{
+  margin:0;
+  color:white;
+  font-size:clamp(25px,4vw,34px);
+  text-shadow:0 2px 4px rgba(0,0,0,.65)
+}
+.build-sidebar-close{
+  width:38px;
+  height:38px;
+  margin:0;
+  padding:0;
+  font-size:24px;
+  line-height:1
+}
+.resources-section{padding-top:20px}
+.resources-section h3{
+  margin:0 0 20px;
+  color:white;
+  text-shadow:0 2px 4px rgba(0,0,0,.65)
+}
+.resources-list{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:18px
+}
+.resource-card{
+  width:100%;
+  aspect-ratio:3/4;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:transparent;
+  border:none;
+  overflow:hidden;
+  cursor:pointer;
+  box-shadow:none;
+  transition:transform .18s ease
+}
+.resource-card:hover{transform:translateY(-4px) scale(1.02)}
+.resource-card img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  display:block;
+  filter:drop-shadow(0 7px 6px rgba(0,0,0,.35))
+}
+.no-buildables{
+  grid-column:1/-1;
+  padding:26px 18px;
+  color:white;
+  font-style:italic;
+  text-shadow:0 2px 4px rgba(0,0,0,.65)
+}
+
+@media(max-width:750px){
+  main{width:94%;margin-top:18px}
+  .player-resources{flex-direction:column}
+  .territories{flex-direction:column;gap:32px}
+  .resource-values{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .territory-deck.expanded{width:100%;height:300px}
+  .territory-card{width:135px;height:175px}
+  .world-card{width:160px;height:205px}
+  .world-deck{width:160px;height:205px}
+  .territory-modal{width:95vw}
+  .territory-modal-inner{padding:42px 12px 22px}
+  .modal-card-slots{justify-content:flex-start;gap:10px}
+  .modal-card-slot{flex:0 0 80px;width:80px;height:115px}
+  .build-sidebar{width:90vw}
+  .resources-list{grid-template-columns:1fr}
+  .resource-card{aspect-ratio:4/3}
+}
+</style>
+</head>
+
+<body>
+
+<main>
+
+<div class="wood-frame">
+<div class="parchment world-section">
+
+<h1>WORLD DECK</h1>
+
+<span class="subtitle">
+A quiet winter age of territories, resources, and growing settlements.
+</span>
+
+<div id="worldDeckVisual" class="world-deck"></div>
+
+<div id="remaining">0 World Cards remaining</div>
+
+<button onclick="drawWorld(1)">Player 1 — Draw Top</button>
+<button onclick="drawWorld(2)">Player 2 — Draw Bottom</button>
+<button onclick="newGame()">New Game</button>
+
+</div>
+</div>
+
+<div id="message">
+No World Card drawn yet.
+</div>
+
+<section class="player-resources">
+
+<div class="wood-frame resource-panel">
+<div class="parchment resource-panel-inner">
+
+<h3>PLAYER 1</h3>
+
+<div class="resource-values">
+
+<div class="resource-value">
+<span class="resource-name">Wood</span>
+<span id="player1Wood" class="resource-amount">0</span>
+</div>
+
+<div class="resource-value">
+<span class="resource-name">Oil</span>
+<span id="player1Oil" class="resource-amount">0</span>
+</div>
+
+<div class="resource-value">
+<span class="resource-name">Stone</span>
+<span id="player1Stone" class="resource-amount">0</span>
+</div>
+
+<div class="resource-value">
+<span class="resource-name">Iron</span>
+<span id="player1Iron" class="resource-amount">0</span>
+</div>
+
+<div class="resource-value">
+<span class="resource-name">Crop</span>
+<span id="player1Crop" class="resource-amount">0</span>
+</div>
+
+<div class="resource-value">
+<span class="resource-name">Idle People</span>
+<span id="player1IdlePeople" class="resource-amount">2</span>
+</div>
+
+<div class="resource-value">
+<span class="resource-name">Population</span>
+<span id="player1Population" class="resource-amount">2</span>
+</div>
+
+</div>
+</div>
+</div>
+
+
+<div class="wood-frame resource-panel">
+<div class="parchment resource-panel-inner">
+
+<h3>PLAYER 2</h3>
+
+<div class="resource-values">
+
+<div class="resource-value">
+<span class="resource-name">Wood</span>
+<span id="player2Wood" class="resource-amount">0</span>
+</div>
+
+<div class="resource-value">
+<span class="resource-name">Oil</span>
+<span id="player2Oil" class="resource-amount">0</span>
+</div>
+
+<div class="resource-value">
+<span class="resource-name">Stone</span>
+<span id="player2Stone" class="resource-amount">0</span>
+</div>
+
+<div class="resource-value">
+<span class="resource-name">Iron</span>
+<span id="player2Iron" class="resource-amount">0</span>
+</div>
+
+<div class="resource-value">
+<span class="resource-name">Crop</span>
+<span id="player2Crop" class="resource-amount">0</span>
+</div>
+
+<div class="resource-value">
+<span class="resource-name">Idle People</span>
+<span id="player2IdlePeople" class="resource-amount">2</span>
+</div>
+
+<div class="resource-value">
+<span class="resource-name">Population</span>
+<span id="player2Population" class="resource-amount">2</span>
+</div>
+
+</div>
+</div>
+</div>
+
+</section>
+
+
+<section class="territories">
+
+<div class="wood-frame territory">
+<div class="parchment territory-inner">
+
+<h2>PLAYER 1 TERRITORIES</h2>
+
+<span class="territory-subtitle">
+Your lands and their quiet potential.
+</span>
+
+<div id="player1Deck" class="territory-deck-area"></div>
+
+</div>
+</div>
+
+
+<div class="wood-frame territory">
+<div class="parchment territory-inner">
+
+<h2>PLAYER 2 TERRITORIES</h2>
+
+<span class="territory-subtitle">
+Your lands and their quiet potential.
+</span>
+
+<div id="player2Deck" class="territory-deck-area"></div>
+
+</div>
+</div>
+
+</section>
+
+</main>
+
+
+<div id="territoryModal" class="modal-overlay">
+
+<div class="wood-frame territory-modal">
+
+<div class="parchment territory-modal-inner">
+
+<button
+class="modal-close"
+onclick="closeTerritoryModal()"
+aria-label="Close">
+×
+</button>
+
+<div id="territoryModalContent" class="modal-card-slots"></div>
+
+<div id="assignmentStatus">
+Select Assign, then choose an occupied internal card.
+</div>
+
+<div class="modal-actions">
+
+<button
+id="assignButton"
+class="assign-button"
+onclick="toggleAssignmentMode()">
+Assign
+</button>
+
+<button
+id="unassignButton"
+class="unassign-button"
+onclick="toggleUnassignmentMode()">
+Unassign
+</button>
+
+<button
+class="modal-build-button"
+onclick="openBuildSidebar()">
+Build
+</button>
+
+</div>
+
+</div>
+</div>
+</div>
+
+
+<div id="buildSidebarOverlay" class="build-sidebar-overlay">
+
+<div class="wood-frame build-sidebar">
+
+<aside class="parchment build-sidebar-inner">
+
+<div class="build-sidebar-header">
+
+<h2>BUILD</h2>
+
+<button
+class="build-sidebar-close"
+onclick="closeBuildSidebar()"
+aria-label="Close Build Sidebar">
+×
+</button>
+
+</div>
+
+<section class="resources-section">
+
+<h3>Buildable</h3>
+
+<div id="buildCardsList" class="resources-list"></div>
+
+</section>
+
+</aside>
+</div>
+</div>
+
+
+<script>
+
+const worldTypes={
+  River:{
+    image:"river.png",
+    capacity:6,
+    buildings:["Farm","Residence","Tavern"]
+  },
+  Mountain:{
+    image:"mountain.png",
+    capacity:4,
+    buildings:["Quarry","Mine","Oilfield"]
+  },
+  Forest:{
+    image:"forest.png",
+    capacity:2,
+    buildings:["Forest(automatic)"]
+  },
+  Meadow:{
+    image:"meadow.png",
+    capacity:7,
+    buildings:["Residence","Tavern"]
+  }
+};
+
+const buildingImages={
+  Farm:"farm.png",
+  Mine:"mine.png",
+  Oilfield:"oilfield.png",
+  Quarry:"quarry.png",
+  Residence:"residence.png",
+  Tavern:"tavern.png"
+};
+
+const territoryBuildRules={
+  River:["Farm","Residence","Tavern"],
+  Mountain:["Mine","Oilfield","Quarry"],
+  Forest:[],
+  Meadow:["Residence","Tavern"]
+};
+
+let player1Resources={
+  Wood:0,
+  Oil:0,
+  Stone:0,
+  Iron:0,
+  Crop:0,
+  IdlePeople:2,
+  Population:2
+};
+
+let player2Resources={
+  Wood:0,
+  Oil:0,
+  Stone:0,
+  Iron:0,
+  Crop:0,
+  IdlePeople:2,
+  Population:2
+};
+
+const RESOURCE_TICK_MS=5000;
+
+let worldDeck=[];
+let player1TerritoryDeck=[];
+let player2TerritoryDeck=[];
+
+let player1TerritoryAssignments=[];
+let player2TerritoryAssignments=[];
+
+let openTerritory=null;
+
+let selectedTerritoryPlayer=null;
+let selectedTerritoryIndex=null;
+let selectedTerritoryType=null;
+
+let assignmentMode=false;
+let unassignmentMode=false;
+
+
+function shuffle(deck){
+  for(let i=deck.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [deck[i],deck[j]]=[deck[j],deck[i]];
+  }
+}
+
+
+function createWorldDeck(){
+
+  worldDeck=[];
+
+  for(const type of Object.keys(worldTypes)){
+
+    const copies=3+Math.floor(Math.random()*4);
+
+    for(let i=0;i<copies;i++){
+      worldDeck.push(type);
+    }
+
+  }
+
+  shuffle(worldDeck);
+}
+
+
+function drawWorld(player){
+
+  const resources=
+    player===1
+      ? player1Resources
+      : player2Resources;
+
+  /* MUST have at least one idle person. */
+  if(resources.IdlePeople<1){
+
+    showMessage(
+      `Player ${player} needs at least 1 Idle Person to take a new World Card.`
+    );
+
+    return;
+  }
+
+  if(worldDeck.length===0){
+
+    showMessage("The World Deck is empty.");
+
+    return;
+  }
+
+  let card;
+
+  if(player===1){
+
+    card=worldDeck.shift();
+
+    player1TerritoryDeck.push(card);
+
+    player1TerritoryAssignments.push(
+      Array(7).fill(false)
+    );
+
+  }else{
+
+    card=worldDeck.pop();
+
+    player2TerritoryDeck.push(card);
+
+    player2TerritoryAssignments.push(
+      Array(7).fill(false)
+    );
+
+  }
+
+  const data=worldTypes[card];
+
+  /*
+    IMPORTANT:
+    The Idle Person is NOT consumed.
+    Population also does not change.
+  */
+
+  showMessage(`
+    <img
+      class="drawn-card"
+      src="${data.image}"
+      alt="${card} Card"
+    >
+    <b>Player ${player} acquired a ${card} World Card.</b>
+    <br>
+    <small>
+      Building capacity: ${data.capacity}
+      <br>
+      At least 1 Idle Person was required.
+      No Idle Person was consumed.
+    </small>
+  `);
+
+  renderAll();
+}
+
+
+function renderWorldDeck(){
+
+  const container=
+    document.getElementById("worldDeckVisual");
+
+  container.innerHTML="";
+
+  if(worldDeck.length===0){
+
+    container.innerHTML=
+      "<small>THE WORLD DECK IS EMPTY</small>";
+
+    return;
+  }
+
+  const visible=Math.min(3,worldDeck.length);
+
+  for(let i=0;i<visible;i++){
+
+    const img=document.createElement("img");
+
+    img.src=worldTypes[worldDeck[i]].image;
+    img.alt="World Deck";
+    img.className="world-card";
+
+    container.appendChild(img);
+  }
+}
+
+
+function renderResources(){
+
+  const p1=player1Resources;
+  const p2=player2Resources;
+
+  document.getElementById("player1Wood").textContent=p1.Wood;
+  document.getElementById("player1Oil").textContent=p1.Oil;
+  document.getElementById("player1Stone").textContent=p1.Stone;
+  document.getElementById("player1Iron").textContent=p1.Iron;
+  document.getElementById("player1Crop").textContent=p1.Crop;
+  document.getElementById("player1IdlePeople").textContent=p1.IdlePeople;
+  document.getElementById("player1Population").textContent=p1.Population;
+
+  document.getElementById("player2Wood").textContent=p2.Wood;
+  document.getElementById("player2Oil").textContent=p2.Oil;
+  document.getElementById("player2Stone").textContent=p2.Stone;
+  document.getElementById("player2Iron").textContent=p2.Iron;
+  document.getElementById("player2Crop").textContent=p2.Crop;
+  document.getElementById("player2IdlePeople").textContent=p2.IdlePeople;
+  document.getElementById("player2Population").textContent=p2.Population;
+}
+
+
+function countTerritoryCards(deck,type){
+  return deck.filter(card=>card===type).length;
+}
+
+
+function countAssignedCards(
+  assignmentDeck,
+  type,
+  playerDeck
+){
+
+  let total=0;
+
+  for(let i=0;i<playerDeck.length;i++){
+
+    if(playerDeck[i]!==type) continue;
+
+    const assignments=assignmentDeck[i];
+
+    if(!assignments) continue;
+
+    assignments.forEach(assigned=>{
+      if(assigned) total++;
+    });
+
+  }
+
+  return total;
+}
+
+
+function generateResources(){
+
+  const player1MountainWorkers=
+    countAssignedCards(
+      player1TerritoryAssignments,
+      "Mountain",
+      player1TerritoryDeck
+    );
+
+  const player1ForestWorkers=
+    countAssignedCards(
+      player1TerritoryAssignments,
+      "Forest",
+      player1TerritoryDeck
+    );
+
+  const player2MountainWorkers=
+    countAssignedCards(
+      player2TerritoryAssignments,
+      "Mountain",
+      player2TerritoryDeck
+    );
+
+  const player2ForestWorkers=
+    countAssignedCards(
+      player2TerritoryAssignments,
+      "Forest",
+      player2TerritoryDeck
+    );
+
+  player1Resources.Stone+=player1MountainWorkers;
+  player2Resources.Stone+=player2MountainWorkers;
+
+  player1Resources.Wood+=player1ForestWorkers*5;
+  player1Resources.Crop+=player1ForestWorkers;
+
+  player2Resources.Wood+=player2ForestWorkers*5;
+  player2Resources.Crop+=player2ForestWorkers;
+
+  renderResources();
+}
+
+
+let resourceProductionTimer=
+  setInterval(generateResources,RESOURCE_TICK_MS);
+
+
+function renderTerritoryDeck(player,deck){
+
+  const container=
+    document.getElementById(
+      player===1
+        ? "player1Deck"
+        : "player2Deck"
+    );
+
+  container.innerHTML="";
+
+  if(deck.length===0){
+
+    container.innerHTML=`
+      <div class="empty-deck">
+        EMPTY DECK
+      </div>
+      <div class="deck-count">
+        0 cards
+      </div>
+    `;
+
+    return;
+  }
+
+  const deckElement=
+    document.createElement("div");
+
+  deckElement.className="territory-deck";
+
+  if(openTerritory!==player){
+
+    renderClosedTerritoryDeck(
+      deckElement,
+      deck,
+      player
+    );
+
+  }else{
+
+    renderExpandedTerritoryDeck(
+      deckElement,
+      deck,
+      player
+    );
+
+  }
+
+  container.appendChild(deckElement);
+
+  const count=
+    document.createElement("div");
+
+  count.className="deck-count";
+
+  count.textContent=
+    `${deck.length} card${deck.length===1?"":"s"}`;
+
+  container.appendChild(count);
+
+  if(openTerritory===player){
+
+    const closeButton=
+      document.createElement("button");
+
+    closeButton.className="close-deck";
+    closeButton.textContent="Close Deck";
+
+    closeButton.onclick=()=>{
+      closeTerritoryDeck(player);
+    };
+
+    container.appendChild(closeButton);
+  }
+}
+
+
+function renderClosedTerritoryDeck(
+  deckElement,
+  deck,
+  player
+){
+
+  const visible=Math.min(4,deck.length);
+
+  for(let i=0;i<visible;i++){
+
+    const card=deck[i];
+
+    const img=document.createElement("img");
+
+    img.src=worldTypes[card].image;
+    img.alt="";
+    img.className="territory-card";
+    img.style.zIndex=i;
+
+    img.style.transform=
+      `translate(${i*3}px,${i*-2}px)`;
+
+    deckElement.appendChild(img);
+  }
+
+  deckElement.onclick=()=>{
+    openTerritoryDeck(player);
+  };
+}
+
+
+function renderExpandedTerritoryDeck(
+  deckElement,
+  deck,
+  player
+){
+
+  deckElement.classList.add("expanded");
+
+  const total=deck.length;
+
+  const availableWidth=
+    Math.min(
+      740,
+      Math.max(300,window.innerWidth-100)
+    );
+
+  const spacing=
+    Math.min(
+      145,
+      availableWidth/Math.max(total,1)
+    );
+
+  const centre=(total-1)/2;
+
+  deck.forEach((card,index)=>{
+
+    const img=document.createElement("img");
+
+    img.src=worldTypes[card].image;
+    img.alt=`${card} Card`;
+    img.className="territory-card";
+
+    img.style.transform=
+      "translateX(0) translateY(0) rotate(0deg)";
+
+    img.style.zIndex=100+index;
+
+    deckElement.appendChild(img);
+
+    requestAnimationFrame(()=>{
+
+      const x=
+        (index-centre)*spacing;
+
+      const rotation=
+        (index-centre)*
+        Math.min(5,35/Math.max(total,1));
+
+      img.style.transform=
+        `translateX(${x}px) translateY(0) rotate(${rotation}deg)`;
+
+    });
+
+    img.onclick=(event)=>{
+
+      event.stopPropagation();
+
+      deckElement
+        .querySelectorAll(".territory-card.selected")
+        .forEach(selectedCard=>{
+          selectedCard.classList.remove("selected");
+        });
+
+      img.classList.add("selected");
+
+      openTerritoryModal(
+        player,
+        index,
+        card
+      );
+
+    };
+
+  });
+
+  deckElement.onclick=(event)=>{
+
+    if(event.target===deckElement){
+
+      closeTerritoryDeck(player);
+
+    }
+
+  };
+}
+
+
+function openTerritoryDeck(player){
+
+  assignmentMode=false;
+  unassignmentMode=false;
+
+  openTerritory=player;
+
+  renderAll();
+}
+
+
+function closeTerritoryDeck(player){
+
+  if(openTerritory===player){
+
+    assignmentMode=false;
+    unassignmentMode=false;
+
+    openTerritory=null;
+
+    renderAll();
+  }
+}
+
+
+function getTerritorySlotCards(cardType){
+
+  const slots=[
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+  ];
+
+  if(cardType==="Mountain"){
+
+    slots[2]="Mountain";
+    slots[3]="Mountain";
+    slots[4]="Mountain";
+
+  }else if(cardType==="River"){
+
+    slots[3]="River";
+
+  }else if(cardType==="Forest"){
+
+    slots[1]="Forest";
+    slots[2]="Forest";
+    slots[3]="Forest";
+    slots[4]="Forest";
+    slots[5]="Forest";
+  }
+
+  return slots;
+}
+
+
+function getSelectedAssignmentArray(){
+
+  if(
+    selectedTerritoryPlayer===null ||
+    selectedTerritoryIndex===null
+  ){
+    return null;
+  }
+
+  const assignments=
+    selectedTerritoryPlayer===1
+      ? player1TerritoryAssignments
+      : player2TerritoryAssignments;
+
+  if(!assignments[selectedTerritoryIndex]){
+
+    assignments[selectedTerritoryIndex]=
+      Array(7).fill(false);
+
+  }
+
+  return assignments[selectedTerritoryIndex];
+}
+
+
+function openTerritoryModal(
+  player,
+  index,
+  card
+){
+
+  const modal=
+    document.getElementById("territoryModal");
+
+  selectedTerritoryPlayer=player;
+  selectedTerritoryIndex=index;
+  selectedTerritoryType=card;
+
+  assignmentMode=false;
+  unassignmentMode=false;
+
+  renderTerritoryModal();
+
+  modal.classList.add("open");
+}
+
+
+function renderTerritoryModal(){
+
+  const content=
+    document.getElementById("territoryModalContent");
+
+  const status=
+    document.getElementById("assignmentStatus");
+
+  const assignButton=
+    document.getElementById("assignButton");
+
+  const unassignButton=
+    document.getElementById("unassignButton");
+
+  if(
+    !content ||
+    !status ||
+    !assignButton ||
+    !unassignButton
+  ){
+    return;
+  }
+
+  content.innerHTML="";
+
+  if(!selectedTerritoryType){
+    return;
+  }
+
+  const slotCards=
+    getTerritorySlotCards(
+      selectedTerritoryType
+    );
+
+  const assignments=
+    getSelectedAssignmentArray();
+
+  let assignedCount=0;
+
+  if(assignments){
+
+    assignments.forEach(assigned=>{
+      if(assigned) assignedCount++;
+    });
+
+  }
+
+
+  slotCards.forEach(
+    (slotCard,slotIndex)=>{
+
+      const slot=
+        document.createElement("div");
+
+      slot.className=
+        "modal-card-slot";
+
+
+      if(slotCard===null){
+
+        slot.classList.add("empty");
+
+      }else{
+
+        if(
+          assignmentMode &&
+          assignments &&
+          !assignments[slotIndex]
+        ){
+
+          slot.classList.add(
+            "assignable"
+          );
+
+        }
+
+        if(
+          unassignmentMode &&
+          assignments &&
+          assignments[slotIndex]
+        ){
+
+          slot.classList.add(
+            "unassignable"
+          );
+
+        }
+
+        if(
+          assignments &&
+          assignments[slotIndex]
+        ){
+
+          slot.classList.add(
+            "assigned"
+          );
+
+        }
+
+        const internalCard=
+          document.createElement("img");
+
+        internalCard.className=
+          "internal-territory-card";
+
+        internalCard.src=
+          worldTypes[slotCard].image;
+
+        internalCard.alt=
+          `${slotCard} Card`;
+
+        slot.appendChild(internalCard);
+
+
+        if(
+          assignments &&
+          assignments[slotIndex]
+        ){
+
+          const marker=
+            document.createElement("div");
+
+          marker.className=
+            "assigned-marker";
+
+          marker.textContent=
+            "Assigned";
+
+          slot.appendChild(marker);
+
+        }
+
+
+        slot.onclick=()=>{
+
+          if(assignmentMode){
+
+            assignPersonToSlot(
+              slotIndex
+            );
+
+          }else if(unassignmentMode){
+
+            unassignPersonFromSlot(
+              slotIndex
+            );
+
+          }
+
+        };
+
+      }
+
+      content.appendChild(slot);
+
+    }
+  );
+
+
+  const player=
+    selectedTerritoryPlayer===1
+      ? player1Resources
+      : player2Resources;
+
+
+  if(assignmentMode){
+
+    if(player.IdlePeople<=0){
+
+      status.textContent=
+        "No Idle People available.";
+
+    }else{
+
+      status.textContent=
+        `Choose an unassigned internal card. Idle People available: ${player.IdlePeople}`;
+
+    }
+
+    assignButton.classList.add("active");
+
+    assignButton.textContent=
+      "Assigning...";
+
+  }else{
+
+    assignButton.classList.remove("active");
+
+    assignButton.textContent="Assign";
+
+  }
+
+
+  if(unassignmentMode){
+
+    if(assignedCount<=0){
+
+      status.textContent=
+        "No assigned people to unassign.";
+
+    }else{
+
+      status.textContent=
+        `Choose an assigned internal card to return that person to Idle. Assigned here: ${assignedCount}`;
+
+    }
+
+    unassignButton.classList.add("active");
+
+    unassignButton.textContent=
+      "Unassigning...";
+
+  }else{
+
+    unassignButton.classList.remove("active");
+
+    unassignButton.textContent=
+      "Unassign";
+
+  }
+
+
+  if(!assignmentMode && !unassignmentMode){
+
+    status.textContent=
+      `Assigned workers on this territory: ${assignedCount}. Population: ${player.Population}.`;
+
+  }
+}
+
+
+function toggleAssignmentMode(){
+
+  if(
+    selectedTerritoryPlayer===null ||
+    selectedTerritoryIndex===null
+  ){
+    return;
+  }
+
+  const resources=
+    selectedTerritoryPlayer===1
+      ? player1Resources
+      : player2Resources;
+
+
+  if(!assignmentMode && resources.IdlePeople<=0){
+
+    showMessage(
+      `Player ${selectedTerritoryPlayer} has no Idle People available.`
+    );
+
+    return;
+  }
+
+  assignmentMode=!assignmentMode;
+
+  unassignmentMode=false;
+
+  renderTerritoryModal();
+}
+
+
+function toggleUnassignmentMode(){
+
+  if(
+    selectedTerritoryPlayer===null ||
+    selectedTerritoryIndex===null
+  ){
+    return;
+  }
+
+  unassignmentMode=!unassignmentMode;
+
+  assignmentMode=false;
+
+  renderTerritoryModal();
+}
+
+
+function assignPersonToSlot(slotIndex){
+
+  if(!assignmentMode){
+    return;
+  }
+
+  const resources=
+    selectedTerritoryPlayer===1
+      ? player1Resources
+      : player2Resources;
+
+  const assignments=
+    getSelectedAssignmentArray();
+
+  if(!assignments){
+    return;
+  }
+
+  const slotCards=
+    getTerritorySlotCards(
+      selectedTerritoryType
+    );
+
+  if(slotCards[slotIndex]===null){
+    return;
+  }
+
+  if(assignments[slotIndex]){
+
+    showMessage(
+      "That internal card already has a person assigned."
+    );
+
+    return;
+  }
+
+  if(resources.IdlePeople<=0){
+
+    showMessage(
+      `Player ${selectedTerritoryPlayer} has no Idle People available.`
+    );
+
+    assignmentMode=false;
+
+    renderTerritoryModal();
+
+    return;
+  }
+
+
+  assignments[slotIndex]=true;
+
+  resources.IdlePeople-=1;
+
+  /*
+    Population does NOT change.
+    The person is merely moved from Idle
+    into an assigned job.
+  */
+
+  assignmentMode=false;
+
+  renderResources();
+  renderTerritoryModal();
+
+  showMessage(
+    `Player ${selectedTerritoryPlayer} assigned one person to a ${slotCards[slotIndex]} internal card.`
+  );
+}
+
+
+function unassignPersonFromSlot(slotIndex){
+
+  if(!unassignmentMode){
+    return;
+  }
+
+  const resources=
+    selectedTerritoryPlayer===1
+      ? player1Resources
+      : player2Resources;
+
+  const assignments=
+    getSelectedAssignmentArray();
+
+  if(!assignments){
+    return;
+  }
+
+  const slotCards=
+    getTerritorySlotCards(
+      selectedTerritoryType
+    );
+
+  if(slotCards[slotIndex]===null){
+    return;
+  }
+
+  if(!assignments[slotIndex]){
+
+    showMessage(
+      "That internal card has no person assigned."
+    );
+
+    return;
+  }
+
+
+  assignments[slotIndex]=false;
+
+  resources.IdlePeople+=1;
+
+  /*
+    Population does NOT change.
+    The person simply returns to Idle.
+  */
+
+  unassignmentMode=false;
+
+  renderResources();
+  renderTerritoryModal();
+
+  showMessage(
+    `Player ${selectedTerritoryPlayer} unassigned one person from the ${slotCards[slotIndex]} internal card.`
+  );
+}
+
+
+function closeTerritoryModal(){
+
+  const modal=
+    document.getElementById(
+      "territoryModal"
+    );
+
+  modal.classList.remove("open");
+
+  closeBuildSidebar();
+
+  selectedTerritoryPlayer=null;
+  selectedTerritoryIndex=null;
+  selectedTerritoryType=null;
+
+  assignmentMode=false;
+  unassignmentMode=false;
+
+  document
+    .querySelectorAll(".territory-card.selected")
+    .forEach(card=>{
+      card.classList.remove("selected");
+    });
+}
+
+
+document
+  .getElementById("territoryModal")
+  .addEventListener(
+    "click",
+    event=>{
+      if(event.target.id==="territoryModal"){
+        closeTerritoryModal();
+      }
+    }
+  );
+
+
+function openBuildSidebar(){
+
+  renderBuildOptions();
+
+  document
+    .getElementById(
+      "buildSidebarOverlay"
+    )
+    .classList.add("open");
+}
+
+
+function closeBuildSidebar(){
+
+  document
+    .getElementById(
+      "buildSidebarOverlay"
+    )
+    .classList.remove("open");
+}
+
+
+function renderBuildOptions(){
+
+  const list=
+    document.getElementById(
+      "buildCardsList"
+    );
+
+  list.innerHTML="";
+
+  if(!selectedTerritoryType){
+    return;
+  }
+
+  const allowedBuildings=
+    territoryBuildRules[
+      selectedTerritoryType
+    ] || [];
+
+
+  if(allowedBuildings.length===0){
+
+    const empty=
+      document.createElement("div");
+
+    empty.className=
+      "no-buildables";
+
+    empty.textContent=
+      "No buildings can be built here.";
+
+    list.appendChild(empty);
+
+    return;
+  }
+
+
+  allowedBuildings.forEach(
+    building=>{
+
+      const card=
+        document.createElement("div");
+
+      card.className=
+        "resource-card";
+
+
+      const image=
+        document.createElement("img");
+
+      image.src=
+        buildingImages[building];
+
+      image.alt=building;
+
+      card.appendChild(image);
+
+      card.onclick=()=>{};
+
+      list.appendChild(card);
+
+    }
+  );
+}
+
+
+document
+  .getElementById(
+    "buildSidebarOverlay"
+  )
+  .addEventListener(
+    "click",
+    event=>{
+      if(
+        event.target.id==="buildSidebarOverlay"
+      ){
+        closeBuildSidebar();
+      }
+    }
+  );
+
+
+function renderAll(){
+
+  renderWorldDeck();
+
+  document.getElementById(
+    "remaining"
+  ).textContent=
+    `${worldDeck.length} World Cards remaining`;
+
+  renderResources();
+
+  renderTerritoryDeck(
+    1,
+    player1TerritoryDeck
+  );
+
+  renderTerritoryDeck(
+    2,
+    player2TerritoryDeck
+  );
+}
+
+
+function showMessage(text){
+
+  document.getElementById(
+    "message"
+  ).innerHTML=text;
+}
+
+
+function newGame(){
+
+  clearInterval(
+    resourceProductionTimer
+  );
+
+  worldDeck=[];
+
+  player1TerritoryDeck=[];
+  player2TerritoryDeck=[];
+
+  player1TerritoryAssignments=[];
+  player2TerritoryAssignments=[];
+
+  openTerritory=null;
+
+  selectedTerritoryPlayer=null;
+  selectedTerritoryIndex=null;
+  selectedTerritoryType=null;
+
+  assignmentMode=false;
+  unassignmentMode=false;
+
+
+  player1Resources={
+    Wood:0,
+    Oil:0,
+    Stone:0,
+    Iron:0,
+    Crop:0,
+    IdlePeople:2,
+    Population:2
+  };
+
+
+  player2Resources={
+    Wood:0,
+    Oil:0,
+    Stone:0,
+    Iron:0,
+    Crop:0,
+    IdlePeople:2,
+    Population:2
+  };
+
+
+  closeTerritoryModal();
+  closeBuildSidebar();
+
+  createWorldDeck();
+
+  resourceProductionTimer=
+    setInterval(
+      generateResources,
+      RESOURCE_TICK_MS
+    );
+
+  showMessage(
+    "A new World Deck has been shuffled."
+  );
+
+  renderAll();
+}
+
+
+newGame();
+
+</script>
+</body>
+</html>
