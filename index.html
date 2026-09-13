@@ -1,4 +1,4 @@
-```html
+```html id="6m5q5x"
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -254,6 +254,22 @@ button:active {
 
 
 /* =========================================================
+   ACTIVE ASSIGN BUTTON
+========================================================= */
+
+.assign-button.active {
+    outline:
+        2px solid white;
+
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.24),
+        inset 0 -2px 0 rgba(0,0,0,0.30),
+        0 0 14px rgba(255,255,255,0.35),
+        0 4px 0 rgba(25,16,9,0.95);
+}
+
+
+/* =========================================================
    WORLD DECK
 ========================================================= */
 
@@ -344,7 +360,7 @@ button:active {
 
 
 /* =========================================================
-   MESSAGE
+   INFORMATION
 ========================================================= */
 
 #message {
@@ -373,6 +389,7 @@ button:active {
         white;
 }
 
+
 .drawn-card {
     display:
         block;
@@ -398,7 +415,6 @@ button:active {
 
 /* =========================================================
    PLAYER RESOURCES
-   PLAYER 1 ABOVE PLAYER 2
 ========================================================= */
 
 .player-resources {
@@ -508,7 +524,6 @@ button:active {
 
 /* =========================================================
    TERRITORIES
-   PLAYER 1 ABOVE PLAYER 2
 ========================================================= */
 
 .territories {
@@ -750,7 +765,7 @@ button:active {
 
 
 /* =========================================================
-   MODAL
+   MODAL OVERLAY
 ========================================================= */
 
 .modal-overlay {
@@ -786,6 +801,10 @@ button:active {
 }
 
 
+/* =========================================================
+   TERRITORY MODAL
+========================================================= */
+
 .territory-modal {
     position:
         relative;
@@ -804,9 +823,6 @@ button:active {
 
     padding:
         8px;
-
-    background:
-        transparent;
 }
 
 
@@ -816,9 +832,6 @@ button:active {
 
     padding:
         42px 20px 24px;
-
-    background:
-        transparent;
 }
 
 
@@ -860,7 +873,7 @@ button:active {
 
 
 /* =========================================================
-   SEVEN TERRITORY BUILD SLOTS
+   INTERNAL TERRITORY SLOTS
 ========================================================= */
 
 .modal-card-slots {
@@ -924,8 +937,17 @@ button:active {
 
     position:
         relative;
+
+    transition:
+        transform 0.15s ease,
+        border-color 0.15s ease;
 }
 
+
+/*
+   Empty slots remain visible but are
+   not assignable.
+*/
 
 .modal-card-slot.empty {
     background:
@@ -934,6 +956,46 @@ button:active {
     border:
         1px dashed
         rgba(255,255,255,0.45);
+
+    cursor:
+        default;
+}
+
+
+/*
+   Occupied slots become selectable while
+   Assign mode is active.
+*/
+
+.modal-card-slot.assignable {
+    cursor:
+        pointer;
+
+    border:
+        2px solid
+        rgba(255,255,255,0.85);
+
+    box-shadow:
+        0 0 12px rgba(255,255,255,0.18);
+}
+
+.modal-card-slot.assignable:hover {
+    transform:
+        translateY(-4px);
+}
+
+
+/*
+   Assigned internal card.
+*/
+
+.modal-card-slot.assigned {
+    border:
+        2px solid
+        white;
+
+    box-shadow:
+        0 0 14px rgba(255,255,255,0.30);
 }
 
 
@@ -957,6 +1019,97 @@ button:active {
         drop-shadow(
             0 6px 6px rgba(0,0,0,0.30)
         );
+}
+
+
+/* =========================================================
+   ASSIGNED MARKER
+========================================================= */
+
+.assigned-marker {
+    position:
+        absolute;
+
+    left:
+        50%;
+
+    bottom:
+        5px;
+
+    transform:
+        translateX(-50%);
+
+    padding:
+        3px 7px;
+
+    color:
+        white;
+
+    background:
+        rgba(0,0,0,0.72);
+
+    border:
+        1px solid
+        rgba(255,255,255,0.65);
+
+    border-radius:
+        4px;
+
+    font-size:
+        11px;
+
+    font-weight:
+        bold;
+
+    pointer-events:
+        none;
+
+    text-shadow:
+        0 1px 2px rgba(0,0,0,0.8);
+}
+
+
+/* =========================================================
+   ASSIGNMENT STATUS
+========================================================= */
+
+#assignmentStatus {
+    min-height:
+        22px;
+
+    margin:
+        2px auto 8px;
+
+    color:
+        white;
+
+    font-size:
+        13px;
+
+    text-shadow:
+        0 2px 4px rgba(0,0,0,0.65);
+}
+
+
+/* =========================================================
+   MODAL ACTIONS
+========================================================= */
+
+.modal-actions {
+    display:
+        flex;
+
+    flex-wrap:
+        wrap;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    gap:
+        4px;
 }
 
 
@@ -1039,7 +1192,7 @@ button:active {
 
 
 /* =========================================================
-   BUILD SIDEBAR HEADER
+   BUILD HEADER
 ========================================================= */
 
 .build-sidebar-header {
@@ -1118,10 +1271,6 @@ button:active {
 }
 
 
-/* =========================================================
-   BUILDABLE CARDS
-========================================================= */
-
 .resources-list {
     display:
         grid;
@@ -1133,6 +1282,10 @@ button:active {
         18px;
 }
 
+
+/* =========================================================
+   BUILDABLE CARDS
+========================================================= */
 
 .resource-card {
     width:
@@ -1411,7 +1564,6 @@ button:active {
 
 <!-- =====================================================
      PLAYER DATA
-     STACKED VERTICALLY
 ===================================================== -->
 
 <section class="player-resources">
@@ -1655,7 +1807,6 @@ button:active {
 
 <!-- =====================================================
      TERRITORIES
-     STACKED VERTICALLY
 ===================================================== -->
 
 <section class="territories">
@@ -1747,12 +1898,30 @@ button:active {
             ></div>
 
 
-            <button
-                class="modal-build-button"
-                onclick="openBuildSidebar()"
-            >
-                Build
-            </button>
+            <div id="assignmentStatus">
+                Select Assign, then choose an occupied internal card.
+            </div>
+
+
+            <div class="modal-actions">
+
+                <button
+                    id="assignButton"
+                    class="assign-button"
+                    onclick="toggleAssignmentMode()"
+                >
+                    Assign
+                </button>
+
+
+                <button
+                    class="modal-build-button"
+                    onclick="openBuildSidebar()"
+                >
+                    Build
+                </button>
+
+            </div>
 
         </div>
 
@@ -1918,7 +2087,7 @@ const buildingImages = {
 
 
 /* =========================================================
-   TERRITORY BUILD RULES
+   TERRITORY BUILDING RULES
 ========================================================= */
 
 const territoryBuildRules = {
@@ -1946,21 +2115,16 @@ const territoryBuildRules = {
 
 
 /* =========================================================
-   PLAYER RESOURCE STORAGE
+   PLAYER RESOURCES
 ========================================================= */
 
 let player1Resources = {
 
     Wood: 0,
-
     Oil: 0,
-
     Stone: 0,
-
     Iron: 0,
-
     Crop: 0,
-
     IdlePeople: 2
 
 };
@@ -1969,15 +2133,10 @@ let player1Resources = {
 let player2Resources = {
 
     Wood: 0,
-
     Oil: 0,
-
     Stone: 0,
-
     Iron: 0,
-
     Crop: 0,
-
     IdlePeople: 2
 
 };
@@ -2003,6 +2162,32 @@ let player2TerritoryDeck = [];
 
 
 /* =========================================================
+   INTERNAL CARD ASSIGNMENTS
+========================================================= */
+
+/*
+   Each territory card has exactly seven
+   internal positions.
+
+   false = nobody assigned
+   true  = one person assigned
+
+   The arrays stay parallel with the
+   territory decks.
+
+   Example:
+
+   player1TerritoryAssignments[0][3]
+       means slot 4 of Player 1's
+       first territory card.
+*/
+
+let player1TerritoryAssignments = [];
+
+let player2TerritoryAssignments = [];
+
+
+/* =========================================================
    UI STATE
 ========================================================= */
 
@@ -2010,7 +2195,11 @@ let openTerritory = null;
 
 let selectedTerritoryPlayer = null;
 
+let selectedTerritoryIndex = null;
+
 let selectedTerritoryType = null;
+
+let assignmentMode = false;
 
 
 /* =========================================================
@@ -2118,6 +2307,16 @@ function drawWorld(player) {
             card
         );
 
+
+        /*
+           Every new territory card starts
+           with seven unassigned internal slots.
+        */
+
+        player1TerritoryAssignments.push(
+            Array(7).fill(false)
+        );
+
     }
 
     else {
@@ -2128,6 +2327,11 @@ function drawWorld(player) {
 
         player2TerritoryDeck.push(
             card
+        );
+
+
+        player2TerritoryAssignments.push(
+            Array(7).fill(false)
         );
 
     }
@@ -2334,61 +2538,150 @@ function countTerritoryCards(
 
 
 /* =========================================================
+   COUNT ASSIGNED INTERNAL CARDS
+========================================================= */
+
+function countAssignedCards(
+    assignmentDeck,
+    type,
+    playerDeck
+) {
+
+    let total =
+        0;
+
+
+    for (
+        let i = 0;
+        i < playerDeck.length;
+        i++
+    ) {
+
+        if (
+            playerDeck[i] !== type
+        ) {
+
+            continue;
+
+        }
+
+
+        const assignments =
+            assignmentDeck[i];
+
+
+        if (
+            !assignments
+        ) {
+
+            continue;
+
+        }
+
+
+        assignments.forEach(
+            assigned => {
+
+                if (
+                    assigned
+                ) {
+
+                    total++;
+
+                }
+
+            }
+        );
+
+    }
+
+
+    return total;
+
+}
+
+
+/* =========================================================
    AUTOMATIC RESOURCE GENERATION
+   ONLY ASSIGNED INTERNAL CARDS PRODUCE.
 ========================================================= */
 
 function generateResources() {
 
-    const player1Mountains =
-        countTerritoryCards(
-            player1TerritoryDeck,
-            "Mountain"
+    /*
+       PLAYER 1
+    */
+
+    const player1MountainWorkers =
+        countAssignedCards(
+            player1TerritoryAssignments,
+            "Mountain",
+            player1TerritoryDeck
         );
 
 
-    const player1Forests =
-        countTerritoryCards(
-            player1TerritoryDeck,
-            "Forest"
+    const player1ForestWorkers =
+        countAssignedCards(
+            player1TerritoryAssignments,
+            "Forest",
+            player1TerritoryDeck
         );
 
 
-    const player2Mountains =
-        countTerritoryCards(
-            player2TerritoryDeck,
-            "Mountain"
+    /*
+       PLAYER 2
+    */
+
+    const player2MountainWorkers =
+        countAssignedCards(
+            player2TerritoryAssignments,
+            "Mountain",
+            player2TerritoryDeck
         );
 
 
-    const player2Forests =
-        countTerritoryCards(
-            player2TerritoryDeck,
-            "Forest"
+    const player2ForestWorkers =
+        countAssignedCards(
+            player2TerritoryAssignments,
+            "Forest",
+            player2TerritoryDeck
         );
 
+
+    /*
+       MOUNTAIN
+       One assigned internal Mountain card:
+       +1 Stone every five seconds.
+    */
 
     player1Resources.Stone +=
-        player1Mountains;
-
-
-    player1Resources.Wood +=
-        player1Forests * 5;
-
-
-    player1Resources.Crop +=
-        player1Forests;
+        player1MountainWorkers;
 
 
     player2Resources.Stone +=
-        player2Mountains;
+        player2MountainWorkers;
+
+
+    /*
+       FOREST
+       One assigned internal Forest card:
+       +5 Wood and +1 Crop every five seconds.
+    */
+
+    player1Resources.Wood +=
+        player1ForestWorkers * 5;
+
+
+    player1Resources.Crop +=
+        player1ForestWorkers;
 
 
     player2Resources.Wood +=
-        player2Forests * 5;
+        player2ForestWorkers * 5;
 
 
     player2Resources.Crop +=
-        player2Forests;
+        player2ForestWorkers;
 
 
     renderResources();
@@ -2773,6 +3066,7 @@ function renderExpandedTerritoryDeck(
 
                     openTerritoryModal(
                         player,
+                        index,
                         card
                     );
 
@@ -2809,9 +3103,11 @@ function openTerritoryDeck(
     player
 ) {
 
+    assignmentMode =
+        false;
+
     openTerritory =
         player;
-
 
     renderAll();
 
@@ -2826,9 +3122,11 @@ function closeTerritoryDeck(
         openTerritory === player
     ) {
 
+        assignmentMode =
+            false;
+
         openTerritory =
             null;
-
 
         renderAll();
 
@@ -2856,6 +3154,11 @@ function getTerritorySlotCards(
     ];
 
 
+    /*
+       Mountain:
+       slots 3, 4, 5
+    */
+
     if (
         cardType === "Mountain"
     ) {
@@ -2872,6 +3175,11 @@ function getTerritorySlotCards(
     }
 
 
+    /*
+       River:
+       slot 4
+    */
+
     else if (
         cardType === "River"
     ) {
@@ -2881,6 +3189,11 @@ function getTerritorySlotCards(
 
     }
 
+
+    /*
+       Forest:
+       slots 2, 3, 4, 5, 6
+    */
 
     else if (
         cardType === "Forest"
@@ -2904,7 +3217,55 @@ function getTerritorySlotCards(
     }
 
 
+    /*
+       Meadow:
+       all seven remain empty.
+    */
+
     return slots;
+
+}
+
+
+/* =========================================================
+   GET ASSIGNMENT ARRAY FOR SELECTED TERRITORY
+========================================================= */
+
+function getSelectedAssignmentArray() {
+
+    if (
+        selectedTerritoryPlayer === null ||
+        selectedTerritoryIndex === null
+    ) {
+
+        return null;
+
+    }
+
+
+    const assignments =
+        selectedTerritoryPlayer === 1
+            ? player1TerritoryAssignments
+            : player2TerritoryAssignments;
+
+
+    if (
+        !assignments[
+            selectedTerritoryIndex
+        ]
+    ) {
+
+        assignments[
+            selectedTerritoryIndex
+        ] =
+            Array(7).fill(false);
+
+    }
+
+
+    return assignments[
+        selectedTerritoryIndex
+    ];
 
 }
 
@@ -2915,6 +3276,7 @@ function getTerritorySlotCards(
 
 function openTerritoryModal(
     player,
+    index,
     card
 ) {
 
@@ -2924,31 +3286,120 @@ function openTerritoryModal(
         );
 
 
-    const content =
-        document.getElementById(
-            "territoryModalContent"
-        );
-
-
     selectedTerritoryPlayer =
         player;
+
+
+    selectedTerritoryIndex =
+        index;
 
 
     selectedTerritoryType =
         card;
 
 
-    const slotCards =
-        getTerritorySlotCards(
-            card
+    assignmentMode =
+        false;
+
+
+    renderTerritoryModal();
+
+
+    modal.classList.add(
+        "open"
+    );
+
+}
+
+
+/* =========================================================
+   RENDER TERRITORY MODAL
+========================================================= */
+
+function renderTerritoryModal() {
+
+    const content =
+        document.getElementById(
+            "territoryModalContent"
         );
+
+
+    const status =
+        document.getElementById(
+            "assignmentStatus"
+        );
+
+
+    const assignButton =
+        document.getElementById(
+            "assignButton"
+        );
+
+
+    if (
+        !content ||
+        !status ||
+        !assignButton
+    ) {
+
+        return;
+
+    }
 
 
     content.innerHTML = "";
 
 
+    if (
+        !selectedTerritoryType
+    ) {
+
+        return;
+
+    }
+
+
+    const slotCards =
+        getTerritorySlotCards(
+            selectedTerritoryType
+        );
+
+
+    const assignments =
+        getSelectedAssignmentArray();
+
+
+    let assignedCount =
+        0;
+
+
+    if (
+        assignments
+    ) {
+
+        assignments.forEach(
+            assigned => {
+
+                if (
+                    assigned
+                ) {
+
+                    assignedCount++;
+
+                }
+
+            }
+        );
+
+    }
+
+
+    /*
+       Render all seven slots.
+    */
+
     slotCards.forEach(
-        (slotCard) => {
+        (slotCard, slotIndex) => {
 
             const slot =
                 document.createElement(
@@ -2971,6 +3422,35 @@ function openTerritoryModal(
             }
 
             else {
+
+                /*
+                   Occupied internal card.
+                */
+
+                if (
+                    assignmentMode &&
+                    assignments &&
+                    !assignments[slotIndex]
+                ) {
+
+                    slot.classList.add(
+                        "assignable"
+                    );
+
+                }
+
+
+                if (
+                    assignments &&
+                    assignments[slotIndex]
+                ) {
+
+                    slot.classList.add(
+                        "assigned"
+                    );
+
+                }
+
 
                 const internalCard =
                     document.createElement(
@@ -2996,6 +3476,61 @@ function openTerritoryModal(
                     internalCard
                 );
 
+
+                /*
+                   Show assignment marker.
+                */
+
+                if (
+                    assignments &&
+                    assignments[slotIndex]
+                ) {
+
+                    const marker =
+                        document.createElement(
+                            "div"
+                        );
+
+
+                    marker.className =
+                        "assigned-marker";
+
+
+                    marker.textContent =
+                        "Assigned";
+
+
+                    slot.appendChild(
+                        marker
+                    );
+
+                }
+
+
+                /*
+                   Clicking an occupied slot
+                   while Assign mode is active
+                   assigns one person.
+                */
+
+                slot.onclick =
+                    () => {
+
+                        if (
+                            !assignmentMode
+                        ) {
+
+                            return;
+
+                        }
+
+
+                        assignPersonToSlot(
+                            slotIndex
+                        );
+
+                    };
+
             }
 
 
@@ -3007,8 +3542,228 @@ function openTerritoryModal(
     );
 
 
-    modal.classList.add(
-        "open"
+    /*
+       Assignment status.
+    */
+
+    const player =
+        selectedTerritoryPlayer === 1
+            ? player1Resources
+            : player2Resources;
+
+
+    if (
+        assignmentMode
+    ) {
+
+        if (
+            player.IdlePeople <= 0
+        ) {
+
+            status.textContent =
+                "No Idle People available.";
+
+        }
+
+        else {
+
+            status.textContent =
+                `Choose an unassigned internal card. Idle People available: ${player.IdlePeople}`;
+
+        }
+
+        assignButton.classList.add(
+            "active"
+        );
+
+        assignButton.textContent =
+            "Assigning...";
+
+    }
+
+    else {
+
+        status.textContent =
+            `Assigned workers on this territory: ${assignedCount}. Click Assign to staff an internal card.`;
+
+        assignButton.classList.remove(
+            "active"
+        );
+
+        assignButton.textContent =
+            "Assign";
+
+    }
+
+}
+
+
+/* =========================================================
+   TOGGLE ASSIGNMENT MODE
+========================================================= */
+
+function toggleAssignmentMode() {
+
+    if (
+        selectedTerritoryPlayer === null ||
+        selectedTerritoryIndex === null
+    ) {
+
+        return;
+
+    }
+
+
+    const resources =
+        selectedTerritoryPlayer === 1
+            ? player1Resources
+            : player2Resources;
+
+
+    if (
+        !assignmentMode &&
+        resources.IdlePeople <= 0
+    ) {
+
+        showMessage(
+            `Player ${selectedTerritoryPlayer} has no Idle People available.`
+        );
+
+        return;
+
+    }
+
+
+    assignmentMode =
+        !assignmentMode;
+
+
+    renderTerritoryModal();
+
+}
+
+
+/* =========================================================
+   ASSIGN ONE PERSON TO ONE INTERNAL CARD
+========================================================= */
+
+function assignPersonToSlot(
+    slotIndex
+) {
+
+    if (
+        !assignmentMode
+    ) {
+
+        return;
+
+    }
+
+
+    const resources =
+        selectedTerritoryPlayer === 1
+            ? player1Resources
+            : player2Resources;
+
+
+    const assignments =
+        getSelectedAssignmentArray();
+
+
+    if (
+        !assignments
+    ) {
+
+        return;
+
+    }
+
+
+    /*
+       Empty slots cannot be assigned.
+    */
+
+    const slotCards =
+        getTerritorySlotCards(
+            selectedTerritoryType
+        );
+
+
+    if (
+        slotCards[slotIndex] === null
+    ) {
+
+        return;
+
+    }
+
+
+    /*
+       One worker maximum per internal card.
+    */
+
+    if (
+        assignments[slotIndex]
+    ) {
+
+        showMessage(
+            "That internal card already has a person assigned."
+        );
+
+        return;
+
+    }
+
+
+    /*
+       Must have an Idle Person.
+    */
+
+    if (
+        resources.IdlePeople <= 0
+    ) {
+
+        showMessage(
+            `Player ${selectedTerritoryPlayer} has no Idle People available.`
+        );
+
+        assignmentMode =
+            false;
+
+        renderTerritoryModal();
+
+        return;
+
+    }
+
+
+    /*
+       Assign the person.
+    */
+
+    assignments[slotIndex] =
+        true;
+
+
+    resources.IdlePeople -=
+        1;
+
+
+    /*
+       Assignment mode automatically turns
+       off after successful assignment.
+    */
+
+    assignmentMode =
+        false;
+
+
+    renderResources();
+
+    renderTerritoryModal();
+
+    showMessage(
+        `Player ${selectedTerritoryPlayer} assigned one person to a ${slotCards[slotIndex]} internal card.`
     );
 
 }
@@ -3038,8 +3793,16 @@ function closeTerritoryModal() {
         null;
 
 
+    selectedTerritoryIndex =
+        null;
+
+
     selectedTerritoryType =
         null;
+
+
+    assignmentMode =
+        false;
 
 
     document
@@ -3174,6 +3937,14 @@ function renderBuildOptions() {
 
     }
 
+
+    /*
+       Only legal buildings are shown.
+
+       Meadow:
+           Residence
+           Tavern
+    */
 
     allowedBuildings.forEach(
         (building) => {
@@ -3322,14 +4093,25 @@ function newGame() {
     player2TerritoryDeck = [];
 
 
+    player1TerritoryAssignments = [];
+
+    player2TerritoryAssignments = [];
+
+
     openTerritory =
         null;
 
     selectedTerritoryPlayer =
         null;
 
+    selectedTerritoryIndex =
+        null;
+
     selectedTerritoryType =
         null;
+
+    assignmentMode =
+        false;
 
 
     /*
