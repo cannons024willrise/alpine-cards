@@ -83,7 +83,6 @@ inset 0 2px 2px rgba(0,0,0,.22),
 0 1px 0 rgba(25,16,9,.95),
 0 3px 7px rgba(0,0,0,.25)
 }
-button:disabled{opacity:.45;cursor:not-allowed;transform:none}
 .assign-button.active,.unassign-button.active{
 outline:2px solid white;
 box-shadow:
@@ -497,12 +496,42 @@ A quiet winter age of territories, resources, and growing settlements.
 
 <div id="turnDisplay">Player 1's Turn</div>
 
-<button onclick="drawWorld(1)">Player 1 — Draw Top</button> <button onclick="drawWorld(2)">Player 2 — Draw Bottom</button> <button onclick="endTurn(1)">Player 1 — End Turn</button> <button onclick="endTurn(2)">Player 2 — End Turn</button> <button onclick="newGame()">New Game</button>
+<div id="turnButtons">
+
+<button
+id="player1DrawButton"
+onclick="drawWorld(1)">
+Player 1 — Draw Top </button>
+
+<button
+id="player2DrawButton"
+onclick="drawWorld(2)"
+style="display:none">
+Player 2 — Draw Bottom </button>
+
+<br>
+
+<button
+id="player1EndTurnButton"
+onclick="endTurn(1)">
+Player 1 — End Turn </button>
+
+<button
+id="player2EndTurnButton"
+onclick="endTurn(2)"
+style="display:none">
+Player 2 — End Turn </button>
+
+</div>
+
+<button onclick="newGame()">New Game</button>
 
 </div>
 </div>
 
-<div id="message">No World Card drawn yet.</div>
+<div id="message">
+No World Card drawn yet.
+</div>
 
 <section class="player-resources">
 
@@ -732,6 +761,7 @@ buildings:["Residence","Tavern"]
 }
 };
 
+
 const buildingImages={
 Farm:"farm.png",
 Mine:"mine.png",
@@ -740,6 +770,7 @@ Quarry:"quarry.png",
 Residence:"residence.png",
 Tavern:"tavern.png"
 };
+
 
 const territoryBuildRules={
 River:["Farm","Residence","Tavern"],
@@ -759,6 +790,7 @@ IdlePeople:2,
 Population:2
 };
 
+
 let player2Resources={
 Wood:0,
 Oil:0,
@@ -771,6 +803,7 @@ Population:2
 
 
 let worldDeck=[];
+
 let player1TerritoryDeck=[];
 let player2TerritoryDeck=[];
 
@@ -789,13 +822,59 @@ let unassignmentMode=false;
 let currentTurn=1;
 
 
+/*
+Show only the buttons belonging
+to the current player.
+*/
+
+function renderTurn(){
+
+document.getElementById(
+"turnDisplay"
+).textContent=
+`Player ${currentTurn}'s Turn`;
+
+document.getElementById(
+"player1DrawButton"
+).style.display=
+currentTurn===1
+?"inline-block"
+:"none";
+
+document.getElementById(
+"player2DrawButton"
+).style.display=
+currentTurn===2
+?"inline-block"
+:"none";
+
+document.getElementById(
+"player1EndTurnButton"
+).style.display=
+currentTurn===1
+?"inline-block"
+:"none";
+
+document.getElementById(
+"player2EndTurnButton"
+).style.display=
+currentTurn===2
+?"inline-block"
+:"none";
+
+}
+
+
 function shuffle(deck){
 
 for(let i=deck.length-1;i>0;i--){
 
-const j=Math.floor(Math.random()*(i+1));
+const j=Math.floor(
+Math.random()*(i+1)
+);
 
-[deck[i],deck[j]]=[deck[j],deck[i]];
+[deck[i],deck[j]]=
+[deck[j],deck[i]];
 
 }
 
@@ -806,10 +885,14 @@ function createWorldDeck(){
 
 worldDeck=[];
 
-for(const type of Object.keys(worldTypes)){
+for(
+const type of Object.keys(worldTypes)
+){
 
 const copies=
-3+Math.floor(Math.random()*4);
+3+Math.floor(
+Math.random()*4
+);
 
 for(let i=0;i<copies;i++){
 
@@ -824,30 +907,27 @@ shuffle(worldDeck);
 }
 
 
+/*
+A World Card requires at least
+one Idle Person.
+
+The Person is NOT consumed.
+*/
+
 function drawWorld(player){
 
 if(player!==currentTurn){
 
-showMessage(
-`It is Player ${currentTurn}'s turn.`
-);
-
 return;
 
 }
+
 
 const resources=
 player===1
 ?player1Resources
 :player2Resources;
 
-
-/*
-At least one Idle Person is required
-to take a World Card.
-
-The Person is NOT consumed.
-*/
 
 if(resources.IdlePeople<1){
 
@@ -862,7 +942,9 @@ return;
 
 if(worldDeck.length===0){
 
-showMessage("The World Deck is empty.");
+showMessage(
+"The World Deck is empty."
+);
 
 return;
 
@@ -895,7 +977,8 @@ Array(7).fill(false)
 }
 
 
-const data=worldTypes[card];
+const data=
+worldTypes[card];
 
 
 showMessage(`
@@ -914,6 +997,7 @@ No Idle Person was consumed.
 </small>
 `);
 
+
 renderAll();
 
 }
@@ -922,7 +1006,9 @@ renderAll();
 function renderWorldDeck(){
 
 const container=
-document.getElementById("worldDeckVisual");
+document.getElementById(
+"worldDeckVisual"
+);
 
 container.innerHTML="";
 
@@ -951,7 +1037,8 @@ worldTypes[worldDeck[i]].image;
 
 img.alt="World Deck";
 
-img.className="world-card";
+img.className=
+"world-card";
 
 container.appendChild(img);
 
@@ -965,31 +1052,63 @@ function renderResources(){
 const p1=player1Resources;
 const p2=player2Resources;
 
-document.getElementById("player1Wood").textContent=p1.Wood;
-document.getElementById("player1Oil").textContent=p1.Oil;
-document.getElementById("player1Stone").textContent=p1.Stone;
-document.getElementById("player1Iron").textContent=p1.Iron;
-document.getElementById("player1Crop").textContent=p1.Crop;
-document.getElementById("player1IdlePeople").textContent=p1.IdlePeople;
-document.getElementById("player1Population").textContent=p1.Population;
-
-document.getElementById("player2Wood").textContent=p2.Wood;
-document.getElementById("player2Oil").textContent=p2.Oil;
-document.getElementById("player2Stone").textContent=p2.Stone;
-document.getElementById("player2Iron").textContent=p2.Iron;
-document.getElementById("player2Crop").textContent=p2.Crop;
-document.getElementById("player2IdlePeople").textContent=p2.IdlePeople;
-document.getElementById("player2Population").textContent=p2.Population;
-
-}
-
-
-function renderTurn(){
 
 document.getElementById(
-"turnDisplay"
-).textContent=
-`Player ${currentTurn}'s Turn`;
+"player1Wood"
+).textContent=p1.Wood;
+
+document.getElementById(
+"player1Oil"
+).textContent=p1.Oil;
+
+document.getElementById(
+"player1Stone"
+).textContent=p1.Stone;
+
+document.getElementById(
+"player1Iron"
+).textContent=p1.Iron;
+
+document.getElementById(
+"player1Crop"
+).textContent=p1.Crop;
+
+document.getElementById(
+"player1IdlePeople"
+).textContent=p1.IdlePeople;
+
+document.getElementById(
+"player1Population"
+).textContent=p1.Population;
+
+
+document.getElementById(
+"player2Wood"
+).textContent=p2.Wood;
+
+document.getElementById(
+"player2Oil"
+).textContent=p2.Oil;
+
+document.getElementById(
+"player2Stone"
+).textContent=p2.Stone;
+
+document.getElementById(
+"player2Iron"
+).textContent=p2.Iron;
+
+document.getElementById(
+"player2Crop"
+).textContent=p2.Crop;
+
+document.getElementById(
+"player2IdlePeople"
+).textContent=p2.IdlePeople;
+
+document.getElementById(
+"player2Population"
+).textContent=p2.Population;
 
 }
 
@@ -1014,28 +1133,47 @@ playerDeck
 
 let total=0;
 
-for(let i=0;i<playerDeck.length;i++){
 
-if(playerDeck[i]!==type){
+for(
+let i=0;
+i<playerDeck.length;
+i++
+){
+
+if(
+playerDeck[i]!==type
+){
+
 continue;
+
 }
+
 
 const assignments=
 assignmentDeck[i];
 
+
 if(!assignments){
+
 continue;
+
 }
+
 
 assignments.forEach(
 assigned=>{
+
 if(assigned){
+
 total++;
+
 }
+
 }
 );
 
 }
+
 
 return total;
 
@@ -1046,18 +1184,24 @@ return total;
 PER-TURN ECONOMY
 
 River:
-1 assigned Person -> +1 Wood, +3 Crop
+Each River needs 1 assigned Person.
+That worker produces:
++1 Wood
++3 Crop
 
 Mountain:
-1 assigned Person -> +1 Stone
+Each assigned Mountain worker:
++1 Stone
 
 Forest:
-1 assigned Person -> +5 Wood, +1 Crop
+Each assigned Forest worker:
++5 Wood
++1 Crop
 
 Every Person:
 -1 Crop
 
-Everything happens once when the
+This happens ONLY when the
 current player ends their turn.
 */
 
@@ -1068,10 +1212,12 @@ player===1
 ?player1Resources
 :player2Resources;
 
+
 const territoryDeck=
 player===1
 ?player1TerritoryDeck
 :player2TerritoryDeck;
+
 
 const assignments=
 player===1
@@ -1080,12 +1226,7 @@ player===1
 
 
 /*
-River Workers
-
-A River DOES NOT produce automatically.
-
-Its one River internal card must have
-a Person assigned to it.
+River workers.
 */
 
 const riverWorkers=
@@ -1097,7 +1238,7 @@ territoryDeck
 
 
 /*
-Other assigned workers.
+Mountain workers.
 */
 
 const mountainWorkers=
@@ -1106,6 +1247,11 @@ assignments,
 "Mountain",
 territoryDeck
 );
+
+
+/*
+Forest workers.
+*/
 
 const forestWorkers=
 countAssignedCards(
@@ -1117,53 +1263,34 @@ territoryDeck
 
 /*
 RIVER PRODUCTION
-
-Each staffed River:
-+1 Wood
-+3 Crop
 */
 
-resources.Wood+=
-riverWorkers;
+resources.Wood+=riverWorkers;
 
-resources.Crop+=
-riverWorkers*3;
+resources.Crop+=riverWorkers*3;
 
 
 /*
 MOUNTAIN PRODUCTION
-
-Each staffed Mountain:
-+1 Stone
 */
 
-resources.Stone+=
-mountainWorkers;
+resources.Stone+=mountainWorkers;
 
 
 /*
 FOREST PRODUCTION
-
-Each staffed Forest:
-+5 Wood
-+1 Crop
 */
 
-resources.Wood+=
-forestWorkers*5;
+resources.Wood+=forestWorkers*5;
 
-resources.Crop+=
-forestWorkers;
+resources.Crop+=forestWorkers;
 
 
 /*
 FOOD CONSUMPTION
 
-Every Person consumes 1 Crop
-per turn.
-
-Population includes both Idle
-and assigned people.
+Every Person consumes
+1 Crop per turn.
 */
 
 resources.Crop=
@@ -1178,13 +1305,17 @@ renderResources();
 }
 
 
+/*
+END TURN
+
+The current player's economy
+is resolved once, then the turn
+passes to the other player.
+*/
+
 function endTurn(player){
 
 if(player!==currentTurn){
-
-showMessage(
-`It is Player ${currentTurn}'s turn.`
-);
 
 return;
 
@@ -1192,15 +1323,15 @@ return;
 
 
 /*
-Resolve ONLY the current player's
-production and consumption.
+Production and consumption
+for this player's turn.
 */
 
 resolveTurn(player);
 
 
 /*
-Switch to the other player.
+Switch turn.
 */
 
 currentTurn=
@@ -1219,7 +1350,14 @@ showMessage(
 }
 
 
-function renderTerritoryDeck(player,deck){
+/*
+Territory deck rendering.
+*/
+
+function renderTerritoryDeck(
+player,
+deck
+){
 
 const container=
 document.getElementById(
@@ -1272,6 +1410,7 @@ player
 
 }
 
+
 container.appendChild(
 deckElement
 );
@@ -1293,14 +1432,19 @@ if(openTerritory===player){
 const closeButton=
 document.createElement("button");
 
-closeButton.className="close-deck";
-closeButton.textContent="Close Deck";
+closeButton.className=
+"close-deck";
+
+closeButton.textContent=
+"Close Deck";
 
 closeButton.onclick=()=>{
 closeTerritoryDeck(player);
 };
 
-container.appendChild(closeButton);
+container.appendChild(
+closeButton
+);
 
 }
 
@@ -1324,9 +1468,14 @@ const card=deck[i];
 const img=
 document.createElement("img");
 
-img.src=worldTypes[card].image;
+img.src=
+worldTypes[card].image;
+
 img.alt="";
-img.className="territory-card";
+
+img.className=
+"territory-card";
+
 img.style.zIndex=i;
 
 img.style.transform=
@@ -1335,6 +1484,7 @@ img.style.transform=
 deckElement.appendChild(img);
 
 }
+
 
 deckElement.onclick=()=>{
 openTerritoryDeck(player);
@@ -1349,9 +1499,14 @@ deck,
 player
 ){
 
-deckElement.classList.add("expanded");
+deckElement.classList.add(
+"expanded"
+);
 
-const total=deck.length;
+
+const total=
+deck.length;
+
 
 const availableWidth=
 Math.min(
@@ -1362,13 +1517,16 @@ window.innerWidth-100
 )
 );
 
+
 const spacing=
 Math.min(
 145,
 availableWidth/Math.max(total,1)
 );
 
-const centre=(total-1)/2;
+
+const centre=
+(total-1)/2;
 
 
 deck.forEach(
@@ -1392,10 +1550,13 @@ img.style.transform=
 img.style.zIndex=
 100+index;
 
-deckElement.appendChild(img);
+deckElement.appendChild(
+img
+);
 
 
-requestAnimationFrame(()=>{
+requestAnimationFrame(
+()=>{
 
 const x=
 (index-centre)*spacing;
@@ -1410,12 +1571,14 @@ Math.min(
 img.style.transform=
 `translateX(${x}px)translateY(0)rotate(${rotation}deg)`;
 
-});
+}
+);
 
 
 img.onclick=(event)=>{
 
 event.stopPropagation();
+
 
 deckElement
 .querySelectorAll(
@@ -1429,7 +1592,11 @@ selectedCard.classList.remove(
 }
 );
 
-img.classList.add("selected");
+
+img.classList.add(
+"selected"
+);
+
 
 openTerritoryModal(
 player,
@@ -1443,11 +1610,14 @@ card
 );
 
 
-deckElement.onclick=(event)=>{
+deckElement.onclick=
+event=>{
 
 if(event.target===deckElement){
 
-closeTerritoryDeck(player);
+closeTerritoryDeck(
+player
+);
 
 }
 
@@ -1484,7 +1654,9 @@ renderAll();
 }
 
 
-function getTerritorySlotCards(cardType){
+function getTerritorySlotCards(
+cardType
+){
 
 const slots=[
 null,
@@ -1506,7 +1678,7 @@ slots[4]="Mountain";
 }else if(cardType==="River"){
 
 /*
-River has exactly ONE worker slot.
+One worker slot for a River.
 */
 
 slots[3]="River";
@@ -1545,7 +1717,9 @@ selectedTerritoryPlayer===1
 :player2TerritoryAssignments;
 
 
-if(!assignments[selectedTerritoryIndex]){
+if(
+!assignments[selectedTerritoryIndex]
+){
 
 assignments[selectedTerritoryIndex]=
 Array(7).fill(false);
@@ -1571,9 +1745,15 @@ document.getElementById(
 "territoryModal"
 );
 
-selectedTerritoryPlayer=player;
-selectedTerritoryIndex=index;
-selectedTerritoryType=card;
+
+selectedTerritoryPlayer=
+player;
+
+selectedTerritoryIndex=
+index;
+
+selectedTerritoryType=
+card;
 
 assignmentMode=false;
 unassignmentMode=false;
@@ -1641,6 +1821,7 @@ getSelectedAssignmentArray();
 
 let assignedCount=0;
 
+
 if(assignments){
 
 assignments.forEach(
@@ -1658,7 +1839,9 @@ slotCards.forEach(
 (slotCard,slotIndex)=>{
 
 const slot=
-document.createElement("div");
+document.createElement(
+"div"
+);
 
 slot.className=
 "modal-card-slot";
@@ -1666,7 +1849,9 @@ slot.className=
 
 if(slotCard===null){
 
-slot.classList.add("empty");
+slot.classList.add(
+"empty"
+);
 
 }else{
 
@@ -1710,7 +1895,9 @@ slot.classList.add(
 
 
 const internalCard=
-document.createElement("img");
+document.createElement(
+"img"
+);
 
 internalCard.className=
 "internal-territory-card";
@@ -1732,7 +1919,9 @@ assignments[slotIndex]
 ){
 
 const marker=
-document.createElement("div");
+document.createElement(
+"div"
+);
 
 marker.className=
 "assigned-marker";
@@ -1768,7 +1957,9 @@ slotIndex
 }
 
 
-content.appendChild(slot);
+content.appendChild(
+slot
+);
 
 }
 );
@@ -1794,13 +1985,21 @@ status.textContent=
 
 }
 
-assignButton.classList.add("active");
-assignButton.textContent="Assigning...";
+assignButton.classList.add(
+"active"
+);
+
+assignButton.textContent=
+"Assigning...";
 
 }else{
 
-assignButton.classList.remove("active");
-assignButton.textContent="Assign";
+assignButton.classList.remove(
+"active"
+);
+
+assignButton.textContent=
+"Assign";
 
 }
 
@@ -1819,13 +2018,21 @@ status.textContent=
 
 }
 
-unassignButton.classList.add("active");
-unassignButton.textContent="Unassigning...";
+unassignButton.classList.add(
+"active"
+);
+
+unassignButton.textContent=
+"Unassigning...";
 
 }else{
 
-unassignButton.classList.remove("active");
-unassignButton.textContent="Unassign";
+unassignButton.classList.remove(
+"active"
+);
+
+unassignButton.textContent=
+"Unassign";
 
 }
 
@@ -1896,6 +2103,7 @@ return;
 
 }
 
+
 unassignmentMode=
 !unassignmentMode;
 
@@ -1906,10 +2114,14 @@ renderTerritoryModal();
 }
 
 
-function assignPersonToSlot(slotIndex){
+function assignPersonToSlot(
+slotIndex
+){
 
 if(!assignmentMode){
+
 return;
+
 }
 
 
@@ -1924,7 +2136,9 @@ getSelectedAssignmentArray();
 
 
 if(!assignments){
+
 return;
+
 }
 
 
@@ -1935,7 +2149,9 @@ selectedTerritoryType
 
 
 if(slotCards[slotIndex]===null){
+
 return;
+
 }
 
 
@@ -1946,6 +2162,7 @@ showMessage(
 );
 
 return;
+
 }
 
 
@@ -1964,13 +2181,6 @@ return;
 }
 
 
-/*
-Move one existing Person from Idle
-to this internal card.
-
-Population does not change.
-*/
-
 assignments[slotIndex]=true;
 
 resources.IdlePeople-=1;
@@ -1988,10 +2198,14 @@ showMessage(
 }
 
 
-function unassignPersonFromSlot(slotIndex){
+function unassignPersonFromSlot(
+slotIndex
+){
 
 if(!unassignmentMode){
+
 return;
+
 }
 
 
@@ -2006,7 +2220,9 @@ getSelectedAssignmentArray();
 
 
 if(!assignments){
+
 return;
+
 }
 
 
@@ -2017,7 +2233,9 @@ selectedTerritoryType
 
 
 if(slotCards[slotIndex]===null){
+
 return;
+
 }
 
 
@@ -2031,13 +2249,6 @@ return;
 
 }
 
-
-/*
-Move one existing Person from the
-job back to Idle.
-
-Population does not change.
-*/
 
 assignments[slotIndex]=false;
 
@@ -2063,7 +2274,9 @@ document.getElementById(
 "territoryModal"
 );
 
-modal.classList.remove("open");
+modal.classList.remove(
+"open"
+);
 
 closeBuildSidebar();
 
@@ -2079,11 +2292,13 @@ document
 .querySelectorAll(
 ".territory-card.selected"
 )
-.forEach(card=>{
+.forEach(
+card=>{
 card.classList.remove(
 "selected"
 );
-});
+}
+);
 
 }
 
@@ -2143,7 +2358,9 @@ list.innerHTML="";
 
 
 if(!selectedTerritoryType){
+
 return;
+
 }
 
 
@@ -2153,7 +2370,9 @@ selectedTerritoryType
 ]||[];
 
 
-if(allowedBuildings.length===0){
+if(
+allowedBuildings.length===0
+){
 
 const empty=
 document.createElement("div");
@@ -2164,7 +2383,9 @@ empty.className=
 empty.textContent=
 "No buildings can be built here.";
 
-list.appendChild(empty);
+list.appendChild(
+empty
+);
 
 return;
 
@@ -2175,14 +2396,18 @@ allowedBuildings.forEach(
 building=>{
 
 const card=
-document.createElement("div");
+document.createElement(
+"div"
+);
 
 card.className=
 "resource-card";
 
 
 const image=
-document.createElement("img");
+document.createElement(
+"img"
+);
 
 image.src=
 buildingImages[building];
@@ -2190,11 +2415,15 @@ buildingImages[building];
 image.alt=
 building;
 
-card.appendChild(image);
+card.appendChild(
+image
+);
 
 card.onclick=()=>{};
 
-list.appendChild(card);
+list.appendChild(
+card
+);
 
 }
 );
@@ -2226,13 +2455,17 @@ function renderAll(){
 
 renderWorldDeck();
 
+
 document.getElementById(
 "remaining"
 ).textContent=
 `${worldDeck.length} World Cards remaining`;
 
+
 renderTurn();
+
 renderResources();
+
 
 renderTerritoryDeck(
 1,
@@ -2288,6 +2521,7 @@ Crop:0,
 IdlePeople:2,
 Population:2
 };
+
 
 player2Resources={
 Wood:0,
