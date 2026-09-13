@@ -84,8 +84,7 @@ inset 0 2px 2px rgba(0,0,0,.22),
 0 3px 7px rgba(0,0,0,.25)
 }
 button:disabled{opacity:.45;cursor:not-allowed;transform:none}
-.assign-button.active,
-.unassign-button.active{
+.assign-button.active,.unassign-button.active{
 outline:2px solid white;
 box-shadow:
 inset 0 1px 0 rgba(255,255,255,.24),
@@ -641,9 +640,11 @@ Your lands and their quiet potential.
 
 <div class="parchment territory-modal-inner">
 
-<button class="modal-close" onclick="closeTerritoryModal()" aria-label="Close">
-×
-</button>
+<button
+class="modal-close"
+onclick="closeTerritoryModal()"
+aria-label="Close">
+× </button>
 
 <div id="territoryModalContent" class="modal-card-slots"></div>
 
@@ -653,17 +654,22 @@ Select Assign, then choose an occupied internal card.
 
 <div class="modal-actions">
 
-<button id="assignButton" class="assign-button" onclick="toggleAssignmentMode()">
-Assign
-</button>
+<button
+id="assignButton"
+class="assign-button"
+onclick="toggleAssignmentMode()">
+Assign </button>
 
-<button id="unassignButton" class="unassign-button" onclick="toggleUnassignmentMode()">
-Unassign
-</button>
+<button
+id="unassignButton"
+class="unassign-button"
+onclick="toggleUnassignmentMode()">
+Unassign </button>
 
-<button class="modal-build-button" onclick="openBuildSidebar()">
-Build
-</button>
+<button
+class="modal-build-button"
+onclick="openBuildSidebar()">
+Build </button>
 
 </div>
 
@@ -681,9 +687,11 @@ Build
 
 <h2>BUILD</h2>
 
-<button class="build-sidebar-close" onclick="closeBuildSidebar()" aria-label="Close Build Sidebar">
-×
-</button>
+<button
+class="build-sidebar-close"
+onclick="closeBuildSidebar()"
+aria-label="Close Build Sidebar">
+× </button>
 
 </div>
 
@@ -763,7 +771,6 @@ Population:2
 
 
 let worldDeck=[];
-
 let player1TerritoryDeck=[];
 let player2TerritoryDeck=[];
 
@@ -801,7 +808,8 @@ worldDeck=[];
 
 for(const type of Object.keys(worldTypes)){
 
-const copies=3+Math.floor(Math.random()*4);
+const copies=
+3+Math.floor(Math.random()*4);
 
 for(let i=0;i<copies;i++){
 
@@ -815,13 +823,6 @@ shuffle(worldDeck);
 
 }
 
-
-/*
-World Card capture:
-- Must be the current player's turn.
-- Requires at least 1 Idle Person.
-- Does NOT consume that person.
-*/
 
 function drawWorld(player){
 
@@ -840,6 +841,13 @@ player===1
 ?player1Resources
 :player2Resources;
 
+
+/*
+At least one Idle Person is required
+to take a World Card.
+
+The Person is NOT consumed.
+*/
 
 if(resources.IdlePeople<1){
 
@@ -906,7 +914,6 @@ No Idle Person was consumed.
 </small>
 `);
 
-
 renderAll();
 
 }
@@ -930,10 +937,8 @@ return;
 }
 
 
-const visible=Math.min(
-3,
-worldDeck.length
-);
+const visible=
+Math.min(3,worldDeck.length);
 
 
 for(let i=0;i<visible;i++){
@@ -960,7 +965,6 @@ function renderResources(){
 const p1=player1Resources;
 const p2=player2Resources;
 
-
 document.getElementById("player1Wood").textContent=p1.Wood;
 document.getElementById("player1Oil").textContent=p1.Oil;
 document.getElementById("player1Stone").textContent=p1.Stone;
@@ -968,7 +972,6 @@ document.getElementById("player1Iron").textContent=p1.Iron;
 document.getElementById("player1Crop").textContent=p1.Crop;
 document.getElementById("player1IdlePeople").textContent=p1.IdlePeople;
 document.getElementById("player1Population").textContent=p1.Population;
-
 
 document.getElementById("player2Wood").textContent=p2.Wood;
 document.getElementById("player2Oil").textContent=p2.Oil;
@@ -991,6 +994,18 @@ document.getElementById(
 }
 
 
+function countTerritoryCards(
+deck,
+type
+){
+
+return deck.filter(
+card=>card===type
+).length;
+
+}
+
+
 function countAssignedCards(
 assignmentDeck,
 type,
@@ -998,7 +1013,6 @@ playerDeck
 ){
 
 let total=0;
-
 
 for(let i=0;i<playerDeck.length;i++){
 
@@ -1023,22 +1037,28 @@ total++;
 
 }
 
-
 return total;
 
 }
 
 
 /*
-THIS IS THE ECONOMIC TURN RESOLUTION.
+PER-TURN ECONOMY
 
-Exactly once when the current player
-ends their turn:
+River:
+1 assigned Person -> +1 Wood, +3 Crop
 
-1. Assigned workers produce.
-2. The entire population consumes
-   1 Crop per person.
-3. The player switches.
+Mountain:
+1 assigned Person -> +1 Stone
+
+Forest:
+1 assigned Person -> +5 Wood, +1 Crop
+
+Every Person:
+-1 Crop
+
+Everything happens once when the
+current player ends their turn.
 */
 
 function resolveTurn(player){
@@ -1059,7 +1079,26 @@ player===1
 :player2TerritoryAssignments;
 
 
-/* Count workers before production. */
+/*
+River Workers
+
+A River DOES NOT produce automatically.
+
+Its one River internal card must have
+a Person assigned to it.
+*/
+
+const riverWorkers=
+countAssignedCards(
+assignments,
+"River",
+territoryDeck
+);
+
+
+/*
+Other assigned workers.
+*/
 
 const mountainWorkers=
 countAssignedCards(
@@ -1077,11 +1116,38 @@ territoryDeck
 
 
 /*
-PRODUCTION PER TURN
+RIVER PRODUCTION
+
+Each staffed River:
++1 Wood
++3 Crop
+*/
+
+resources.Wood+=
+riverWorkers;
+
+resources.Crop+=
+riverWorkers*3;
+
+
+/*
+MOUNTAIN PRODUCTION
+
+Each staffed Mountain:
++1 Stone
 */
 
 resources.Stone+=
 mountainWorkers;
+
+
+/*
+FOREST PRODUCTION
+
+Each staffed Forest:
++5 Wood
++1 Crop
+*/
 
 resources.Wood+=
 forestWorkers*5;
@@ -1091,12 +1157,13 @@ forestWorkers;
 
 
 /*
-CONSUMPTION PER TURN
+FOOD CONSUMPTION
 
-Every Person consumes 1 Crop.
+Every Person consumes 1 Crop
+per turn.
 
-Population includes both:
-Idle People + assigned people.
+Population includes both Idle
+and assigned people.
 */
 
 resources.Crop=
@@ -1110,15 +1177,6 @@ renderResources();
 
 }
 
-
-/*
-END TURN
-
-Only the current player may end their turn.
-
-Their production and consumption are
-resolved exactly once.
-*/
 
 function endTurn(player){
 
@@ -1134,14 +1192,15 @@ return;
 
 
 /*
-Resolve ONLY this player's economy.
+Resolve ONLY the current player's
+production and consumption.
 */
 
 resolveTurn(player);
 
 
 /*
-Then switch turns.
+Switch to the other player.
 */
 
 currentTurn=
@@ -1213,15 +1272,15 @@ player
 
 }
 
-
-container.appendChild(deckElement);
+container.appendChild(
+deckElement
+);
 
 
 const count=
 document.createElement("div");
 
-count.className=
-"deck-count";
+count.className="deck-count";
 
 count.textContent=
 `${deck.length} card${deck.length===1?"":"s"}`;
@@ -1234,11 +1293,8 @@ if(openTerritory===player){
 const closeButton=
 document.createElement("button");
 
-closeButton.className=
-"close-deck";
-
-closeButton.textContent=
-"Close Deck";
+closeButton.className="close-deck";
+closeButton.textContent="Close Deck";
 
 closeButton.onclick=()=>{
 closeTerritoryDeck(player);
@@ -1268,14 +1324,9 @@ const card=deck[i];
 const img=
 document.createElement("img");
 
-img.src=
-worldTypes[card].image;
-
+img.src=worldTypes[card].image;
 img.alt="";
-
-img.className=
-"territory-card";
-
+img.className="territory-card";
 img.style.zIndex=i;
 
 img.style.transform=
@@ -1284,7 +1335,6 @@ img.style.transform=
 deckElement.appendChild(img);
 
 }
-
 
 deckElement.onclick=()=>{
 openTerritoryDeck(player);
@@ -1301,9 +1351,7 @@ player
 
 deckElement.classList.add("expanded");
 
-
 const total=deck.length;
-
 
 const availableWidth=
 Math.min(
@@ -1314,16 +1362,13 @@ window.innerWidth-100
 )
 );
 
-
 const spacing=
 Math.min(
 145,
 availableWidth/Math.max(total,1)
 );
 
-
-const centre=
-(total-1)/2;
+const centre=(total-1)/2;
 
 
 deck.forEach(
@@ -1346,7 +1391,6 @@ img.style.transform=
 
 img.style.zIndex=
 100+index;
-
 
 deckElement.appendChild(img);
 
@@ -1373,16 +1417,19 @@ img.onclick=(event)=>{
 
 event.stopPropagation();
 
-
 deckElement
-.querySelectorAll(".territory-card.selected")
-.forEach(selectedCard=>{
-selectedCard.classList.remove("selected");
-});
-
+.querySelectorAll(
+".territory-card.selected"
+)
+.forEach(
+selectedCard=>{
+selectedCard.classList.remove(
+"selected"
+);
+}
+);
 
 img.classList.add("selected");
-
 
 openTerritoryModal(
 player,
@@ -1392,7 +1439,8 @@ card
 
 };
 
-});
+}
+);
 
 
 deckElement.onclick=(event)=>{
@@ -1457,6 +1505,10 @@ slots[4]="Mountain";
 
 }else if(cardType==="River"){
 
+/*
+River has exactly ONE worker slot.
+*/
+
 slots[3]="River";
 
 }else if(cardType==="Forest"){
@@ -1518,7 +1570,6 @@ const modal=
 document.getElementById(
 "territoryModal"
 );
-
 
 selectedTerritoryPlayer=player;
 selectedTerritoryIndex=index;
@@ -1589,7 +1640,6 @@ getSelectedAssignmentArray();
 
 
 let assignedCount=0;
-
 
 if(assignments){
 
@@ -1744,21 +1794,13 @@ status.textContent=
 
 }
 
-assignButton.classList.add(
-"active"
-);
-
-assignButton.textContent=
-"Assigning...";
+assignButton.classList.add("active");
+assignButton.textContent="Assigning...";
 
 }else{
 
-assignButton.classList.remove(
-"active"
-);
-
-assignButton.textContent=
-"Assign";
+assignButton.classList.remove("active");
+assignButton.textContent="Assign";
 
 }
 
@@ -1777,21 +1819,13 @@ status.textContent=
 
 }
 
-unassignButton.classList.add(
-"active"
-);
-
-unassignButton.textContent=
-"Unassigning...";
+unassignButton.classList.add("active");
+unassignButton.textContent="Unassigning...";
 
 }else{
 
-unassignButton.classList.remove(
-"active"
-);
-
-unassignButton.textContent=
-"Unassign";
+unassignButton.classList.remove("active");
+unassignButton.textContent="Unassign";
 
 }
 
@@ -1862,7 +1896,6 @@ return;
 
 }
 
-
 unassignmentMode=
 !unassignmentMode;
 
@@ -1876,9 +1909,7 @@ renderTerritoryModal();
 function assignPersonToSlot(slotIndex){
 
 if(!assignmentMode){
-
 return;
-
 }
 
 
@@ -1893,9 +1924,7 @@ getSelectedAssignmentArray();
 
 
 if(!assignments){
-
 return;
-
 }
 
 
@@ -1906,9 +1935,7 @@ selectedTerritoryType
 
 
 if(slotCards[slotIndex]===null){
-
 return;
-
 }
 
 
@@ -1919,7 +1946,6 @@ showMessage(
 );
 
 return;
-
 }
 
 
@@ -1939,8 +1965,9 @@ return;
 
 
 /*
-Assignment moves an existing Person
-from Idle into a job.
+Move one existing Person from Idle
+to this internal card.
+
 Population does not change.
 */
 
@@ -1964,9 +1991,7 @@ showMessage(
 function unassignPersonFromSlot(slotIndex){
 
 if(!unassignmentMode){
-
 return;
-
 }
 
 
@@ -1981,9 +2006,7 @@ getSelectedAssignmentArray();
 
 
 if(!assignments){
-
 return;
-
 }
 
 
@@ -1994,9 +2017,7 @@ selectedTerritoryType
 
 
 if(slotCards[slotIndex]===null){
-
 return;
-
 }
 
 
@@ -2012,8 +2033,9 @@ return;
 
 
 /*
-Unassignment moves an existing Person
-back into Idle.
+Move one existing Person from the
+job back to Idle.
+
 Population does not change.
 */
 
@@ -2041,9 +2063,7 @@ document.getElementById(
 "territoryModal"
 );
 
-modal.classList.remove(
-"open"
-);
+modal.classList.remove("open");
 
 closeBuildSidebar();
 
@@ -2056,16 +2076,22 @@ unassignmentMode=false;
 
 
 document
-.querySelectorAll(".territory-card.selected")
+.querySelectorAll(
+".territory-card.selected"
+)
 .forEach(card=>{
-card.classList.remove("selected");
+card.classList.remove(
+"selected"
+);
 });
 
 }
 
 
 document
-.getElementById("territoryModal")
+.getElementById(
+"territoryModal"
+)
 .addEventListener(
 "click",
 event=>{
@@ -2117,9 +2143,7 @@ list.innerHTML="";
 
 
 if(!selectedTerritoryType){
-
 return;
-
 }
 
 
@@ -2208,7 +2232,6 @@ document.getElementById(
 `${worldDeck.length} World Cards remaining`;
 
 renderTurn();
-
 renderResources();
 
 renderTerritoryDeck(
@@ -2265,7 +2288,6 @@ Crop:0,
 IdlePeople:2,
 Population:2
 };
-
 
 player2Resources={
 Wood:0,
